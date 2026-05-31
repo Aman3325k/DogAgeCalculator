@@ -4,33 +4,88 @@ import Calculator from '../components/Calculator.astro';
 import Why7xIsWrong from '../components/Why7xIsWrong.astro';
 import FAQ from '../components/FAQ.astro';
 import EducationalArticle from '../components/EducationalArticle.astro';
+
+const breedLinks = [
+  { href: '/labrador-age-calculator', name: 'Labrador', size: 'large' },
+  { href: '/golden-retriever-age-calculator', name: 'Golden Retriever', size: 'large' },
+  { href: '/german-shepherd-age-calculator', name: 'German Shepherd', size: 'large' },
+  { href: '/bulldog-age-calculator', name: 'Bulldog', size: 'medium' },
+  { href: '/poodle-age-calculator', name: 'Poodle', size: 'medium' },
+  { href: '/beagle-age-calculator', name: 'Beagle', size: 'medium' },
+  { href: '/chihuahua-age-calculator', name: 'Chihuahua', size: 'small' },
+  { href: '/pomeranian-age-calculator', name: 'Pomeranian', size: 'small' },
+  { href: '/great-dane-age-calculator', name: 'Great Dane', size: 'giant' },
+  { href: '/husky-age-calculator', name: 'Husky', size: 'large' },
+  { href: '/shih-tzu-age-calculator', name: 'Shih Tzu', size: 'small' },
+  { href: '/border-collie-age-calculator', name: 'Border Collie', size: 'medium' },
+];
 ---
 
 <BaseLayout
   title="Dog Age Calculator by Breed Size"
   description="The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size — small, medium, large, or giant."
 >
-  <section class="container-custom py-10 sm:py-16 md:py-24 text-center">
-    <span class="inline-block text-xs font-mono uppercase tracking-wider text-[#555] px-3 py-1.5 rounded-full border border-[#222] mb-4 sm:mb-6">Dog Age Calculator</span>
-    <h1 class="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight mb-3 sm:mb-4 px-0 sm:px-2">
-      Dog Age Calculator<br />
-      <span class="gradient-text">by Breed Size</span>
-    </h1>
-    <p class="text-sm sm:text-base md:text-lg text-[#888] max-w-xl mx-auto mb-6 sm:mb-8 md:mb-10 leading-relaxed px-0 sm:px-2">
-      The most accurate way to calculate your dog's human age. Uses DNA methylation science adjusted for breed size — not the outdated 7x rule.
-    </p>
-    <Calculator />
+  <section class="container-custom py-10 sm:py-16 md:py-24 text-center hero-pattern hero-min-h flex items-center justify-center">
+    <div class="relative z-10 w-full">
+      <span class="hero-paw-center" aria-hidden="true">🐾</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6 page-load-hero">Dog Age Calculator</span>
+      <h1 class="hero-h1 font-bold tracking-tight text-[var(--text-primary)] leading-tight mb-3 sm:mb-4 px-0 sm:px-2 page-load-hero">
+        Dog Age Calculator<br />
+        <span class="gradient-text">by Breed Size</span>
+      </h1>
+      <p class="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] max-w-xl mx-auto mb-6 sm:mb-8 md:mb-10 leading-relaxed px-0 sm:px-2 page-load-hero">
+        The most accurate way to calculate your dog's human age. Uses DNA methylation science adjusted for breed size — not the outdated 7x rule.
+      </p>
+      <div class="flex flex-wrap justify-center gap-2 mb-8 sm:mb-10 md:mb-12 page-load-card">
+        <span class="trust-badge trust-badge-stagger">🧬 DNA Science Based</span>
+        <span class="trust-badge trust-badge-stagger">🐾 4 Breed Sizes</span>
+        <span class="trust-badge trust-badge-stagger">⚡ Instant Results</span>
+        <span class="trust-badge trust-badge-stagger">✅ No Login Required</span>
+      </div>
+      <Calculator />
+    </div>
+  </section>
+
+  <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
+
+  <section class="container-custom py-10 sm:py-16">
+    <div class="max-w-2xl mx-auto card card-hover-lift p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
+      <span class="text-2xl shrink-0">💡</span>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Did You Know?</p>
+        <p id="did-you-know-text" class="text-sm text-[var(--text-secondary)] leading-relaxed transition-opacity duration-400" style="transition: opacity 0.4s ease;"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
+
+  <section class="container-custom py-10 sm:py-16 md:py-24 text-center page-load-late">
+    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)] mb-6">Popular Breed Calculators</h2>
+    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-3xl mx-auto">
+      {breedLinks.map(b => (
+        <a href={b.href} class="tag-pill text-sm no-underline hover:text-[var(--text-primary)]">{b.name}</a>
+      ))}
+    </div>
   </section>
 
   <section class="container-custom py-10 sm:py-16 md:py-24">
     <Why7xIsWrong />
   </section>
 
-  <section class="container-custom py-10 sm:py-16 md:py-24">
+  <section class="container-custom py-16 sm:py-24">
+    <Why7xIsWrong />
+  </section>
+
+  <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
+
+  <section class="container-custom py-16 sm:py-24">
     <EducationalArticle />
   </section>
 
-  <section class="container-custom py-10 sm:py-16 md:py-24">
+  <div class="section-divider max-w-2xl"></div>
+
+  <section class="container-custom py-16 sm:py-24">
     <FAQ />
   </section>
 </BaseLayout>

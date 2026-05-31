@@ -1,141 +1,184 @@
 ---
+import AgeChart from './AgeChart.astro';
+import HealthTimeline from './HealthTimeline.astro';
+
 const breedSizes = [
-  { value: 'small', label: 'Small', desc: 'under 20 lbs', examples: 'Chihuahua, Pomeranian, Shih Tzu' },
-  { value: 'medium', label: 'Medium', desc: '20-50 lbs', examples: 'Beagle, Bulldog, Border Collie' },
-  { value: 'large', label: 'Large', desc: '50-90 lbs', examples: 'Labrador, Golden Retriever, Husky' },
-  { value: 'giant', label: 'Giant', desc: '90+ lbs', examples: 'Great Dane, Saint Bernard, Mastiff' },
+  { value: 'small', label: 'Small', desc: 'under 20 lbs', examples: 'Chihuahua, Pomeranian, Shih Tzu', icon: '🐩' },
+  { value: 'medium', label: 'Medium', desc: '20-50 lbs', examples: 'Beagle, Bulldog, Border Collie', icon: '🐕' },
+  { value: 'large', label: 'Large', desc: '50-90 lbs', examples: 'Labrador, Golden Retriever, Husky', icon: '🦮' },
+  { value: 'giant', label: 'Giant', desc: '90+ lbs', examples: 'Great Dane, Saint Bernard, Mastiff', icon: '🐘' },
 ];
 
 const popularBreeds = [
-  { name: 'Chihuahua', size: 'small' },
-  { name: 'Pomeranian', size: 'small' },
-  { name: 'Pug', size: 'small' },
-  { name: 'Beagle', size: 'medium' },
-  { name: 'Bulldog', size: 'medium' },
-  { name: 'Border Collie', size: 'medium' },
-  { name: 'Labrador', size: 'large' },
-  { name: 'Golden Retriever', size: 'large' },
-  { name: 'German Shepherd', size: 'large' },
-  { name: 'Husky', size: 'large' },
-  { name: 'Great Dane', size: 'giant' },
-  { name: 'Saint Bernard', size: 'giant' },
+  { name: 'Chihuahua', size: 'small' }, { name: 'Pomeranian', size: 'small' }, { name: 'Pug', size: 'small' },
+  { name: 'Beagle', size: 'medium' }, { name: 'Bulldog', size: 'medium' }, { name: 'Border Collie', size: 'medium' },
+  { name: 'Labrador', size: 'large' }, { name: 'Golden Retriever', size: 'large' }, { name: 'German Shepherd', size: 'large' },
+  { name: 'Husky', size: 'large' }, { name: 'Great Dane', size: 'giant' }, { name: 'Saint Bernard', size: 'giant' },
 ];
 ---
 
-<div id="calculator-root" class="w-full max-w-2xl mx-auto">
-  <div class="card p-4 sm:p-6 md:p-8">
-    <form id="calc-form" class="space-y-5 sm:space-y-6">
+        <div id="calculator-root" class="w-full max-w-2xl mx-auto page-load-card">
+  <div class="card card-glow card-accent-top p-4 sm:p-6 md:p-8">
+    <form id="calc-form" class="space-y-7 sm:space-y-8">
+      <div class="flex items-center gap-4">
+        <label for="dog-name" class="block text-sm font-medium text-[var(--text-secondary)] shrink-0">Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+        <div class="relative flex-1 flex items-center gap-2">
+          <img id="dog-photo-preview" class="photo-thumb hidden" src="" alt="Dog photo preview" />
+          <input type="text" id="dog-name" class="input-base flex-1" placeholder="e.g. Buddy" maxlength="20" />
+        </div>
+      </div>
+      <div class="text-xs text-[var(--text-faint)] text-right -mt-3" id="name-counter">0/20</div>
+
       <div>
-        <label for="dog-name" class="block text-sm font-medium text-[#888] mb-1.5">Dog's Name <span class="text-[#555]">(optional)</span></label>
-        <input type="text" id="dog-name" class="input-base" placeholder="e.g. Buddy" maxlength="30" />
+        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+          Dog's Photo <span class="text-[var(--text-faint)]">(optional)</span>
+        </label>
+        <input type="file" id="dog-photo" accept="image/*" capture="environment" class="block w-full text-sm text-[var(--text-muted)] file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[var(--hover-overlay-strong)] file:text-[var(--text-primary)] hover:file:bg-[var(--hover-overlay)] cursor-pointer" />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-[#888] mb-2 sm:mb-3">Breed Size</label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="breed-size-options">
+        <div class="flex items-center justify-between mb-2 sm:mb-3">
+          <label class="text-sm font-medium text-[var(--text-secondary)]">Breed Size</label>
+          <button type="button" id="unit-toggle" class="btn-ghost text-xs font-mono uppercase tracking-wider min-w-[44px] text-center">lbs</button>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="breed-size-options">
           {breedSizes.map(b => (
-            <label class="size-option flex flex-col items-center justify-center gap-1 p-2.5 sm:p-3 rounded-lg border border-[#222] bg-[#111] cursor-pointer transition-all hover:border-[#444] has-[:checked]:border-white has-[:checked]:bg-white/5 min-h-[64px] sm:min-h-[72px]">
+            <label class="size-option flex flex-col items-center justify-center gap-1 p-2.5 sm:p-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all hover:border-[var(--border-strong)] hover:scale-105 has-[:checked]:border-[var(--color-link)] has-[:checked]:shadow-[0_0_12px_var(--accent-glow)] has-[:checked]:bg-[var(--hover-overlay)] min-h-[64px] sm:min-h-[72px] relative group" style="will-change: transform;">
               <input type="radio" name="breed-size" value={b.value} class="hidden" />
-              <span class="text-xs sm:text-sm font-medium text-white leading-tight text-center">{b.label}</span>
-              <span class="text-[0.6875rem] sm:text-xs text-[#666] text-center leading-tight">{b.desc}</span>
+              <div class="size-card-checkmark">✓</div>
+              <span class="text-lg sm:text-xl">{b.icon}</span>
+              <span class="text-xs sm:text-sm font-medium text-[var(--text-primary)] leading-tight text-center">{b.label}</span>
+              <span class="text-[0.6875rem] sm:text-xs text-[var(--text-muted)] text-center leading-tight" data-desc>{b.desc}</span>
+              <div class="tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-default)] text-[var(--text-secondary)] opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 shadow-lg z-10">{b.examples}</div>
             </label>
           ))}
         </div>
       </div>
 
       <div class="hidden" id="popular-breeds">
-        <label class="block text-sm font-medium text-[#888] mb-2">Popular Breeds <span class="text-[#555]">(quick select)</span></label>
-        <div class="flex flex-wrap gap-1.5 sm:gap-2" id="breed-pills">
+        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">Popular Breeds <span class="text-[var(--text-faint)]">(quick select)</span></label>
+        <div class="flex flex-wrap gap-2 sm:gap-3" id="breed-pills">
           {popularBreeds.map(b => (
             <button type="button" class="breed-pill tag-pill text-xs sm:text-sm" data-size={b.size}>{b.name}</button>
           ))}
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-3 sm:gap-4">
-        <div>
-          <label for="dog-years" class="block text-sm font-medium text-[#888] mb-1.5">Years</label>
-          <input type="number" id="dog-years" class="input-base" placeholder="0" min="0" max="40" required />
-        </div>
-        <div>
-          <label for="dog-months" class="block text-sm font-medium text-[#888] mb-1.5">Months</label>
-          <select id="dog-months" class="select-base">
-            {Array.from({ length: 12 }, (_, i) => (
-              <option value={i}>{i}</option>
-            ))}
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <label class="text-sm font-medium text-[var(--text-secondary)]">Input Method</label>
+          <select id="input-mode" class="select-base w-auto min-w-[140px] text-sm py-2">
+            <option value="age">Enter Age</option>
+            <option value="birthday">Enter Birthday</option>
           </select>
+        </div>
+
+        <div id="age-inputs">
+          <div class="grid grid-cols-2 gap-4 sm:gap-5">
+            <div>
+              <label for="dog-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Years</label>
+              <input type="number" id="dog-years" class="input-base" placeholder="0" min="0" max="40" required />
+            </div>
+            <div>
+              <label for="dog-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Months</label>
+              <select id="dog-months" class="select-base">
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="birthday-inputs" class="hidden">
+          <label for="dog-birthday" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Date of Birth</label>
+          <input type="date" id="dog-birthday" class="input-base" />
+          <p class="text-xs text-[var(--text-faint)] mt-1">Auto-calculates age from birthday. Results update immediately.</p>
         </div>
       </div>
 
-      <button type="submit" class="btn-primary w-full justify-center text-base py-3.5 sm:py-3">
-        Calculate Human Age
+      <button type="submit" class="btn-primary w-full justify-center text-base py-4 px-8 no-print btn-pulse" id="calc-btn">
+        <span class="btn-shimmer"></span>
+        <span id="calc-btn-text">🐾 Calculate Human Age</span>
+        <span id="calc-spinner" class="hidden spinner"></span>
       </button>
     </form>
 
-    <div id="result" class="hidden mt-6 sm:mt-8 space-y-5 sm:space-y-6 fade-in-up">
-      <div class="text-center px-1">
-        <p class="text-sm text-[#666] mb-1">Your dog is equivalent to</p>
-        <p class="text-4xl sm:text-5xl font-bold tracking-tight text-white leading-none" id="human-age">—</p>
-        <p class="text-base sm:text-lg text-[#888] mt-2">human years old</p>
+    <div id="result" class="hidden mt-8 sm:mt-10 space-y-6 sm:space-y-8 fade-in-up gradient-border">
+      <div class="flex flex-col items-center gap-3">
+        <img id="result-photo" class="photo-avatar hidden" src="" alt="Dog result photo" />
+        <div class="text-center px-1">
+          <p class="text-sm text-[var(--text-muted)] mb-1">Your dog is equivalent to</p>
+          <p class="text-7xl sm:text-8xl font-bold tracking-tight text-[var(--text-primary)] leading-none" id="human-age">—</p>
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
+        </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-        <span class="text-xs sm:text-sm px-3 py-1 rounded-full bg-white/10 text-white font-medium" id="life-stage">—</span>
-        <span class="text-xs sm:text-sm text-[#666]" id="life-expectancy">—</span>
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <span class="stage-pill" id="life-stage">—</span>
+        <span class="text-xs sm:text-sm text-[var(--text-muted)]" id="life-expectancy">—</span>
+        <span class="text-lg" id="stage-emoji"></span>
       </div>
 
-      <p class="text-sm text-[#888] text-center leading-relaxed break-words" id="personalized-message"></p>
+      <p class="text-sm text-[var(--text-secondary)] text-center leading-relaxed break-words" id="personalized-message"></p>
+
+      <div class="decorative-divider"></div>
 
       <div>
-        <p class="text-xs text-[#555] mb-2 font-mono uppercase tracking-wider">Life Progress</p>
+        <p class="text-xs text-[var(--text-faint)] mb-2 font-mono uppercase tracking-wider">Life Progress</p>
         <div class="progress-bar">
-          <div class="progress-bar-fill bg-white" id="progress-fill" style="width: 0%"></div>
+          <div class="progress-bar-fill bg-[var(--text-primary)]" id="progress-fill" style="width: 0%"></div>
         </div>
       </div>
 
-      <div class="card p-3 sm:p-4 md:p-5 space-y-3 sm:space-y-4" id="comparison-card">
-        <p class="text-xs text-[#555] font-mono uppercase tracking-wider">Age Comparison</p>
-        <div class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+      <div class="card card-hover-lift p-3 sm:p-4 md:p-5 space-y-3 sm:space-y-4" id="comparison-card">
+        <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider">Age Comparison</p>
+        <div class="grid grid-cols-2 gap-4 sm:gap-5 md:gap-8">
           <div>
-            <p class="text-xs text-[#555] mb-1">Dog Age</p>
-            <p class="text-lg sm:text-xl font-semibold text-white break-words" id="comp-dog-age">—</p>
-            <p class="text-xs text-[#666]" id="comp-dog-stage">—</p>
-            <div class="progress-bar mt-2">
-              <div class="progress-bar-fill bg-white/60" id="comp-dog-bar" style="width: 0%"></div>
-            </div>
+            <p class="text-xs text-[var(--text-faint)] mb-1">Dog Age</p>
+            <p class="text-lg sm:text-xl font-semibold text-[var(--text-primary)] break-words" id="comp-dog-age">—</p>
+            <p class="text-xs text-[var(--text-muted)]" id="comp-dog-stage">—</p>
+            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-60 bg-[var(--text-primary)]" id="comp-dog-bar" style="width:0%"></div></div>
           </div>
           <div>
-            <p class="text-xs text-[#555] mb-1">Human Equivalent</p>
-            <p class="text-lg sm:text-xl font-semibold text-white break-words" id="comp-human-age">—</p>
-            <p class="text-xs text-[#666]" id="comp-human-stage">—</p>
-            <div class="progress-bar mt-2">
-              <div class="progress-bar-fill bg-white/60" id="comp-human-bar" style="width: 0%"></div>
-            </div>
+            <p class="text-xs text-[var(--text-faint)] mb-1">Human Equivalent</p>
+            <p class="text-lg sm:text-xl font-semibold text-[var(--text-primary)] break-words" id="comp-human-age">—</p>
+            <p class="text-xs text-[var(--text-muted)]" id="comp-human-stage">—</p>
+            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-60 bg-[var(--text-primary)]" id="comp-human-bar" style="width:0%"></div></div>
           </div>
         </div>
       </div>
 
-      <div class="card p-3 sm:p-4 md:p-5">
-        <p class="text-xs text-[#555] font-mono uppercase tracking-wider mb-2">Did You Know?</p>
-        <p class="text-sm text-[#888] leading-relaxed break-words" id="fun-fact"></p>
+      <div class="card card-hover-lift p-3 sm:p-4 md:p-5">
+        <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2">Did You Know?</p>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed break-words" id="fun-fact"></p>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-3 pt-2">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 no-print">
         <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-whatsapp">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           WhatsApp
         </button>
-        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-twitter">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="shrink-0"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          Twitter
-        </button>
-        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-copy">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy Link
-        </button>
+        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="shrink-0"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Twitter</button>
+        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Link</button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-1 no-print">
+        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="save-result-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Save as Image</button>
+        <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="print-result-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print Result</button>
+      </div>
+
+      <div class="text-center no-print pt-2">
+        <button type="button" class="text-sm text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors bg-transparent border-0 cursor-pointer underline underline-offset-2" id="calc-again-btn">← Calculate Again</button>
       </div>
     </div>
+    </div>
   </div>
+</div>
+
+<AgeChart />
+<HealthTimeline />
+
+<div class="mt-6 sm:mt-8 text-center no-print">
+  <a href="/compare" class="btn-secondary text-sm inline-flex items-center gap-2 no-underline"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Compare Two Dogs</a>
 </div>
 
 <script>

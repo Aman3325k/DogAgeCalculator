@@ -1,0 +1,23 @@
+{
+  "name": "DOGBREEDAGE",
+  "short_name": "DogAge",
+  "description": "Accurate dog age calculator by breed size. Science-based formula to convert dog years to human years.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    }
+  ]
+}

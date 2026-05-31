@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQ from '../components/FAQ.astro';
+---
+
+<BaseLayout
+  title="German Shepherd Age Calculator — Dog to Human Years"
+  description="Calculate your German Shepherd's age in human years using our breed-size based formula. Accurate German Shepherd dog years to human years conversion for large dogs."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24">
+    <div class="max-w-2xl mx-auto">
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">German Shepherd Age Calculator — Dog to Human Years</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
+        German Shepherds are intelligent, loyal working dogs. As a large breed, they have a moderate aging rate. Use our German Shepherd age calculator to determine your dog's human age accurately.
+      </p>
+
+      <div class="card p-4 sm:p-6 md:p-8 mb-6" id="breed-calc-root">
+        <form id="breed-calc-form" class="space-y-4">
+          <div>
+            <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+            <input type="text" id="breed-name" class="input-base" placeholder="e.g. Buddy" maxlength="30" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="breed-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Years</label>
+              <input type="number" id="breed-years" class="input-base" placeholder="0" min="0" max="40" required />
+            </div>
+            <div>
+              <label for="breed-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Months</label>
+              <select id="breed-months" class="select-base">
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i}</option>)}
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-3">Calculate Human Age</button>
+        </form>
+
+        <div id="breed-result" class="hidden mt-6 pt-6 border-t border-[var(--border-default)] text-center">
+          <p class="text-sm text-[var(--text-muted)] mb-1">Your German Shepherd is equivalent to</p>
+          <p class="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]" id="breed-human-age">—</p>
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
+          <p class="text-sm text-[var(--text-secondary)] mt-4" id="breed-stage"></p>
+          <p class="text-xs text-[var(--text-faint)] mt-2" id="breed-expectancy"></p>
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-[var(--text-muted)]">
+        <a href="/" class="text-[#0070f3] hover:underline">← Back to main Dog Age Calculator</a>
+      </p>
+
+      <div class="mt-10 space-y-5 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">German Shepherd Age FAQ</h2>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">How old is my German Shepherd in human years?</h3>
+          <p>Enter your German Shepherd's age in years and months in the calculator above. It uses breed-size adjusted scientific formulas.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">What is the lifespan of a German Shepherd?</h3>
+          <p>German Shepherds typically live 9-13 years. Hip health and regular exercise play important roles in their longevity.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">At what age is a German Shepherd considered a senior?</h3>
+          <p>German Shepherds enter senior status around 7 years. Joint health monitoring becomes especially important at this stage.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">Do German Shepherds age differently than other breeds?</h3>
+          <p>Yes. German Shepherds age at a rate typical of large breeds — faster than small dogs but slower than giant breeds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('breed-calc-form');
+  const result = document.getElementById('breed-result');
+  const haEl = document.getElementById('breed-human-age');
+  const stageEl = document.getElementById('breed-stage');
+  const expEl = document.getElementById('breed-expectancy');
+  const multiplier = 1.15;
+  const lifespan = [9, 13];
+  const sizeLabel = 'large';
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const years = parseInt(document.getElementById('breed-years').value);
+    const months = parseInt(document.getElementById('breed-months').value);
+    if (isNaN(years) || years < 0) { alert('Please enter a valid age'); return; }
+    if (years === 0 && months === 0) { alert('Age must be greater than 0'); return; }
+    const total = years + months / 12;
+    const ha = Math.round((16 * Math.log(Math.max(total, 0.083)) + 31) * multiplier * 10) / 10;
+    const thresholds = { small: [0.5,2,4,8,12,99], medium: [0.5,2,4,7,11,99], large: [0.5,1.5,3,6,9,99], giant: [0.5,1.5,3,5,8,99] };
+    const stages = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
+    const t = thresholds[sizeLabel];
+    let stage = 'Elder';
+    for (let i = 0; i < t.length; i++) { if (total <= t[i]) { stage = stages[i]; break; } }
+    haEl.textContent = ha;
+    stageEl.textContent = `Life Stage: ${stage}`;
+    expEl.textContent = `Life expectancy: ${lifespan[0]}-${lifespan[1]} years`;
+    result.classList.remove('hidden');
+    result.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
