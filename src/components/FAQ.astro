@@ -45,7 +45,7 @@ const faqs = [
 
 <section class="w-full max-w-2xl mx-auto">
   <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)] mb-6 sm:mb-8">Frequently Asked Questions</h2>
-  <div class="space-y-3.5 sm:space-y-4" id="faq-container">
+  <div class="space-y-4 sm:space-y-5" id="faq-container">
     {faqs.map((faq, i) => (
       <div class="faq-item card p-3.5 sm:p-4 md:p-5 cursor-pointer" data-index={i}>
         <button class="flex items-center justify-between gap-3 w-full text-left cursor-pointer bg-transparent border-0 p-0" aria-expanded="false" aria-controls={`faq-answer-${i}`} id={`faq-btn-${i}`}>

@@ -57,7 +57,7 @@ const popularBreeds = [
 
       <div class="hidden" id="popular-breeds">
         <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">Popular Breeds <span class="text-[var(--text-faint)]">(quick select)</span></label>
-        <div class="flex flex-wrap gap-2 sm:gap-3" id="breed-pills">
+        <div class="flex flex-wrap gap-3" id="breed-pills">
           {popularBreeds.map(b => (
             <button type="button" class="breed-pill tag-pill text-xs sm:text-sm" data-size={b.size}>{b.name}</button>
           ))}
@@ -177,7 +177,7 @@ const popularBreeds = [
 <AgeChart />
 <HealthTimeline />
 
-<div class="mt-6 sm:mt-8 text-center no-print">
+<div class="mt-12 mb-8 text-center no-print">
   <a href="/compare" class="btn-secondary text-sm inline-flex items-center gap-2 no-underline"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Compare Two Dogs</a>
 </div>
 
