@@ -1,11 +1,36 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Calculator from '../components/Calculator.astro';
+import Why7xIsWrong from '../components/Why7xIsWrong.astro';
+import FAQ from '../components/FAQ.astro';
+import EducationalArticle from '../components/EducationalArticle.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Dog Age Calculator by Breed Size"
+  description="The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size — small, medium, large, or giant."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 text-center">
+    <span class="inline-block text-xs font-mono uppercase tracking-wider text-[#555] px-3 py-1.5 rounded-full border border-[#222] mb-4 sm:mb-6">Dog Age Calculator</span>
+    <h1 class="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight mb-3 sm:mb-4 px-0 sm:px-2">
+      Dog Age Calculator<br />
+      <span class="gradient-text">by Breed Size</span>
+    </h1>
+    <p class="text-sm sm:text-base md:text-lg text-[#888] max-w-xl mx-auto mb-6 sm:mb-8 md:mb-10 leading-relaxed px-0 sm:px-2">
+      The most accurate way to calculate your dog's human age. Uses DNA methylation science adjusted for breed size — not the outdated 7x rule.
+    </p>
+    <Calculator />
+  </section>
+
+  <section class="container-custom py-10 sm:py-16 md:py-24">
+    <Why7xIsWrong />
+  </section>
+
+  <section class="container-custom py-10 sm:py-16 md:py-24">
+    <EducationalArticle />
+  </section>
+
+  <section class="container-custom py-10 sm:py-16 md:py-24">
+    <FAQ />
+  </section>
+</BaseLayout>

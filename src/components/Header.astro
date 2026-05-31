@@ -1,0 +1,53 @@
+---
+const links = [
+  { href: '/', label: 'Calculator' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<site-header>
+  <nav class="sticky top-0 z-50 border-b border-[#222] bg-[#0a0a0a]/80 backdrop-blur-md">
+    <div class="container-custom flex items-center justify-between h-14 sm:h-16">
+      <a href="/" class="flex items-center gap-2 no-underline hover:opacity-80 transition-opacity shrink-0">
+        <span class="text-base sm:text-lg font-semibold tracking-tight text-white">DOGBREEDAGE</span>
+      </a>
+      <div class="hidden md:flex items-center gap-1">
+        {links.map(link => (
+          <a href={link.href} class="px-3 py-2 text-sm text-[#888] hover:text-white rounded-full transition-colors no-underline">
+            {link.label}
+          </a>
+        ))}
+      </div>
+      <button class="md:hidden p-2.5 text-[#888] hover:text-white mobile-menu-btn min-h-[44px] min-w-[44px] flex items-center justify-center" aria-expanded="false" aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu hidden md:hidden border-t border-[#222] bg-[#0a0a0a]">
+      <div class="container-custom py-2 flex flex-col gap-0.5">
+        {links.map(link => (
+          <a href={link.href} class="flex items-center px-4 py-3 text-sm text-[#888] hover:text-white hover:bg-white/5 rounded-lg transition-colors no-underline min-h-[44px]">
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </nav>
+</site-header>
+
+<script>
+  class SiteHeader extends HTMLElement {
+    connectedCallback() {
+      const btn = this.querySelector('.mobile-menu-btn');
+      const menu = this.querySelector('.mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', !expanded);
+          menu.classList.toggle('hidden');
+        });
+      }
+    }
+  }
+  customElements.define('site-header', SiteHeader);
+</script>

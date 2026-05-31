@@ -1,0 +1,72 @@
+---
+const faqs = [
+  {
+    q: 'How old is my dog in human years?',
+    a: 'To calculate your dog\'s age in human years, use our calculator above. Enter your dog\'s breed size and age in years and months. Our formula uses the scientifically validated DNA methylation method (16 × ln(dog age) + 31) adjusted by breed size for the most accurate result.',
+  },
+  {
+    q: 'Is the 7x dog age rule accurate?',
+    a: 'No, the "one dog year equals seven human years" rule is a myth. This oversimplified formula doesn\'t account for breed size, which dramatically affects aging rates. Small dogs age much slower than large dogs. Modern veterinary science uses DNA methylation studies and breed-size adjusted formulas for accurate age calculation.',
+  },
+  {
+    q: 'Do small dogs live longer than large dogs?',
+    a: 'Yes, small dogs generally live significantly longer than large and giant breeds. Small breeds (under 20 lbs) typically live 12-16 years, while giant breeds (90+ lbs) average only 7-10 years. Researchers believe this is because larger dogs grow faster, which increases cellular stress and accelerates aging.',
+  },
+  {
+    q: 'How do I calculate my dog\'s age by breed?',
+    a: 'Use our breed-size based calculator above. Select your dog\'s breed size category (Small, Medium, Large, or Giant) and enter their age in years and months. The calculator applies the formula 16 × ln(dog age) + 31 with breed-specific multipliers derived from veterinary research.',
+  },
+  {
+    q: 'What is the most accurate dog age calculator?',
+    a: 'The most accurate dog age calculators use the DNA methylation formula (16 × ln(dog age) + 31) combined with breed size adjustments. Our calculator at DOGBREEDAGE uses this exact method, with size-specific multipliers based on the latest veterinary lifespan studies.',
+  },
+  {
+    q: 'How old is a 10 year old dog in human years?',
+    a: 'A 10-year-old dog\'s human equivalent age varies by breed size. A small breed at 10 is roughly 57 human years (a senior), a medium breed is about 68, a large breed is approximately 79, and a giant breed at 10 is around 89 human years — well into their elder years.',
+  },
+  {
+    q: 'At what age is a dog considered a senior?',
+    a: 'Senior status depends on breed size. Small breeds become seniors around 11-12 years, medium breeds at 10-11 years, large breeds at 8-9 years, and giant breeds as early as 6-7 years. Regular vet checkups become increasingly important when your dog reaches their senior years.',
+  },
+  {
+    q: 'How long do large breed dogs live?',
+    a: 'Large breed dogs (50-90 lbs) typically live 8-12 years. Common large breeds like Labrador Retrievers, Golden Retrievers, and German Shepherds average 10-12 years. Providing proper nutrition, regular exercise, and routine veterinary care can help maximize their lifespan.',
+  },
+  {
+    q: 'What is the average lifespan of a small dog?',
+    a: 'Small breed dogs (under 20 lbs) have an average lifespan of 12-16 years, with many living well into their late teens. Breeds like Chihuahuas and Toy Poodles often reach 15-18 years. Their slower aging rate and lower incidence of certain health conditions contribute to their longevity.',
+  },
+  {
+    q: 'How do vets calculate dog age?',
+    a: 'Veterinarians use a combination of methods: breed-size adjusted formulas based on DNA methylation research, physical examination (teeth wear, eye cloudiness, joint health), and laboratory tests. The most accurate modern approach uses the formula 16 × ln(dog age) + 31, adjusted for breed size and individual health factors.',
+  },
+];
+---
+
+<section class="w-full max-w-2xl mx-auto">
+  <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-6 sm:mb-8">Frequently Asked Questions</h2>
+  <div class="space-y-2.5 sm:space-y-3">
+    {faqs.map(faq => (
+      <details class="faq-item card p-3.5 sm:p-4 md:p-5 cursor-pointer group">
+        <summary class="flex items-center justify-between gap-3 cursor-pointer list-none">
+          <span class="text-sm sm:text-[0.9375rem] font-medium text-white leading-relaxed pr-2">{faq.q}</span>
+          <svg class="w-4 h-4 text-[#555] shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-[#888] leading-relaxed">{faq.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.a
+    }
+  }))
+})} />

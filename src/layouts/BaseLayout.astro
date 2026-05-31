@@ -1,0 +1,77 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, canonical, ogImage } = Astro.props;
+const site = 'https://dogbreedage.com';
+const ogImg = ogImage || `${site}/images/og-default.svg`;
+const canon = canonical || `${site}${Astro.url.pathname}`;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | DOGBREEDAGE</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canon} />
+    <meta property="og:title" content={`${title} | DOGBREEDAGE`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canon} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImg} />
+    <meta property="og:site_name" content="DOGBREEDAGE" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | DOGBREEDAGE`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImg} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DOGBREEDAGE - Dog Age Calculator by Breed Size",
+      "url": "https://dogbreedage.com",
+      "description": "The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "DOGBREEDAGE"
+      }
+    })} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
