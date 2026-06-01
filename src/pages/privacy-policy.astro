@@ -31,15 +31,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           Our calculator operates entirely in your browser. Any data you enter — your dog's name, breed size, and age — is processed locally using JavaScript on your device. We do not store, transmit, or have access to this information.
         </p>
         <p>
-          We use Google Analytics to understand general website traffic patterns. Google Analytics collects anonymized data such as pages visited, time spent on site, and browser type. This data cannot be used to identify you personally.
+          We do not use analytics or tracking cookies. We only use localStorage to remember your preferences.
         </p>
         <h2 class="text-base sm:text-lg font-semibold tracking-tight text-[var(--text-primary)]">Cookies</h2>
         <p>
-          Our website uses minimal cookies required for Google Analytics functionality. We do not use tracking cookies, advertising cookies, or any form of persistent user tracking.
+          Our website does not use cookies. We use your browser's localStorage to remember your theme preference (dark/light mode). This data stays on your device and is never sent to our servers or any third party.
         </p>
         <h2 class="text-base sm:text-lg font-semibold tracking-tight text-[var(--text-primary)]">Third-Party Services</h2>
         <p>
-          We use Google Analytics for website analytics. Google may collect and process certain data as described in their Privacy Policy. We do not share any data with other third parties.
+          We do not use any third-party analytics, tracking, or advertising services. Our contact form is powered by Web3Forms, which processes form submissions securely. Please refer to Web3Forms' privacy policy for details on how they handle your data.
         </p>
         <h2 class="text-base sm:text-lg font-semibold tracking-tight text-[var(--text-primary)]">Data Security</h2>
         <p>
@@ -54,6 +54,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           If you have questions about this Privacy Policy, please contact us through our <a href="/contact" class="text-[var(--color-link)] hover:underline" title="Contact DOGBREEDAGE">Contact page</a>.
         </p>
       </div>
+    </div>
+  </section>
+
+  <section class="container-custom pb-20">
+    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-3">Curious about your dog's real human age?</p>
+      <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>
 </BaseLayout>

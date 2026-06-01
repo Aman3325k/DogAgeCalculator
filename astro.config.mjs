@@ -9,7 +9,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    lastmod: new Date()
+  })],
   vite: {
     plugins: [tailwindcss()],
   },

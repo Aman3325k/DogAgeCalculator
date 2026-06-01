@@ -44,6 +44,7 @@ const today = new Date().toISOString().split('T')[0];
         <span class="trust-badge trust-badge-stagger">⚡ Instant Results</span>
         <span class="trust-badge trust-badge-stagger">✅ No Login Required</span>
       </div>
+      <p class="text-xs text-[var(--text-faint)] mb-6 sm:mb-8 page-load-card">Join thousands of dog owners who know their dog's real age</p>
       <Calculator />
     </div>
   </section>
@@ -172,17 +173,3 @@ const today = new Date().toISOString().split('T')[0];
   "dateModified": today
 })} />
 
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "DOGBREEDAGE",
-  "url": "https://dogbreedage.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://dogbreedage.com/search?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
-})} />

@@ -34,15 +34,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
         <div>
           <label for="name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Name</label>
-          <input type="text" id="name" name="name" class="input-base" placeholder="Your name" required />
+          <input type="text" id="name" name="name" class="input-base" placeholder="Your name" required aria-describedby="name-error" />
+          <p id="name-error" class="text-xs text-[var(--stage-elder)] mt-1 hidden" role="alert">Please enter your name.</p>
         </div>
         <div>
           <label for="email" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Email</label>
-          <input type="email" id="email" name="email" class="input-base" placeholder="your@email.com" required />
+          <input type="email" id="email" name="email" class="input-base" placeholder="your@email.com" required aria-describedby="email-error" />
+          <p id="email-error" class="text-xs text-[var(--stage-elder)] mt-1 hidden" role="alert">Please enter a valid email address.</p>
         </div>
         <div>
           <label for="message" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Message</label>
-          <textarea id="message" name="message" class="input-base min-h-[120px] sm:min-h-[140px] resize-y" placeholder="Your message..." required></textarea>
+          <textarea id="message" name="message" class="input-base min-h-[120px] sm:min-h-[140px] resize-y" placeholder="Your message..." required aria-describedby="message-error"></textarea>
+          <p id="message-error" class="text-xs text-[var(--stage-elder)] mt-1 hidden" role="alert">Please enter your message.</p>
         </div>
         <button type="submit" id="contact-submit" class="btn-primary w-full justify-center text-base py-3.5 sm:py-3">
           <span id="contact-btn-text">Send Message</span>
@@ -50,6 +53,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </button>
         <p class="text-xs text-center text-[var(--text-faint)]">Powered by Web3Forms — your message goes directly to our email. No data stored on our servers.</p>
       </form>
+    </div>
+  </section>
+
+  <section class="container-custom pb-20">
+    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-3">While you're here, check how old your dog really is.</p>
+      <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>
 </BaseLayout>
@@ -62,8 +72,55 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnText = document.getElementById('contact-btn-text');
   const spinner = document.getElementById('contact-spinner');
 
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const messageInput = document.getElementById('message');
+  const nameError = document.getElementById('name-error');
+  const emailError = document.getElementById('email-error');
+  const messageError = document.getElementById('message-error');
+
+  function hideErrors() {
+    nameError?.classList.add('hidden');
+    emailError?.classList.add('hidden');
+    messageError?.classList.add('hidden');
+    [nameInput, emailInput, messageInput].forEach(el => {
+      if (el) el.style.borderColor = '';
+    });
+  }
+
+  function validate() {
+    hideErrors();
+    let valid = true;
+    if (!nameInput?.value.trim()) {
+      nameError?.classList.remove('hidden');
+      if (nameInput) nameInput.style.borderColor = 'var(--stage-elder)';
+      valid = false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput?.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+      emailError?.classList.remove('hidden');
+      if (emailInput) emailInput.style.borderColor = 'var(--stage-elder)';
+      valid = false;
+    }
+    if (!messageInput?.value.trim()) {
+      messageError?.classList.remove('hidden');
+      if (messageInput) messageInput.style.borderColor = 'var(--stage-elder)';
+      valid = false;
+    }
+    return valid;
+  }
+
+  [nameInput, emailInput, messageInput].forEach(el => {
+    el?.addEventListener('input', () => {
+      if (el.style.borderColor) el.style.borderColor = '';
+    });
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    hideErrors();
+    if (!validate()) return;
+
     submitBtn.disabled = true;
     btnText.textContent = 'Sending...';
     spinner.classList.remove('hidden');

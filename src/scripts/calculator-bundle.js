@@ -198,61 +198,6 @@ function renderResults(totalYears, breedSize, name, years, months) {
   renderAgeChart(totalYears, breedSize);
   renderHealthTimeline(totalYears, breedSize, dogName);
 
-  const affiliateSection = document.getElementById('affiliate-section');
-  const affiliateLinks = {
-    Puppy: [
-      { text: 'Training Treats', href: '#affiliate-link' },
-      { text: 'Puppy Food', href: '#affiliate-link' },
-      { text: 'Training Pads', href: '#affiliate-link' },
-    ],
-    Teenager: [
-      { text: 'Training Treats', href: '#affiliate-link' },
-      { text: 'Puppy Food', href: '#affiliate-link' },
-      { text: 'Training Pads', href: '#affiliate-link' },
-    ],
-    'Young Adult': [
-      { text: 'Premium Dry Food', href: '#affiliate-link' },
-      { text: 'Dental Chews', href: '#affiliate-link' },
-      { text: 'Joint Supplements', href: '#affiliate-link' },
-    ],
-    Adult: [
-      { text: 'Premium Dry Food', href: '#affiliate-link' },
-      { text: 'Dental Chews', href: '#affiliate-link' },
-      { text: 'Joint Supplements', href: '#affiliate-link' },
-    ],
-    Senior: [
-      { text: 'Senior Formula Food', href: '#affiliate-link' },
-      { text: 'Orthopedic Bed', href: '#affiliate-link' },
-      { text: 'Joint Supplement', href: '#affiliate-link' },
-    ],
-    Elder: [
-      { text: 'Senior Formula Food', href: '#affiliate-link' },
-      { text: 'Orthopedic Bed', href: '#affiliate-link' },
-      { text: 'Joint Supplement', href: '#affiliate-link' },
-    ],
-  };
-  if (affiliateSection) {
-    const links = affiliateLinks[stage] || affiliateLinks.Adult;
-    affiliateSection.textContent = '';
-    const label = document.createElement('p');
-    label.className = 'text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2';
-    label.textContent = `🛒 Recommended for ${dogName}'s life stage`;
-    affiliateSection.appendChild(label);
-    const linkWrap = document.createElement('div');
-    linkWrap.className = 'flex flex-wrap gap-2';
-    links.forEach(l => {
-      const a = document.createElement('a');
-      a.href = l.href;
-      a.rel = 'sponsored';
-      a.className = 'tag-pill text-xs no-underline hover:text-[var(--text-primary)]';
-      a.target = '_blank';
-      a.textContent = l.text;
-      linkWrap.appendChild(a);
-    });
-    affiliateSection.appendChild(linkWrap);
-    affiliateSection.classList.remove('hidden');
-  }
-
   currentShareData = { name: name || 'My dog', humanAge, breedSize, dogYears: years, months };
   document.dispatchEvent(new CustomEvent('resultCalculated'));
 }
@@ -344,7 +289,6 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
   } catch (e) {
     document.body.removeChild(clone);
     showToast('Could not save image. Try again or take a screenshot.', 'error');
-    console.error('saveAsImage failed:', e);
   }
 }
 
@@ -525,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
           renderResults(age.total, selectedSize, name, age.years, age.months);
           showToast('Result calculated!');
         }
-      } catch (e) { console.error('Birthday mode error:', e); }
+      } catch (e) { /* ignore */ }
     });
   }
 
@@ -573,20 +517,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultEl = document.getElementById('result');
       if (resultEl) resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 200);
-    } catch (e) { resetCalcBtn(); console.error('Form submit error:', e); }
+    } catch (e) { resetCalcBtn(); }
   });
 
   document.getElementById('share-whatsapp')?.addEventListener('click', () => {
     try {
     const d = currentShareData; if (!d) return;
     window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months))}`, '_blank');
-    } catch (e) { console.error('WhatsApp share error:', e); }
+    } catch (e) { /* ignore */ }
   });
   document.getElementById('share-twitter')?.addEventListener('click', () => {
     try {
     const d = currentShareData; if (!d) return;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months))}`, '_blank');
-    } catch (e) { console.error('Twitter share error:', e); }
+    } catch (e) { /* ignore */ }
   });
   document.getElementById('share-copy')?.addEventListener('click', async () => {
     try {
@@ -603,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ta.remove();
       showToast('Link copied!');
     }
-    } catch (e) { console.error('Copy share error:', e); }
+    } catch (e) { /* ignore */ }
   });
 
   if (navigator.share) {
@@ -640,21 +584,21 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Photo uploaded!');
       };
       reader.readAsDataURL(file);
-      } catch (e) { console.error('Photo upload error:', e); }
+      } catch (e) { /* ignore */ }
     });
   }
 
   document.getElementById('save-chart-btn')?.addEventListener('click', async () => {
     try {
     await saveAsImage('age-chart-section', 800, 'dog-age-chart');
-    } catch (e) { console.error('Save chart error:', e); }
+    } catch (e) { /* ignore */ }
   });
 
   document.getElementById('save-result-btn')?.addEventListener('click', async () => {
     try {
     const name = (currentShareData && currentShareData.name) || 'dog';
     await saveAsImage('result', 600, `${name}-age-result`);
-    } catch (e) { console.error('Save result error:', e); }
+    } catch (e) { /* ignore */ }
   });
 
   document.getElementById('print-result-btn')?.addEventListener('click', () => {

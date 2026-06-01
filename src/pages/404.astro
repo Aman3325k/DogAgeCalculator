@@ -1,17 +1,86 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+Astro.response.status = 404;
 ---
 
 <BaseLayout
   title="Page Not Found"
-  description="The page you're looking for doesn't exist on DOGBREEDAGE."
+  description="The page you're looking for doesn't exist on DOGBREEDAGE. Let's get you back home."
+  noindex={true}
 >
-  <section class="container-custom py-20 sm:py-24 md:py-32 text-center pb-20">
-    <span class="text-6xl sm:text-8xl font-bold tracking-tight text-[var(--text-primary)]/10 block mb-4 sm:mb-6">404</span>
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">Page Not Found</h1>
-    <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-md mx-auto mb-8 sm:mb-10 px-4">
-      The page you're looking for doesn't exist or has been moved. Let's get you back on track.
-    </p>
-    <a href="/" class="btn-primary text-sm sm:text-base">Go to Calculator</a>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com/" }
+    ]
+  })} />
+
+  <section class="container-custom py-16 sm:py-20 md:py-28 hero-pattern">
+    <div class="max-w-2xl mx-auto text-center flex flex-col items-center gap-6 sm:gap-8">
+      <!-- Animated paw print hero -->
+      <div class="relative" aria-hidden="true">
+        <svg class="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 text-[var(--text-primary)] opacity-80 error-paw-bounce" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="58" r="24"/>
+          <ellipse cx="18" cy="30" rx="10" ry="12" transform="rotate(-30 18 30)"/>
+          <ellipse cx="36" cy="14" rx="10" ry="12" transform="rotate(-15 36 14)"/>
+          <ellipse cx="64" cy="14" rx="10" ry="12" transform="rotate(15 64 14)"/>
+          <ellipse cx="82" cy="30" rx="10" ry="12" transform="rotate(30 82 30)"/>
+        </svg>
+      </div>
+
+      <span class="text-xs sm:text-sm font-mono uppercase tracking-[0.15em] text-[var(--text-faint)]">404 Error</span>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+        Page Not Found
+      </h1>
+
+      <p class="text-base sm:text-lg text-[var(--text-secondary)] max-w-md leading-relaxed">
+        Looks like this page ran away! It's gone walkies. Let's get you back home.
+      </p>
+
+      <!-- Link cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full mt-2">
+        <a href="/" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Go to homepage">
+          <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🏠</span>
+          <span class="text-sm font-medium text-[var(--text-primary)]">Go Home</span>
+          <span class="text-xs text-[var(--text-muted)]">Back to safety</span>
+        </a>
+        <a href="/" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Try the dog age calculator">
+          <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🐕</span>
+          <span class="text-sm font-medium text-[var(--text-primary)]">Calculator</span>
+          <span class="text-xs text-[var(--text-muted)]">Age your dog</span>
+        </a>
+        <a href="/compare" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Compare two dogs ages">
+          <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🐾</span>
+          <span class="text-sm font-medium text-[var(--text-primary)]">Compare</span>
+          <span class="text-xs text-[var(--text-muted)]">Two dogs side-by-side</span>
+        </a>
+      </div>
+
+      <!-- Breed suggestion -->
+      <div class="w-full mt-4 sm:mt-6 card p-5 sm:p-6">
+        <p class="text-sm text-[var(--text-secondary)] mb-3 text-center">Looking for a breed calculator?</p>
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+          <a href="/labrador-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="Labrador Retriever Age Calculator">Labrador</a>
+          <a href="/golden-retriever-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
+          <a href="/german-shepherd-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="German Shepherd Age Calculator">German Shepherd</a>
+        </div>
+      </div>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  @keyframes pawBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .error-paw-bounce {
+    animation: pawBounce 2s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .error-paw-bounce { animation: none; }
+  }
+</style>

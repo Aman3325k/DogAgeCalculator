@@ -6,11 +6,12 @@ import '../styles/global.css';
 export interface Props {
   title: string;
   description: string;
+  noindex?: boolean;
   canonical?: string;
   ogImage?: string;
 }
 
-const { title, description, canonical, ogImage } = Astro.props;
+const { title, description, noindex, canonical, ogImage } = Astro.props;
 const site = 'https://dogbreedage.com';
 const ogImg = ogImage || `${site}/images/og-default.webp`;
 const canon = canonical || `${site}${Astro.url.pathname}`;
@@ -19,7 +20,7 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex' : 'index, follow'} />
     <script>
       (function() {
         var t = localStorage.getItem('dogbreedage_theme');
@@ -62,17 +63,6 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
-    <!-- TODO: Before launch, uncomment the GA block below and replace G-XXXXXXXXXX with your actual GA4 measurement ID -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-    -->
-    <!-- TODO: Before launch, create public/ads.txt with your ad network info (e.g., "google.com, pub-XXXXXXXXXX, DIRECT, fXXXXXXXXXX") -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",

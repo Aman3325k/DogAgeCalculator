@@ -9,6 +9,11 @@ import FAQ from '../components/FAQ.astro';
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+        <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
+        <span class="text-[var(--text-faint)] mx-1.5">›</span>
+        <span class="text-[var(--text-secondary)]">Bulldog Age Calculator</span>
+      </p>
       <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Bulldog Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
@@ -99,6 +104,13 @@ import FAQ from '../components/FAQ.astro';
           <a href="/dog-age-chart" class="text-[var(--color-link)] hover:underline" title="Dog Age Chart by Breed Size">View full Dog Age Chart</a> — or — <a href="/compare" class="text-[var(--color-link)] hover:underline" title="Compare Two Dogs Age">Compare Two Dogs</a>
         </p>
       </div>
+  </section>
+
+  <section class="container-custom pb-20">
+    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-3">Ready to calculate your dog's real human age?</p>
+      <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
+    </div>
   </section>
 </BaseLayout>
 
