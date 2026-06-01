@@ -24,10 +24,21 @@ function getStage(age, size) {
 
 <BaseLayout
   title="Dog Age Chart — Years to Human Years by Breed Size"
-  description="Complete dog age chart: convert dog years to human years by breed size. Small, medium, large, and giant breed age conversion tables."
+  description="Complete dog age chart: convert dog years to human years by breed size. Small, medium, large, and giant breed age conversion tables. Free and easy to use."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-4xl mx-auto">
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Dog Age Chart — Years to Human Years by Breed Size",
+        "description": "Complete dog age chart: convert dog years to human years by breed size. Small, medium, large, and giant breed age conversion tables.",
+        "url": "https://dogbreedage.com/dog-age-chart",
+        "author": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "publisher": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "datePublished": "2025-01-15",
+        "dateModified": new Date().toISOString().split('T')[0]
+      })} />
       <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Dog Age Chart</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Age Chart: Dog Years to Human Years by Breed Size</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-2xl leading-relaxed">
@@ -39,8 +50,8 @@ function getStage(age, size) {
           <h2 class="text-lg sm:text-xl font-semibold tracking-tight text-[var(--text-primary)] mb-3">{bs.label} Dog Age to Human Years</h2>
           <p class="text-sm text-[var(--text-muted)] mb-4">{bs.desc} — accurate age conversion using DNA methylation science.</p>
           <div class="overflow-x-auto -mx-4 sm:-mx-0">
-            <div class="inline-block min-w-full px-4 sm:px-0">
-              <table class="w-full text-sm card">
+            <div class="card inline-block min-w-full px-4 sm:px-0">
+              <table class="w-full text-sm">
                 <thead>
                   <tr class="border-b border-[var(--border-default)]">
                     <th class="text-left py-3 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Dog Age (years)</th>
@@ -75,7 +86,7 @@ function getStage(age, size) {
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-3">How to Use This Chart</h2>
         <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
           <p>Find your dog's age in the left column, then look across to see their human equivalent age. The life stage column shows what phase of life your dog is in — from Puppy through to Elder.</p>
-          <p>For the most accurate result, use our <a href="/" class="text-[#0070f3] hover:underline">Dog Age Calculator</a> which takes your dog's exact age (years and months) and breed size for a precise calculation.</p>
+          <p>For the most accurate result, use our <a href="/" class="text-[var(--color-link)] hover:underline" title="Dog Age Calculator by Breed Size">Dog Age Calculator</a> which takes your dog's exact age (years and months) and breed size for a precise calculation.</p>
           <p><strong class="text-[var(--text-primary)]">Pro tip:</strong> Small breeds age slower — a 10-year-old Chihuahua is roughly 57 human years. A 10-year-old Great Dane is about 89 human years. Breed size dramatically affects aging rates.</p>
         </div>
       </div>

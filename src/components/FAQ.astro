@@ -50,7 +50,7 @@ const faqs = [
       <div class="faq-item card p-3.5 sm:p-4 md:p-5 cursor-pointer" data-index={i}>
         <button class="flex items-center justify-between gap-3 w-full text-left cursor-pointer bg-transparent border-0 p-0" aria-expanded="false" aria-controls={`faq-answer-${i}`} id={`faq-btn-${i}`}>
           <span class="text-sm sm:text-[0.9375rem] font-medium text-[var(--text-primary)] leading-relaxed pr-2">{faq.q}</span>
-          <svg class="w-4 h-4 text-[var(--text-faint)] shrink-0 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg class="w-4 h-4 text-[var(--text-faint)] shrink-0 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer overflow-hidden transition-all duration-300" style="max-height: 0; opacity: 0;" role="region" aria-labelledby={`faq-btn-${i}`} id={`faq-answer-${i}`}>
           <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">{faq.a}</p>
@@ -70,7 +70,19 @@ const faqs = [
       "@type": "Answer",
       "text": f.a
     }
-  }))
+  })),
+  "author": {
+    "@type": "Organization",
+    "name": "DOGBREEDAGE",
+    "url": "https://dogbreedage.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DOGBREEDAGE",
+    "url": "https://dogbreedage.com"
+  },
+  "datePublished": "2025-01-15",
+  "dateModified": new Date().toISOString().split('T')[0]
 })} />
 
 <script>

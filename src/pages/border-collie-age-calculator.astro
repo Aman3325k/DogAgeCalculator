@@ -5,7 +5,7 @@ import FAQ from '../components/FAQ.astro';
 
 <BaseLayout
   title="Border Collie Age Calculator — Dog to Human Years"
-  description="Calculate your Border Collie's age in human years using our breed-size based formula. Accurate Border Collie dog years to human years conversion for medium dogs."
+  description="Calculate your Border Collie's age in human years using our breed-size based formula. Accurate Border Collie dog years to human years conversion for medium dogs. Calculate free instantly — no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
@@ -29,14 +29,14 @@ import FAQ from '../components/FAQ.astro';
             <div>
               <label for="breed-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Months</label>
               <select id="breed-months" class="select-base">
-                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i}</option>)}
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
               </select>
             </div>
           </div>
           <button type="submit" class="btn-primary w-full justify-center text-base py-3">Calculate Human Age</button>
         </form>
 
-        <div id="breed-result" class="hidden mt-6 pt-6 border-t border-[var(--border-default)] text-center">
+        <div id="breed-result" class="hidden mt-6 pt-6 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
           <p class="text-sm text-[var(--text-muted)] mb-1">Your Border Collie is equivalent to</p>
           <p class="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]" id="breed-human-age">—</p>
           <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
@@ -46,7 +46,7 @@ import FAQ from '../components/FAQ.astro';
       </div>
 
       <p class="text-center text-sm text-[var(--text-muted)]">
-        <a href="/" class="text-[#0070f3] hover:underline">← Back to main Dog Age Calculator</a>
+        <a href="/" class="text-[var(--color-link)] hover:underline">← Back to main Dog Age Calculator</a>
       </p>
 
       <div class="mt-10 space-y-5 text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -69,8 +69,86 @@ import FAQ from '../components/FAQ.astro';
         </div>
       </div>
     </div>
+
+      <div class="max-w-2xl mx-auto mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-4">Border Collie Health & Aging Guide</h2>
+        <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+          <p>Border Collies are a medium-sized breed with a lifespan of 12-15 years. Known for their incredible intelligence and high energy, they age through the medium breed curve. A 7-year-old Border Collie is about 51 in human years. Their active lifestyle and medium size contribute to good longevity compared to many other breeds.</p>
+          <p>Common health issues in Border Collies include hip dysplasia, epilepsy, collie eye anomaly, and progressive retinal atrophy. Their intense drive to work and run means joint wear and tear can accumulate, so monitoring for early signs of arthritis or mobility issues is important as they age past 9 years.</p>
+          <p>To maximize your Border Collie's healthy years, maintain consistent physical and mental stimulation throughout their life. Senior Border Collies still need exercise but may prefer swimming over running to protect joints. Regular veterinary screenings including hip evaluations and eye exams are recommended beginning at age 7.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
+          <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
+          <a href="/german-shepherd-age-calculator" class="tag-pill text-xs no-underline" title="German Shepherd Age Calculator">German Shepherd</a>
+          <a href="/bulldog-age-calculator" class="tag-pill text-xs no-underline" title="Bulldog Age Calculator">Bulldog</a>
+          <a href="/beagle-age-calculator" class="tag-pill text-xs no-underline" title="Beagle Age Calculator">Beagle</a>
+          <a href="/poodle-age-calculator" class="tag-pill text-xs no-underline" title="Poodle Age Calculator">Poodle</a>
+          <a href="/chihuahua-age-calculator" class="tag-pill text-xs no-underline" title="Chihuahua Age Calculator">Chihuahua</a>
+          <a href="/pomeranian-age-calculator" class="tag-pill text-xs no-underline" title="Pomeranian Age Calculator">Pomeranian</a>
+          <a href="/great-dane-age-calculator" class="tag-pill text-xs no-underline" title="Great Dane Age Calculator">Great Dane</a>
+          <a href="/husky-age-calculator" class="tag-pill text-xs no-underline" title="Husky Age Calculator">Husky</a>
+          <a href="/shih-tzu-age-calculator" class="tag-pill text-xs no-underline" title="Shih Tzu Age Calculator">Shih Tzu</a>
+          <a href="/border-collie-age-calculator" class="tag-pill text-xs no-underline" title="Border Collie Age Calculator">Border Collie</a>
+        </div>
+        <p class="text-xs text-center text-[var(--text-faint)] mt-4">
+          <a href="/dog-age-chart" class="text-[var(--color-link)] hover:underline" title="Dog Age Chart by Breed Size">View full Dog Age Chart</a> — or — <a href="/compare" class="text-[var(--color-link)] hover:underline" title="Compare Two Dogs Age">Compare Two Dogs</a>
+        </p>
+      </div>
   </section>
 </BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com" },
+    { "@type": "ListItem", "position": 2, "name": "Border Collie Age Calculator", "item": "https://dogbreedage.com/border-collie-age-calculator" }
+  ]
+})} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How old is my Border Collie in human years?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter your Border Collie's age in years and months above. The medium breed formula gives accurate human age conversion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the lifespan of a Border Collie?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Border Collies typically live 12-15 years. Their active lifestyle and medium size contribute to good longevity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "At what age is a Border Collie considered a senior?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Border Collies are considered seniors around 9-10 years. Mental stimulation remains important for their cognitive health."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do Border Collies age differently than other breeds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Border Collies age at the standard medium breed rate. An 8-year-old Border Collie is about 54 in human years."
+      }
+    }
+  ]
+})} />
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

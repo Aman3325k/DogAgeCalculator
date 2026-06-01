@@ -12,13 +12,14 @@ export interface Props {
 
 const { title, description, canonical, ogImage } = Astro.props;
 const site = 'https://dogbreedage.com';
-const ogImg = ogImage || `${site}/images/og-default.svg`;
+const ogImg = ogImage || `${site}/images/og-default.webp`;
 const canon = canonical || `${site}${Astro.url.pathname}`;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="robots" content="index, follow" />
     <script>
       (function() {
         var t = localStorage.getItem('dogbreedage_theme');
@@ -40,11 +41,16 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
     <meta property="og:url" content={canon} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="DOGBREEDAGE" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | DOGBREEDAGE`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImg} />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="630" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
@@ -54,7 +60,10 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
+    <!-- TODO: Before launch, uncomment the GA block below and replace G-XXXXXXXXXX with your actual GA4 measurement ID -->
+    <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -62,6 +71,8 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
       gtag('js', new Date());
       gtag('config', 'G-XXXXXXXXXX');
     </script>
+    -->
+    <!-- TODO: Before launch, create public/ads.txt with your ad network info (e.g., "google.com, pub-XXXXXXXXXX, DIRECT, fXXXXXXXXXX") -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -78,40 +89,51 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
       },
       "author": {
         "@type": "Organization",
-        "name": "DOGBREEDAGE"
-      }
+        "name": "DOGBREEDAGE",
+        "url": "https://dogbreedage.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DOGBREEDAGE",
+        "url": "https://dogbreedage.com"
+      },
+      "datePublished": "2025-01-15",
+      "dateModified": "2026-05-31"
     })} />
   </head>
   <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
     <div id="page-progress" class="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-transparent">
       <div id="page-progress-fill" class="h-full bg-[var(--text-primary)] transition-all duration-300" style="width: 0%"></div>
     </div>
     <Header />
-    <main class="flex-1">
+    <main class="flex-1" id="main-content">
       <slot />
     </main>
     <Footer />
-    <div id="pwa-banner" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-secondary)] border-t border-[var(--border-default)] p-4 flex items-center justify-between gap-3">
+      <div id="pwa-banner" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-secondary)] border-t border-[var(--border-default)] p-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3" role="dialog" aria-modal="true" aria-label="Install app prompt">
       <div class="flex items-center gap-3">
-        <span class="text-lg font-bold text-[var(--text-primary)] shrink-0">DOGBREEDAGE</span>
-        <p class="text-xs text-[var(--text-secondary)]">Install for the best experience</p>
+        <span class="text-lg shrink-0">📱</span>
+        <div>
+          <span class="text-sm font-bold text-[var(--text-primary)] shrink-0 block">Add DogBreedAge to your phone</span>
+          <p class="text-xs text-[var(--text-secondary)]">Calculate your dog's age instantly — no browser needed. Works offline too.</p>
+        </div>
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <button id="pwa-install" class="btn-primary text-xs py-2 px-4">Install</button>
-        <button id="pwa-dismiss" class="text-[var(--text-faint)] hover:text-[var(--text-primary)] text-lg leading-none p-2">&times;</button>
+        <button id="pwa-dismiss" class="text-[var(--text-faint)] hover:text-[var(--text-primary)] text-lg leading-none p-2" aria-label="Dismiss install prompt">&times;</button>
       </div>
     </div>
-    <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)] border-t border-[var(--border-default)] p-3 sm:p-4">
+      <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)] border-t border-[var(--border-default)] p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="Cookie notice">
       <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-xs sm:text-sm text-[var(--text-secondary)]">We use cookies for analytics. By using this site, you agree to our use of cookies.</p>
+        <p class="text-xs sm:text-sm text-[var(--text-secondary)]">We use cookies to remember your preferences (dark mode, weight unit). No tracking or analytics cookies are used.</p>
         <div class="flex items-center gap-2 shrink-0">
-          <button id="cookie-accept" class="btn-primary text-xs py-2 px-4">Accept</button>
-          <button id="cookie-decline" class="btn-secondary text-xs py-2 px-4">Decline</button>
+          <button id="cookie-accept" class="btn-primary text-xs py-2 px-4">Got it</button>
         </div>
       </div>
     </div>
     <button id="back-to-top" class="back-to-top no-print" aria-label="Back to top" tabindex="0">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
   </body>

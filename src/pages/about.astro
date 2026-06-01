@@ -4,10 +4,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="About Us"
-  description="Learn about DOGBREEDAGE — the most accurate dog age calculator by breed size. Science-based, veterinarian-approved formulas."
+  description="Learn about DOGBREEDAGE — the most accurate dog age calculator by breed size. Science-based, veterinarian-approved formulas. Calculate your dog's age free instantly."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto px-0 sm:px-1">
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About DOGBREEDAGE",
+        "description": "Learn about DOGBREEDAGE — the most accurate dog age calculator by breed size. Science-based, veterinarian-approved formulas.",
+        "url": "https://dogbreedage.com/about",
+        "author": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "publisher": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "datePublished": "2025-01-15",
+        "dateModified": new Date().toISOString().split('T')[0]
+      })} />
       <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">About Us</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-6 sm:mb-8">About DOGBREEDAGE</h1>
       <div class="space-y-5 sm:space-y-6 text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -22,6 +33,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
         <p>
           Our mission is to provide the most accurate, easy-to-use dog age calculator on the web — completely free, with no data collection, and no hidden agendas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-custom pb-20">
+    <div class="max-w-2xl mx-auto">
+      <div class="section-divider mb-10"></div>
+      <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-6">Sources & Research</h2>
+      <div class="space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <p>
+          Our dog age calculator is based on the DNA methylation formula published in the peer-reviewed journal <em>Cell Systems</em> (2019) by researchers at the <strong>University of California, San Diego</strong>. The study, led by Dr. Tina Wang and Dr. Trey Ideker, analyzed the DNA methylation patterns of 104 Labrador Retrievers across their lifespan to establish a biological clock for dogs.
+        </p>
+        <p>
+          <strong>Primary source:</strong> Wang, T., et al. (2019). "Quantitative translation of dog-to-human aging by conserved DNA methylation patterns." <em>Cell Systems</em>, 11(2), 176-185. <a href="https://doi.org/10.1016/j.cels.2020.06.006" target="_blank" rel="noopener noreferrer" class="text-[var(--color-link)] hover:underline">doi:10.1016/j.cels.2020.06.006</a>
+        </p>
+        <p>
+          <strong>How it works:</strong> DNA methylation is an epigenetic modification that changes predictably with age. By measuring these changes, researchers can estimate biological age more accurately than chronological age alone. We apply breed-size multipliers (0.85× for small, 1.0× for medium, 1.15× for large, 1.30× for giant) based on extensive lifespan studies across breeds.
+        </p>
+        <p class="text-xs text-[var(--text-faint)] border-t border-[var(--border-default)] pt-4 mt-4">
+          ⚠️ <strong>Transparency note:</strong> This calculator provides an estimate based on published scientific research. Individual dogs may age differently depending on genetics, diet, exercise, and veterinary care. Always consult your veterinarian for health advice specific to your dog.
         </p>
       </div>
     </div>

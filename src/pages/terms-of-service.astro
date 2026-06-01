@@ -8,6 +8,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto px-0 sm:px-1">
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Terms of Service",
+        "description": "Terms of Service for DOGBREEDAGE. By using our website, you agree to these terms.",
+        "url": "https://dogbreedage.com/terms-of-service",
+        "author": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "publisher": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "datePublished": "2025-01-15",
+        "dateModified": new Date().toISOString().split('T')[0]
+      })} />
       <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Legal</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-6 sm:mb-8">Terms of Service</h1>
       <div class="space-y-4 sm:space-y-5 text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -37,7 +48,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
         <h2 class="text-base sm:text-lg font-semibold tracking-tight text-[var(--text-primary)]">Contact</h2>
         <p>
-          For questions about these terms, please <a href="/contact" class="text-[#0070f3] hover:underline">contact us</a>.
+          For questions about these terms, please <a href="/contact" class="text-[var(--color-link)] hover:underline" title="Contact DOGBREEDAGE">contact us</a>.
         </p>
       </div>
     </div>

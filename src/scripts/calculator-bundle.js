@@ -105,6 +105,8 @@ function showToast(message) {
 }
 
 function triggerConfetti() {
+  if (localStorage.getItem('confetti_shown')) return;
+  localStorage.setItem('confetti_shown', '1');
   const colors = ['#ff0080', '#7928ca', '#0070f3', '#50e3c2', '#f5a623', '#fff'];
   for (let i = 0; i < 80; i++) {
     const el = document.createElement('div');
@@ -115,10 +117,6 @@ function triggerConfetti() {
     setTimeout(() => el.remove(), (dur + 2) * 1000);
   }
 }
-
-const cfsheet = document.createElement('style');
-cfsheet.textContent = `@keyframes cf-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}`;
-document.head.appendChild(cfsheet);
 
 function setText(id, val) {
   const el = document.getElementById(id);
@@ -200,7 +198,63 @@ function renderResults(totalYears, breedSize, name, years, months) {
   renderAgeChart(totalYears, breedSize);
   renderHealthTimeline(totalYears, breedSize, dogName);
 
-  window.shareData = { name: name || 'My dog', humanAge, breedSize, dogYears: years, months };
+  const affiliateSection = document.getElementById('affiliate-section');
+  const affiliateLinks = {
+    Puppy: [
+      { text: 'Training Treats', href: '#affiliate-link' },
+      { text: 'Puppy Food', href: '#affiliate-link' },
+      { text: 'Training Pads', href: '#affiliate-link' },
+    ],
+    Teenager: [
+      { text: 'Training Treats', href: '#affiliate-link' },
+      { text: 'Puppy Food', href: '#affiliate-link' },
+      { text: 'Training Pads', href: '#affiliate-link' },
+    ],
+    'Young Adult': [
+      { text: 'Premium Dry Food', href: '#affiliate-link' },
+      { text: 'Dental Chews', href: '#affiliate-link' },
+      { text: 'Joint Supplements', href: '#affiliate-link' },
+    ],
+    Adult: [
+      { text: 'Premium Dry Food', href: '#affiliate-link' },
+      { text: 'Dental Chews', href: '#affiliate-link' },
+      { text: 'Joint Supplements', href: '#affiliate-link' },
+    ],
+    Senior: [
+      { text: 'Senior Formula Food', href: '#affiliate-link' },
+      { text: 'Orthopedic Bed', href: '#affiliate-link' },
+      { text: 'Joint Supplement', href: '#affiliate-link' },
+    ],
+    Elder: [
+      { text: 'Senior Formula Food', href: '#affiliate-link' },
+      { text: 'Orthopedic Bed', href: '#affiliate-link' },
+      { text: 'Joint Supplement', href: '#affiliate-link' },
+    ],
+  };
+  if (affiliateSection) {
+    const links = affiliateLinks[stage] || affiliateLinks.Adult;
+    affiliateSection.textContent = '';
+    const label = document.createElement('p');
+    label.className = 'text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2';
+    label.textContent = `🛒 Recommended for ${dogName}'s life stage`;
+    affiliateSection.appendChild(label);
+    const linkWrap = document.createElement('div');
+    linkWrap.className = 'flex flex-wrap gap-2';
+    links.forEach(l => {
+      const a = document.createElement('a');
+      a.href = l.href;
+      a.rel = 'sponsored';
+      a.className = 'tag-pill text-xs no-underline hover:text-[var(--text-primary)]';
+      a.target = '_blank';
+      a.textContent = l.text;
+      linkWrap.appendChild(a);
+    });
+    affiliateSection.appendChild(linkWrap);
+    affiliateSection.classList.remove('hidden');
+  }
+
+  currentShareData = { name: name || 'My dog', humanAge, breedSize, dogYears: years, months };
+  document.dispatchEvent(new CustomEvent('resultCalculated'));
 }
 
 function renderAgeChart(currentDogAge, breedSize) {
@@ -245,14 +299,15 @@ function renderHealthTimeline(totalYears, breedSize, dogName) {
     div.className = 'timeline-item';
     div.innerHTML = `
       <div class="timeline-dot ${dotClass}"></div>
-      <p class="text-sm font-medium text-[var(--text-primary)]">${m.icon} ${m.label}</p>
-      <p class="text-xs text-[var(--text-muted)] mt-0.5">${m.desc}</p>
-      <p class="text-xs text-[var(--text-faint)] mt-0.5">${passed ? 'Completed' : timeStr}</p>`;
+      <p class="text-sm font-medium text-[var(--text-primary)] break-words">${m.icon} ${m.label}</p>
+      <p class="text-xs text-[var(--text-muted)] mt-0.5 break-words">${m.desc}</p>
+      <p class="text-xs text-[var(--text-faint)] mt-0.5 break-words">${passed ? 'Completed' : timeStr}</p>`;
     container.appendChild(div);
   });
   section.classList.remove('hidden');
 }
 
+let currentShareData = null;
 let factTimer = null;
 function startFactRotation() {
   const el = document.getElementById('did-you-know-text');
@@ -268,7 +323,7 @@ function startFactRotation() {
   }, 8000);
 }
 
-function saveAsImage(elementId, cloneWidth, filenamePrefix) {
+async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
   const el = document.getElementById(elementId);
   if (!el) return;
   const clone = el.cloneNode(true);
@@ -277,19 +332,27 @@ function saveAsImage(elementId, cloneWidth, filenamePrefix) {
   clone.style.cssText = `position:fixed;left:-9999px;top:0;width:${cloneWidth}px;background:${bgColor};padding:24px;border-radius:12px;z-index:9999;`;
   clone.querySelectorAll('button, a').forEach(b => b.remove());
   document.body.appendChild(clone);
-  import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js').then(() => {
-    html2canvas(clone, { backgroundColor: bgColor, scale: 2 }).then(canvas => {
-      const name = (window.shareData && window.shareData.name) || 'dog';
-      const link = document.createElement('a');
-      link.download = `${(filenamePrefix || name).toLowerCase().replace(/\s+/g, '-')}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-      document.body.removeChild(clone);
-    }).catch(() => { document.body.removeChild(clone); });
-  }).catch(() => { document.body.removeChild(clone); });
+  try {
+    const { default: html2canvas } = await import('html2canvas');
+    const canvas = await html2canvas(clone, { backgroundColor: bgColor, scale: 2 });
+    const name = (currentShareData && currentShareData.name) || 'dog';
+    const link = document.createElement('a');
+    link.download = `${(filenamePrefix || name).toLowerCase().replace(/\s+/g, '-')}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+    document.body.removeChild(clone);
+  } catch (e) {
+    document.body.removeChild(clone);
+    showToast('Could not save image. Try again or take a screenshot.', 'error');
+    console.error('saveAsImage failed:', e);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const cfsheet = document.createElement('style');
+  cfsheet.textContent = `@keyframes cf-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}`;
+  document.head.appendChild(cfsheet);
+
   const form = document.getElementById('calc-form');
   const breedPills = document.querySelectorAll('.breed-pill');
   const sizeOptions = document.querySelectorAll('.size-option');
@@ -331,10 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cookieBanner.classList.remove('hidden');
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
       localStorage.setItem('dogbreedage_cookie', 'accepted');
-      cookieBanner.classList.add('hidden');
-    });
-    document.getElementById('cookie-decline')?.addEventListener('click', () => {
-      localStorage.setItem('dogbreedage_cookie', 'declined');
       cookieBanner.classList.add('hidden');
     });
   }
@@ -399,14 +458,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   sizeOptions.forEach(opt => {
-    opt.addEventListener('click', () => {
+    opt.addEventListener('click', (e) => {
       const radio = opt.querySelector('input[type="radio"]');
       if (!radio) return;
       radio.checked = true;
       selectedSize = radio.value;
       updateSizeSelection(selectedSize);
       if (popularBreedsSection) popularBreedsSection.classList.remove('hidden');
+      sizeOptions.forEach(o => o.classList.remove('tooltip-visible'));
+      opt.classList.add('tooltip-visible');
     });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.size-option')) {
+      sizeOptions.forEach(o => o.classList.remove('tooltip-visible'));
+    }
   });
 
   breedPills.forEach(pill => {
@@ -451,13 +517,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (birthdayInput) {
     birthdayInput.addEventListener('change', () => {
-      if (!selectedSize) { showToast('Please select a breed size first'); return; }
-      const age = computeAgeFromBirthday();
-      if (age && age.total > 0) {
-        const name = nameInput ? nameInput.value.trim() : '';
-        renderResults(age.total, selectedSize, name, age.years, age.months);
-        showToast('Result calculated!');
-      }
+      try {
+        if (!selectedSize) { showToast('Please select a breed size first'); return; }
+        const age = computeAgeFromBirthday();
+        if (age && age.total > 0) {
+          const name = nameInput ? nameInput.value.trim() : '';
+          renderResults(age.total, selectedSize, name, age.years, age.months);
+          showToast('Result calculated!');
+        }
+      } catch (e) { console.error('Birthday mode error:', e); }
     });
   }
 
@@ -469,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   form.addEventListener('submit', (e) => {
+    try {
     e.preventDefault();
     if (calcBtn) calcBtn.classList.add('pulsed');
     const mode = inputMode ? inputMode.value : 'age';
@@ -504,27 +573,59 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultEl = document.getElementById('result');
       if (resultEl) resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 200);
+    } catch (e) { resetCalcBtn(); console.error('Form submit error:', e); }
   });
 
   document.getElementById('share-whatsapp')?.addEventListener('click', () => {
-    const d = window.shareData; if (!d) return;
+    try {
+    const d = currentShareData; if (!d) return;
     window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months))}`, '_blank');
+    } catch (e) { console.error('WhatsApp share error:', e); }
   });
   document.getElementById('share-twitter')?.addEventListener('click', () => {
-    const d = window.shareData; if (!d) return;
+    try {
+    const d = currentShareData; if (!d) return;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months))}`, '_blank');
+    } catch (e) { console.error('Twitter share error:', e); }
   });
   document.getElementById('share-copy')?.addEventListener('click', async () => {
-    const d = window.shareData; if (!d) return;
+    try {
+    const d = currentShareData; if (!d) return;
     try {
       await navigator.clipboard.writeText(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months) + ' https://dogbreedage.com');
       showToast('Link copied!');
-    } catch {}
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months) + ' https://dogbreedage.com';
+      ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('Link copied!');
+    }
+    } catch (e) { console.error('Copy share error:', e); }
   });
+
+  if (navigator.share) {
+    const shareContainer = document.getElementById('share-whatsapp')?.parentNode;
+    if (shareContainer) {
+      const shareBtn = document.createElement('button');
+      shareBtn.type = 'button';
+      shareBtn.className = 'btn-secondary text-sm btn-mobile-full justify-center';
+      shareBtn.innerHTML = '📤 Share';
+      shareBtn.setAttribute('aria-label', 'Share result');
+      shareBtn.addEventListener('click', () => {
+        const d = currentShareData; if (!d) return;
+        navigator.share({ title: 'Dog Age Calculator', text: getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months), url: 'https://dogbreedage.com' }).catch(() => {});
+      });
+      shareContainer.insertBefore(shareBtn, shareContainer.firstChild);
+    }
+  }
 
   const photoInput = document.getElementById('dog-photo');
   if (photoInput) {
     photoInput.addEventListener('change', (e) => {
+      try {
       const file = e.target.files[0];
       if (!file) return;
       if (file.size > 5 * 1024 * 1024) { showToast('Photo must be under 5MB'); photoInput.value = ''; return; }
@@ -539,16 +640,21 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Photo uploaded!');
       };
       reader.readAsDataURL(file);
+      } catch (e) { console.error('Photo upload error:', e); }
     });
   }
 
-  document.getElementById('save-chart-btn')?.addEventListener('click', () => {
-    saveAsImage('age-chart-section', 800, 'dog-age-chart');
+  document.getElementById('save-chart-btn')?.addEventListener('click', async () => {
+    try {
+    await saveAsImage('age-chart-section', 800, 'dog-age-chart');
+    } catch (e) { console.error('Save chart error:', e); }
   });
 
-  document.getElementById('save-result-btn')?.addEventListener('click', () => {
-    const name = (window.shareData && window.shareData.name) || 'dog';
-    saveAsImage('result', 600, `${name}-age-result`);
+  document.getElementById('save-result-btn')?.addEventListener('click', async () => {
+    try {
+    const name = (currentShareData && currentShareData.name) || 'dog';
+    await saveAsImage('result', 600, `${name}-age-result`);
+    } catch (e) { console.error('Save result error:', e); }
   });
 
   document.getElementById('print-result-btn')?.addEventListener('click', () => {
@@ -556,14 +662,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const banner = document.getElementById('pwa-banner');
+  let pwaPromptReady = false;
   if (banner) {
     const dismissed = localStorage.getItem('dogbreedage_pwa_dismissed');
     if (!dismissed) {
-      setTimeout(() => {
-        banner.classList.remove('hidden');
-        const cb = document.getElementById('cookie-banner');
-        if (cb && !cb.classList.contains('hidden')) cb.classList.add('hidden');
-      }, 30000);
+      document.addEventListener('resultCalculated', () => {
+        if (!pwaPromptReady) {
+          pwaPromptReady = true;
+          setTimeout(() => {
+            banner.classList.remove('hidden');
+            const cb = document.getElementById('cookie-banner');
+            if (cb && !cb.classList.contains('hidden')) cb.classList.add('hidden');
+          }, 2000);
+        }
+      });
     }
     document.getElementById('pwa-dismiss')?.addEventListener('click', () => {
       banner.classList.add('hidden');

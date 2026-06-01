@@ -19,11 +19,13 @@ const breedLinks = [
   { href: '/shih-tzu-age-calculator', name: 'Shih Tzu', size: 'small' },
   { href: '/border-collie-age-calculator', name: 'Border Collie', size: 'medium' },
 ];
+const site = 'https://dogbreedage.com';
+const today = new Date().toISOString().split('T')[0];
 ---
 
 <BaseLayout
-  title="Dog Age Calculator by Breed Size"
-  description="The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size — small, medium, large, or giant."
+  title="Dog Age Calculator by Breed Size — Dog to Human Years"
+  description="The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size instantly — no login required. Try our free tool now."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 text-center hero-pattern hero-min-h flex items-center justify-center">
     <div class="relative z-10 w-full">
@@ -46,6 +48,67 @@ const breedLinks = [
     </div>
   </section>
 
+  <section class="container-custom py-6 sm:py-8">
+    <div class="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="card p-4 text-center">
+        <span class="text-2xl block mb-1">🧬</span>
+        <p class="text-sm font-semibold text-[var(--text-primary)]">DNA Methylation Formula</p>
+        <p class="text-xs text-[var(--text-muted)]">Based on peer-reviewed UC San Diego research</p>
+      </div>
+      <div class="card p-4 text-center">
+        <span class="text-2xl block mb-1">🐕</span>
+        <p class="text-sm font-semibold text-[var(--text-primary)]">4 Breed Sizes</p>
+        <p class="text-xs text-[var(--text-muted)]">Small, medium, large, giant — tailored for accuracy</p>
+      </div>
+      <div class="card p-4 text-center">
+        <span class="text-2xl block mb-1">🔒</span>
+        <p class="text-sm font-semibold text-[var(--text-primary)]">100% Free & Private</p>
+        <p class="text-xs text-[var(--text-muted)]">No login, no data collection, no tracking</p>
+      </div>
+    </div>
+  </section>
+
+    <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
+
+  <section class="container-custom py-10 sm:py-16 text-center page-load-late">
+    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)] mb-3">Related Calculators</h2>
+    <p class="text-sm text-[var(--text-secondary)] mb-6 max-w-lg mx-auto">Explore our breed-specific dog age calculators for the most accurate results tailored to your dog's breed.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-3xl mx-auto">
+      <a href="/dog-age-chart" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Dog Age Chart by Breed Size">
+        <span class="text-xl block mb-1">📊</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Age Chart</span>
+      </a>
+      <a href="/compare" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Compare Two Dogs Age">
+        <span class="text-xl block mb-1">⚖️</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Compare Dogs</span>
+      </a>
+      <a href="/labrador-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Labrador Age Calculator">
+        <span class="text-xl block mb-1">🦮</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Labrador</span>
+      </a>
+      <a href="/golden-retriever-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Golden Retriever Age Calculator">
+        <span class="text-xl block mb-1">🦮</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Golden Retriever</span>
+      </a>
+      <a href="/german-shepherd-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="German Shepherd Age Calculator">
+        <span class="text-xl block mb-1">🐕</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">German Shepherd</span>
+      </a>
+      <a href="/bulldog-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Bulldog Age Calculator">
+        <span class="text-xl block mb-1">🐕</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Bulldog</span>
+      </a>
+      <a href="/beagle-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Beagle Age Calculator">
+        <span class="text-xl block mb-1">🐕</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Beagle</span>
+      </a>
+      <a href="/chihuahua-age-calculator" class="card p-3 sm:p-4 text-center no-underline hover:border-[var(--border-strong)] transition-all" title="Chihuahua Age Calculator">
+        <span class="text-xl block mb-1">🐩</span>
+        <span class="text-xs font-medium text-[var(--text-primary)]">Chihuahua</span>
+      </a>
+    </div>
+  </section>
+
   <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
 
   <section class="container-custom my-10 sm:my-16">
@@ -64,7 +127,7 @@ const breedLinks = [
     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)] mb-6">Popular Breed Calculators</h2>
     <div class="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-3xl mx-auto">
       {breedLinks.map(b => (
-        <a href={b.href} class="tag-pill text-sm no-underline hover:text-[var(--text-primary)]">{b.name}</a>
+        <a href={b.href} class="tag-pill text-sm no-underline hover:text-[var(--text-primary)]" title={`${b.name} Age Calculator`}>{b.name}</a>
       ))}
     </div>
   </section>
@@ -84,3 +147,42 @@ const breedLinks = [
   <section class="container-custom py-16 sm:py-24 pb-20"><FAQ />
   </section>
 </BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Dog Age Calculator by Breed Size — Convert Dog Years to Human Years",
+  "description": "The most accurate science-based dog age calculator. Uses DNA methylation formula adjusted for breed size. Free, no login required.",
+  "url": "https://dogbreedage.com",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dogbreedage.com"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "DOGBREEDAGE",
+    "url": "https://dogbreedage.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DOGBREEDAGE",
+    "url": "https://dogbreedage.com"
+  },
+  "datePublished": "2025-01-15",
+  "dateModified": today
+})} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "DOGBREEDAGE",
+  "url": "https://dogbreedage.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://dogbreedage.com/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+})} />

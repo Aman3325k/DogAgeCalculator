@@ -11,10 +11,21 @@ const breedSizes = [
 
 <BaseLayout
   title="Compare Two Dogs — Dog Age Calculator"
-  description="Compare two dogs' ages side by side. See which dog is older in human years with our breed-size based comparison tool."
+  description="Compare two dogs' ages side by side. See which dog is older in human years with our breed-size based comparison tool. Try it free — no signup needed."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-5xl mx-auto">
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Compare Two Dogs — Dog Age Calculator",
+        "description": "Compare two dogs' ages side by side. See which dog is older in human years with our breed-size based comparison tool.",
+        "url": "https://dogbreedage.com/compare",
+        "author": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "publisher": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
+        "datePublished": "2025-01-15",
+        "dateModified": new Date().toISOString().split('T')[0]
+      })} />
       <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Compare Dogs</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Compare Two Dogs</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">Compare the human age of two dogs side by side. See which one is older, their life stages, and life expectancy differences.</p>
@@ -48,7 +59,7 @@ const breedSizes = [
                 <div>
                   <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Months</label>
                   <select class="select-base text-sm py-2" id={`c${num}-months`}>
-                    {Array.from({ length: 12 }, (_, i) => <option value={i}>{i}</option>)}
+                    {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
                   </select>
                 </div>
               </div>
@@ -61,7 +72,7 @@ const breedSizes = [
         <button type="button" class="btn-primary text-base py-3 px-8" id="compare-btn">Compare Ages</button>
       </div>
 
-        <div id="compare-result" class="hidden mt-10 space-y-6">
+        <div id="compare-result" class="hidden mt-10 space-y-6" aria-live="polite" aria-atomic="true">
         <div class="card p-6 card-hover-lift">
           <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-5">Comparison Results</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -125,13 +136,27 @@ document.addEventListener('DOMContentLoaded', () => {
     [0,1].forEach(i => {
       const r = results[i];
       const el = i === 0 ? c1 : c2;
-      el.innerHTML = `
-        <p class="text-base font-semibold text-[var(--text-primary)] mb-2">${r.name}</p>
-        <p class="text-xs text-[var(--text-muted)] mb-1">${labels[r.size] || 'Unknown'} breed &middot; ${r.total.toFixed(1)} dog years</p>
-        <p class="text-3xl font-bold text-[var(--text-primary)] my-2">${r.ha} <span class="text-sm font-normal text-[var(--text-secondary)]">human years</span></p>
-        <p class="text-xs px-2 py-0.5 rounded-full inline-block bg-[var(--hover-overlay-strong)] text-[var(--text-primary)]">${r.stage}</p>
-        <p class="text-xs text-[var(--text-faint)] mt-2">Life expectancy: ${r.lifespan[0]}-${r.lifespan[1]} years</p>
-      `;
+      el.innerHTML = '';
+      const nameP = document.createElement('p');
+      nameP.className = 'text-base font-semibold text-[var(--text-primary)] mb-2';
+      nameP.textContent = r.name;
+      el.appendChild(nameP);
+      const infoP = document.createElement('p');
+      infoP.className = 'text-xs text-[var(--text-muted)] mb-1';
+      infoP.textContent = `${labels[r.size] || 'Unknown'} breed · ${r.total.toFixed(1)} dog years`;
+      el.appendChild(infoP);
+      const ageP = document.createElement('p');
+      ageP.className = 'text-3xl font-bold text-[var(--text-primary)] my-2';
+      ageP.innerHTML = `${r.ha} <span class="text-sm font-normal text-[var(--text-secondary)]">human years</span>`;
+      el.appendChild(ageP);
+      const stageP = document.createElement('p');
+      stageP.className = 'text-xs px-2 py-0.5 rounded-full inline-block bg-[var(--hover-overlay-strong)] text-[var(--text-primary)]';
+      stageP.textContent = r.stage;
+      el.appendChild(stageP);
+      const lifeP = document.createElement('p');
+      lifeP.className = 'text-xs text-[var(--text-faint)] mt-2';
+      lifeP.textContent = `Life expectancy: ${r.lifespan[0]}-${r.lifespan[1]} years`;
+      el.appendChild(lifeP);
     });
 
     const winnerEl = document.getElementById('compare-winner');

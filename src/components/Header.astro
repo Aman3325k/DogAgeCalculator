@@ -18,14 +18,14 @@ const links = [
         {links.map(link => {
           const isActive = Astro.url.pathname === link.href || (link.href !== '/' && Astro.url.pathname.startsWith(link.href));
           return (
-          <a href={link.href} class={`px-4 py-2.5 text-sm rounded-full transition-colors no-underline nav-active-indicator ${isActive ? 'active text-[var(--text-primary)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}>
+          <a href={link.href} class={`px-4 py-2.5 text-sm rounded-full transition-colors no-underline nav-active-indicator ${isActive ? 'active text-[var(--text-primary)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`} aria-current={isActive ? 'page' : undefined} title={link.label}>
             {link.label}
           </a>
         );
         })}
-        <button id="theme-toggle-desktop" class="ml-2 p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-overlay)] transition-all min-h-[36px] min-w-[36px] flex items-center justify-center" aria-label="Toggle theme" role="switch" aria-checked="false">
-          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg class="theme-icon-light hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <button id="theme-toggle-desktop" class="ml-2 p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-overlay)] transition-all min-h-[36px] min-w-[36px] flex items-center justify-center" aria-label="Toggle theme" role="switch" aria-checked="false">
+          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="theme-icon-light hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
       </div>
       <div class="flex md:hidden items-center justify-between w-full">
@@ -33,22 +33,26 @@ const links = [
         <span class="text-sm font-bold tracking-tight text-[var(--text-primary)]">🐾 DOGBREEDAGE</span>
         <div class="flex items-center gap-0">
           <button id="theme-toggle-mobile" class="p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all min-h-[48px] min-w-[48px] flex items-center justify-center" aria-label="Toggle theme" role="switch" aria-checked="false">
-            <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-            <svg class="theme-icon-light hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            <svg class="theme-icon-light hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           </button>
-          <button class="p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mobile-menu-btn min-h-[48px] min-w-[48px] flex items-center justify-center" aria-expanded="false" aria-label="Toggle menu">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <button class="p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mobile-menu-btn min-h-[48px] min-w-[48px] flex items-center justify-center" aria-expanded="false" aria-controls="mobile-menu-panel" aria-label="Toggle menu">
+            <svg class="menu-icon-hamburger" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg class="menu-icon-close hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
       </div>
     </div>
-    <div class="mobile-menu hidden md:hidden border-t border-[var(--border-default)] bg-[var(--bg-primary)]">
+    <div id="mobile-menu-panel" class="mobile-menu hidden md:hidden border-t border-[var(--border-default)] bg-[var(--bg-primary)] max-h-screen overflow-y-auto" style="transition: opacity 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateY(-8px); pointer-events: none;">
       <div class="container-custom py-2 flex flex-col gap-0.5">
-        {links.map(link => (
-          <a href={link.href} class="flex items-center px-4 py-3 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-overlay)] rounded-lg transition-colors no-underline min-h-[44px]">
+        {links.map(link => {
+          const isActive = Astro.url.pathname === link.href || (link.href !== '/' && Astro.url.pathname.startsWith(link.href));
+          return (
+          <a href={link.href} class={`flex items-center px-4 py-3 text-sm rounded-lg transition-colors no-underline min-h-[44px] ${isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-overlay)]'}`} aria-current={isActive ? 'page' : undefined} title={link.label}>
             {link.label}
           </a>
-        ))}
+        );
+        })}
       </div>
     </div>
   </nav>
@@ -59,11 +63,46 @@ const links = [
     connectedCallback() {
       const btn = this.querySelector('.mobile-menu-btn');
       const menu = this.querySelector('.mobile-menu');
+      const hamburger = this.querySelector('.menu-icon-hamburger');
+      const closeIcon = this.querySelector('.menu-icon-close');
+      function openMenu() {
+        menu.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          menu.style.opacity = '1';
+          menu.style.transform = 'translateY(0)';
+          menu.style.pointerEvents = 'auto';
+        });
+      }
+      function closeMenu() {
+        menu.style.opacity = '0';
+        menu.style.transform = 'translateY(-8px)';
+        menu.style.pointerEvents = 'none';
+        setTimeout(() => { menu.classList.add('hidden'); }, 200);
+      }
       if (btn && menu) {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           const expanded = btn.getAttribute('aria-expanded') === 'true';
           btn.setAttribute('aria-expanded', !expanded);
-          menu.classList.toggle('hidden');
+          if (expanded) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+          if (hamburger && closeIcon) {
+            hamburger.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+          }
+        });
+        document.addEventListener('click', (e) => {
+          if (!menu.classList.contains('hidden') && menu.style.opacity !== '0' && !this.contains(e.target)) {
+            btn.setAttribute('aria-expanded', 'false');
+            closeMenu();
+            if (hamburger && closeIcon) {
+              hamburger.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+            }
+          }
         });
       }
 

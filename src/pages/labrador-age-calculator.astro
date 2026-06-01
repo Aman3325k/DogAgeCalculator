@@ -5,7 +5,7 @@ import FAQ from '../components/FAQ.astro';
 
 <BaseLayout
   title="Labrador Age Calculator — Dog to Human Years"
-  description="Calculate your Labrador's age in human years using our breed-size based formula. Accurate Labrador dog years to human years conversion for large dogs."
+  description="Calculate your Labrador's age in human years using our breed-size based formula. Accurate Labrador dog years to human years conversion for large dogs. Calculate free instantly — no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
@@ -29,14 +29,14 @@ import FAQ from '../components/FAQ.astro';
             <div>
               <label for="breed-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Months</label>
               <select id="breed-months" class="select-base">
-                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i}</option>)}
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
               </select>
             </div>
           </div>
           <button type="submit" class="btn-primary w-full justify-center text-base py-3">Calculate Human Age</button>
         </form>
 
-        <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center">
+        <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
           <p class="text-sm text-[var(--text-muted)] mb-1">Your Labrador is equivalent to</p>
           <p class="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]" id="breed-human-age">—</p>
           <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
@@ -46,7 +46,7 @@ import FAQ from '../components/FAQ.astro';
       </div>
 
       <p class="text-center text-sm text-[var(--text-muted)]">
-        <a href="/" class="text-[#0070f3] hover:underline">← Back to main Dog Age Calculator</a>
+        <a href="/" class="text-[var(--color-link)] hover:underline">← Back to main Dog Age Calculator</a>
       </p>
 
       <div class="mt-12 space-y-6 text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -69,8 +69,86 @@ import FAQ from '../components/FAQ.astro';
         </div>
       </div>
     </div>
+
+      <div class="max-w-2xl mx-auto mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-4">Labrador Health & Aging Guide</h2>
+        <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+          <p>Labrador Retrievers are a large breed with a typical lifespan of 10-12 years, though some can live up to 14 years with excellent care. As a large breed, Labs enter seniorhood around age 7. A 7-year-old Labrador is approximately 53 in human years. They are America's most popular dog breed for good reason — their friendly, active nature brings joy to millions of families.</p>
+          <p>Labs are prone to hip and elbow dysplasia, obesity, progressive retinal atrophy, and exercise-induced collapse (EIC). Obesity is the most significant health threat to Labradors, as their food motivation is exceptionally strong. Even moderate weight gain dramatically increases the risk of joint disease, diabetes, and shortened lifespan.</p>
+          <p>Managing your Labrador's weight is the single most important factor for healthy aging. Measure food portions, limit treats, and ensure daily exercise. Begin joint supplements around age 5 and switch to a senior diet around age 7. Regular vet checkups including hip evaluations and eye exams help catch problems early. Swimming is an ideal exercise for senior Labs.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
+          <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
+          <a href="/german-shepherd-age-calculator" class="tag-pill text-xs no-underline" title="German Shepherd Age Calculator">German Shepherd</a>
+          <a href="/bulldog-age-calculator" class="tag-pill text-xs no-underline" title="Bulldog Age Calculator">Bulldog</a>
+          <a href="/beagle-age-calculator" class="tag-pill text-xs no-underline" title="Beagle Age Calculator">Beagle</a>
+          <a href="/poodle-age-calculator" class="tag-pill text-xs no-underline" title="Poodle Age Calculator">Poodle</a>
+          <a href="/chihuahua-age-calculator" class="tag-pill text-xs no-underline" title="Chihuahua Age Calculator">Chihuahua</a>
+          <a href="/pomeranian-age-calculator" class="tag-pill text-xs no-underline" title="Pomeranian Age Calculator">Pomeranian</a>
+          <a href="/great-dane-age-calculator" class="tag-pill text-xs no-underline" title="Great Dane Age Calculator">Great Dane</a>
+          <a href="/husky-age-calculator" class="tag-pill text-xs no-underline" title="Husky Age Calculator">Husky</a>
+          <a href="/shih-tzu-age-calculator" class="tag-pill text-xs no-underline" title="Shih Tzu Age Calculator">Shih Tzu</a>
+          <a href="/border-collie-age-calculator" class="tag-pill text-xs no-underline" title="Border Collie Age Calculator">Border Collie</a>
+        </div>
+        <p class="text-xs text-center text-[var(--text-faint)] mt-4">
+          <a href="/dog-age-chart" class="text-[var(--color-link)] hover:underline" title="Dog Age Chart by Breed Size">View full Dog Age Chart</a> — or — <a href="/compare" class="text-[var(--color-link)] hover:underline" title="Compare Two Dogs Age">Compare Two Dogs</a>
+        </p>
+      </div>
   </section>
 </BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com" },
+    { "@type": "ListItem", "position": 2, "name": "Labrador Age Calculator", "item": "https://dogbreedage.com/labrador-age-calculator" }
+  ]
+})} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How old is my Labrador in human years?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use our calculator above. Enter your Labrador's age in years and months, and we'll convert it using the breed-size adjusted DNA methylation formula."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the lifespan of a Labrador?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Labrador Retrievers typically live 10-12 years with proper care. Some Labs live up to 14 years with excellent nutrition and healthcare."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "At what age is a Labrador considered a senior?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Large breeds like Labradors enter their senior years around age 7. Senior bloodwork and adjusted care routines become important at this stage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do Labradors age differently than other breeds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Labs age faster than small breeds but slower than giant breeds. A 10-year-old Lab is roughly equivalent to a 68-year-old human."
+      }
+    }
+  ]
+})} />
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
