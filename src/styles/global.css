@@ -571,13 +571,16 @@ img, svg { max-width: 100%; height: auto; }
   }
 
   .font-caption { font-weight: 300; }
-
-  @media print {
-    body { background: white !important; color: black !important; }
-    .no-print { display: none !important; }
-    .card { border-color: #ddd !important; background: white !important; }
-  }
 }
+
+@media print {
+  body { background: white !important; color: #111 !important; }
+  .no-print { display: none !important; }
+  header, footer, nav, site-header, #cookie-banner, #pwa-banner, #back-to-top { display: none !important; }
+  .card { border: 1px solid #ddd !important; background: white !important; box-shadow: none !important; }
+  h1, h2, h3, h4, p, span, td, th, li, a { color: #111 !important; }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
