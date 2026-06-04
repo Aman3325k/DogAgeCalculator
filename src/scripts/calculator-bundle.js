@@ -194,6 +194,21 @@ function renderResults(totalYears, breedSize, name, years, months) {
     resultPhoto.classList.add('hidden');
   }
 
+  // Fun Stats grid
+  const formatNumber = (num) =>
+    num >= 1e9 ? (num / 1e9).toFixed(1) + 'B' :
+    num >= 1e6 ? (num / 1e6).toFixed(1) + 'M' :
+    num.toLocaleString();
+  const days = totalYears * 365.25;
+  const grid = document.getElementById('fun-stats-grid');
+  if (grid) {
+    document.getElementById('stat-days').textContent = formatNumber(Math.floor(days));
+    document.getElementById('stat-hours').textContent = formatNumber(Math.floor(days * 24));
+    document.getElementById('stat-minutes').textContent = formatNumber(Math.floor(days * 24 * 60));
+    document.getElementById('stat-seconds').textContent = formatNumber(Math.floor(days * 24 * 60 * 60));
+    setTimeout(() => grid.classList.remove('opacity-0'), 150);
+  }
+
   triggerConfetti();
   renderAgeChart(totalYears, breedSize);
   renderHealthTimeline(totalYears, breedSize, dogName);

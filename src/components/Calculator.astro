@@ -158,6 +158,29 @@ const popularBreeds = [
         <p class="text-sm text-[var(--text-secondary)] leading-relaxed break-words" id="fun-fact"></p>
       </div>
 
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 mt-6 opacity-0 transition-opacity duration-500" id="fun-stats-grid">
+        <div class="card p-3 sm:p-4 text-center border-[var(--border-default)] bg-[var(--bg-secondary)]">
+          <span class="text-xl block mb-1">📅</span>
+          <span class="block text-lg font-bold text-[var(--text-primary)] tracking-tight" id="stat-days">-</span>
+          <span class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Days</span>
+        </div>
+        <div class="card p-3 sm:p-4 text-center border-[var(--border-default)] bg-[var(--bg-secondary)]">
+          <span class="text-xl block mb-1">⏱️</span>
+          <span class="block text-lg font-bold text-[var(--text-primary)] tracking-tight" id="stat-hours">-</span>
+          <span class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Hours</span>
+        </div>
+        <div class="card p-3 sm:p-4 text-center border-[var(--border-default)] bg-[var(--bg-secondary)]">
+          <span class="text-xl block mb-1">⏳</span>
+          <span class="block text-lg font-bold text-[var(--text-primary)] tracking-tight" id="stat-minutes">-</span>
+          <span class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Minutes</span>
+        </div>
+        <div class="card p-3 sm:p-4 text-center border-[var(--border-default)] bg-[var(--bg-secondary)]">
+          <span class="text-xl block mb-1">⚡</span>
+          <span class="block text-lg font-bold text-[var(--text-primary)] tracking-tight" id="stat-seconds">-</span>
+          <span class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Seconds</span>
+        </div>
+      </div>
+
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 no-print">
         <button type="button" class="btn-secondary text-sm btn-mobile-full justify-center" id="share-whatsapp">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="shrink-0" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -187,41 +210,101 @@ const popularBreeds = [
   <a href="/compare" class="btn-secondary text-sm inline-flex items-center gap-2 no-underline" title="Compare Two Dogs Age"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Compare Two Dogs</a>
 </div>
 
-<div class="flex justify-center mt-8 mb-4 no-print" id="id-card-btn-container" style="display: none;">
-  <button type="button" class="btn-primary py-4 px-8 text-base shadow-lg hover:scale-105 transition-transform" id="download-id-card-btn" style="background: linear-gradient(135deg, #222 0%, #000 100%); border: 1px solid #333; color: white;">
-    <span class="mr-2">📸</span> Download Premium ID Card
+<style>
+  .pixel-avatar { width: 5px; height: 5px; display: block; margin-bottom: 20px; margin-right: 20px; }
+  .dog-1 { box-shadow: 0 0 #a1662f, 20px 0 #a1662f, 0 5px #a1662f, 5px 5px #a1662f, 10px 5px #a1662f, 15px 5px #a1662f, 20px 5px #a1662f, 0 10px #a1662f, 5px 10px #000, 10px 10px #a1662f, 15px 10px #000, 20px 10px #a1662f, 5px 15px #a1662f, 10px 15px #000, 15px 15px #a1662f, 5px 20px #a1662f, 10px 20px #a1662f, 15px 20px #a1662f; }
+  .dog-2 { box-shadow: 0 0 #eab308, 20px 0 #eab308, 0 5px #eab308, 5px 5px #eab308, 10px 5px #eab308, 15px 5px #eab308, 20px 5px #eab308, 0 10px #eab308, 5px 10px #000, 10px 10px #eab308, 15px 10px #000, 20px 10px #eab308, 5px 15px #eab308, 10px 15px #000, 15px 15px #eab308, 5px 20px #eab308, 10px 20px #eab308, 15px 20px #eab308; }
+  .dog-3 { box-shadow: 0 0 #333, 20px 0 #333, 0 5px #333, 5px 5px #333, 10px 5px #333, 15px 5px #333, 20px 5px #333, 0 10px #333, 5px 10px #fff, 10px 10px #333, 15px 10px #fff, 20px 10px #333, 5px 15px #333, 10px 15px #111, 15px 15px #333, 5px 20px #333, 10px 20px #333, 15px 20px #333; }
+  .dog-4 { box-shadow: 0 0 #d1d5db, 20px 0 #d1d5db, 0 5px #d1d5db, 5px 5px #d1d5db, 10px 5px #d1d5db, 15px 5px #d1d5db, 20px 5px #d1d5db, 0 10px #d1d5db, 5px 10px #000, 10px 10px #d1d5db, 15px 10px #000, 20px 10px #d1d5db, 5px 15px #d1d5db, 10px 15px #000, 15px 15px #d1d5db, 5px 20px #d1d5db, 10px 20px #d1d5db, 15px 20px #d1d5db; }
+  .dog-5 { box-shadow: 0 0 #6b7280, 20px 0 #6b7280, 0 5px #6b7280, 5px 5px #6b7280, 10px 5px #6b7280, 15px 5px #6b7280, 20px 5px #6b7280, 0 10px #fff, 5px 10px #000, 10px 10px #fff, 15px 10px #000, 20px 10px #fff, 5px 15px #fff, 10px 15px #000, 15px 15px #fff, 5px 20px #fff, 10px 20px #fff, 15px 20px #fff; }
+  .dog-6 { box-shadow: 0 0 #000, 20px 0 #000, 0 5px #fcd34d, 5px 5px #fcd34d, 10px 5px #fcd34d, 15px 5px #fcd34d, 20px 5px #fcd34d, 0 10px #fcd34d, 5px 10px #000, 10px 10px #fcd34d, 15px 10px #000, 20px 10px #fcd34d, 5px 15px #000, 10px 15px #000, 15px 15px #000, 5px 20px #000, 10px 20px #000, 15px 20px #000; }
+  .avatar-btn.active { border-color: var(--text-primary); opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+</style>
+
+<div class="mt-12 mb-4 flex flex-col items-center no-print" id="id-card-btn-container" style="display: none;">
+  <div class="mb-6 w-full max-w-sm">
+    <p class="text-xs text-[var(--text-secondary)] text-center mb-3 font-mono uppercase tracking-widest">Select ID Avatar</p>
+    <div class="flex justify-between items-center gap-2 p-2 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-default)]" id="avatar-selector">
+      <button type="button" class="avatar-btn active w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-1">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-1"></div></div>
+      </button>
+      <button type="button" class="avatar-btn w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-2">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-2"></div></div>
+      </button>
+      <button type="button" class="avatar-btn w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-3">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-3"></div></div>
+      </button>
+      <button type="button" class="avatar-btn w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-4">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-4"></div></div>
+      </button>
+      <button type="button" class="avatar-btn w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-5">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-5"></div></div>
+      </button>
+      <button type="button" class="avatar-btn w-12 h-12 rounded-xl border-2 border-transparent hover:bg-[var(--hover-overlay)] flex items-center justify-center transition-all opacity-60" data-dog="dog-6">
+        <div style="width:25px; height:25px;"><div class="pixel-avatar dog-6"></div></div>
+      </button>
+    </div>
+  </div>
+  <button type="button" class="btn-primary py-4 px-8 text-base shadow-lg hover:scale-105 transition-transform" id="download-id-card-btn" style="background: linear-gradient(135deg, #111 0%, #000 100%); border: 1px solid #333; color: white;">
+    <span class="mr-2">💳</span> Download ID
   </button>
 </div>
 
-<div id="dog-id-card" style="position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; background: #0a0a0a; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; box-sizing: border-box; padding: 120px; z-index: -100;">
-  <div style="flex-grow: 1; border: 4px solid #2a2a2a; border-radius: 60px; padding: 100px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; background: linear-gradient(160deg, #171717 0%, #050505 100%); box-shadow: inset 0 0 100px rgba(0,0,0,0.8);">
-    <div style="text-align: center; width: 100%;">
-      <div style="font-size: 140px; margin-bottom: 50px; opacity: 0.9;">🐾</div>
-      <div style="font-size: 36px; text-transform: uppercase; letter-spacing: 16px; color: #777777; margin-bottom: 20px; font-weight: 600;">Official Dog ID</div>
-      <div id="id-card-name" style="font-size: 130px; font-weight: 800; letter-spacing: -3px; margin-bottom: 50px; line-height: 1.1; color: #ffffff;">-</div>
-      <div style="background: rgba(255,255,255,0.05); border: 2px solid #333; border-radius: 50px; padding: 25px 70px; display: inline-block;">
-        <span style="font-size: 42px; color: #999999;">Breed:</span>
-        <span id="id-card-breed" style="font-size: 46px; font-weight: 700; margin-left: 20px; color: #f0f0f0;">-</span>
+<div id="dog-id-card" style="position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; background-color: #000000; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 40px; z-index: -100;">
+  
+  <div style="position: relative; width: 100%; height: 100%; border-radius: 40px; background: linear-gradient(135deg, #f6d365 0%, #ffb347 50%, #ffffff 100%); padding: 3px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8);">
+    
+    <div style="position: relative; width: 100%; height: 100%; border-radius: 37px; background-color: #111111; display: flex; flex-direction: column; overflow: hidden;">
+      
+      <!-- Subtle CSS Noise -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.15; background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 8px 8px; z-index: 0; pointer-events: none;"></div>
+
+      <div style="position: relative; z-index: 10; display: flex; flex-direction: column; height: 100%; padding: 70px 60px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+          <div>
+            <div style="font-size: 24px; font-weight: 500; letter-spacing: 6px; color: #a1a1aa; text-transform: uppercase;">Official Dog ID</div>
+            <div style="font-size: 38px; font-weight: 900; letter-spacing: 2px; color: #ffffff; margin-top: 5px;">PREMIUM PASS</div>
+          </div>
+          <!-- html2canvas safe scale positioning -->
+          <div id="id-card-avatar" style="width: 150px; height: 150px; overflow: hidden; position: relative; border-radius: 20px; background: rgba(255,255,255,0.03);">
+            <div style="width: 25px; height: 25px; transform: scale(6); transform-origin: 0 0; position: absolute; top: 0; left: 0;">
+              <div class="pixel-avatar dog-1" id="id-card-avatar-art"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: auto;">
+          <div id="id-card-name" style="font-size: 130px; font-weight: 800; line-height: 1.1; letter-spacing: -2px; color: #ffffff; word-break: break-word; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-height: 290px;">-</div>
+          <div style="font-size: 32px; color: #d4d4d8; font-weight: 400; letter-spacing: 1px;">Breed: <span id="id-card-breed" style="font-weight: 700; color: #ffffff;">-</span></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 40px 0; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <div style="font-size: 26px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 10px;">Human Equivalent Age</div>
+          <div id="id-card-human-age" style="font-size: 320px; font-weight: 900; line-height: 0.85; color: #ffffff; margin-bottom: 20px;">-</div>
+          <div id="id-card-stage" style="font-size: 28px; font-weight: 600; color: #000000; text-transform: uppercase; letter-spacing: 8px; background-color: #f6d365; padding: 12px 40px; border-radius: 100px; margin-top: 10px;">-</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; text-align: left; margin-bottom: 50px;">
+          <div style="flex: 1;">
+            <div style="font-size: 22px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 2px;">Days</div>
+            <div id="id-card-days" style="font-size: 42px; font-weight: 700; color: #ffffff; margin-top: 10px;">-</div>
+          </div>
+          <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px;">
+            <div style="font-size: 22px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 2px;">Hours</div>
+            <div id="id-card-hours" style="font-size: 42px; font-weight: 700; color: #ffffff; margin-top: 10px;">-</div>
+          </div>
+          <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px;">
+            <div style="font-size: 22px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 2px;">Minutes</div>
+            <div id="id-card-minutes" style="font-size: 42px; font-weight: 700; color: #ffffff; margin-top: 10px;">-</div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: auto;">
+          <div style="font-size: 22px; font-weight: 500; letter-spacing: 8px; color: rgba(255,255,255,0.2); text-transform: uppercase;">DogBreedAge.com</div>
+        </div>
+        
       </div>
-    </div>
-    
-    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #333, transparent); margin: 70px 0;"></div>
-    
-    <div style="text-align: center; width: 100%;">
-      <div style="font-size: 36px; color: #777777; text-transform: uppercase; letter-spacing: 8px; margin-bottom: 30px;">Human Equivalent Age</div>
-      <div id="id-card-human-age" style="font-size: 240px; font-weight: 900; line-height: 1; margin-bottom: 20px; color: #ffffff;">-</div>
-      <div id="id-card-stage" style="font-size: 55px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 12px; margin-top: 20px;">-</div>
-    </div>
-    
-    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #333, transparent); margin: 70px 0;"></div>
-    
-    <div style="text-align: center; width: 100%;">
-      <div style="font-size: 32px; color: #666666; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 40px;">Time on Earth</div>
-      <div id="id-card-time" style="font-size: 50px; font-weight: 500; font-variant-numeric: tabular-nums; color: #e5e5e5;">-</div>
-    </div>
-    
-    <div style="margin-top: auto; padding-top: 80px; text-align: center; width: 100%;">
-      <div style="font-size: 40px; font-weight: 800; letter-spacing: 4px; color: #444444;">DogBreedAge.com</div>
     </div>
   </div>
 </div>
@@ -233,9 +316,65 @@ const popularBreeds = [
     const downloadBtn = document.getElementById('download-id-card-btn');
     const btnContainer = document.getElementById('id-card-btn-container');
     
+    let selectedDogClass = 'dog-1';
+    document.querySelectorAll('.avatar-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedDogClass = btn.dataset.dog;
+        const art = document.getElementById('id-card-avatar-art');
+        if (art) art.className = 'pixel-avatar ' + selectedDogClass;
+      });
+    });
+    
+    function populateCard() {
+      const nameInput = document.getElementById('dog-name');
+      const breedSelected = document.querySelector('input[name="breed-size"]:checked');
+      
+      let selectedBreed = 'Mixed Breed';
+      if (breedSelected) {
+        const optionCard = breedSelected.closest('.size-option');
+        if (optionCard && optionCard.querySelector('.font-bold')) {
+          selectedBreed = optionCard.querySelector('.font-bold').innerText;
+        } else {
+          selectedBreed = breedSelected.value.charAt(0).toUpperCase() + breedSelected.value.slice(1) + ' Size';
+        }
+      }
+      
+      const humanAge = document.getElementById('human-age')?.innerText || '0';
+      const lifeStage = document.getElementById('life-stage')?.innerText || 'Adult';
+      
+      const mode = document.getElementById('input-mode')?.value;
+      let totalDays = 0;
+      if (mode === 'birthday') {
+        const bday = new Date(document.getElementById('dog-birthday').value);
+        if (!isNaN(bday.getTime())) totalDays = Math.floor((new Date() - bday) / (1000 * 60 * 60 * 24));
+      } else {
+        const y = parseInt(document.getElementById('dog-years')?.value || '0');
+        const m = parseInt(document.getElementById('dog-months')?.value || '0');
+        totalDays = Math.floor((y * 365.25) + (m * 30.44));
+      }
+      
+      const totalHours = totalDays * 24;
+      const totalMinutes = totalHours * 60;
+      
+      document.getElementById('id-card-name').innerText = nameInput?.value || 'My Good Pup';
+      document.getElementById('id-card-breed').innerText = selectedBreed;
+      document.getElementById('id-card-human-age').innerText = humanAge;
+      document.getElementById('id-card-stage').innerText = lifeStage;
+      
+      document.getElementById('id-card-days').innerText = totalDays.toLocaleString();
+      document.getElementById('id-card-hours').innerText = totalHours.toLocaleString();
+      document.getElementById('id-card-minutes').innerText = totalMinutes.toLocaleString();
+      document.getElementById('id-card-avatar-art').className = 'pixel-avatar ' + selectedDogClass;
+    }
+
     if (calcForm && btnContainer) {
       calcForm.addEventListener('submit', () => {
-        setTimeout(() => { btnContainer.style.display = 'flex'; }, 800);
+        setTimeout(() => { 
+          populateCard();
+          btnContainer.style.display = 'flex'; 
+        }, 800);
       });
     }
 
@@ -246,49 +385,18 @@ const popularBreeds = [
         downloadBtn.disabled = true;
 
         try {
-          const nameInput = document.getElementById('dog-name');
-          const breedPill = document.querySelector('.breed-pill.active');
-          const breedRadios = document.querySelectorAll('input[name="breed-size"]');
-          
-          let selectedBreed = 'Mixed Breed';
-          if (breedPill) {
-            selectedBreed = breedPill.innerText;
-          } else {
-            breedRadios.forEach(r => { if(r.checked) selectedBreed = r.value.charAt(0).toUpperCase() + r.value.slice(1) + ' Size'; });
-          }
-          
-          const humanAge = document.getElementById('human-age')?.innerText || '0';
-          const lifeStage = document.getElementById('life-stage')?.innerText || 'Adult';
-          
-          const mode = document.getElementById('input-mode')?.value;
-          let totalDays = 0;
-          if (mode === 'birthday') {
-            const bday = new Date(document.getElementById('dog-birthday').value);
-            if (!isNaN(bday.getTime())) totalDays = Math.floor((new Date() - bday) / (1000 * 60 * 60 * 24));
-          } else {
-            const y = parseInt(document.getElementById('dog-years')?.value || '0');
-            const m = parseInt(document.getElementById('dog-months')?.value || '0');
-            totalDays = Math.floor((y * 365.25) + (m * 30.44));
-          }
-          
-          const totalHours = totalDays * 24;
-          const totalMinutes = totalHours * 60;
-          
-          document.getElementById('id-card-name').innerText = nameInput?.value || 'My Good Pup';
-          document.getElementById('id-card-breed').innerText = selectedBreed;
-          document.getElementById('id-card-human-age').innerText = humanAge;
-          document.getElementById('id-card-stage').innerText = lifeStage;
-          document.getElementById('id-card-time').innerText = `${totalDays.toLocaleString()} Days • ${totalHours.toLocaleString()} Hrs • ${totalMinutes.toLocaleString()} Mins`;
+          populateCard();
 
           const canvas = await html2canvas(document.getElementById('dog-id-card'), { 
             scale: 1, 
-            backgroundColor: '#0a0a0a', 
+            backgroundColor: '#000000', 
             logging: false 
           });
           
+          const nameInput = document.getElementById('dog-name');
           const link = document.createElement('a');
           const fileNameBase = nameInput?.value ? nameInput.value.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '-' : '';
-          link.download = `${fileNameBase}dog-id-card.png`;
+          link.download = `${fileNameBase}premium-pass.png`;
           link.href = canvas.toDataURL('image/png');
           link.click();
         } catch (err) {
