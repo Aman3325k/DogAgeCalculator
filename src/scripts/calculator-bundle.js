@@ -31,20 +31,20 @@ const HEALTH_MILESTONES = {
     { weeks: 11, label: 'Puppy Vaccines (DHPP) 10-12 weeks', desc: 'Second round of core vaccines', icon: '💉' },
     { weeks: 15, label: 'Puppy Vaccines (DHPP) 14-16 weeks', desc: 'Third round + rabies vaccine', icon: '💉' },
     { weeks: 26, label: 'Spay/Neuter Recommended', desc: 'Best time for the procedure (6 months)', icon: '🏥' },
+    { weeks: 52, label: 'Joint Supplement Recommended', desc: 'Start joint care for large breeds (1 year)', icon: '🦴' },
     { weeks: 156, label: 'First Dental Cleaning', desc: 'Annual dental check begins (3 years)', icon: '🦷' },
     { weeks: 364, label: 'Senior Bloodwork Begins', desc: 'Annual senior health screening (7 years)', icon: '🩸' },
     { weeks: 416, label: 'Annual Checkup Every 6 Months', desc: 'Bi-annual vet visits recommended (8 years)', icon: '📅' },
-    { weeks: 52, label: 'Joint Supplement Recommended', desc: 'Start joint care for large breeds', icon: '🦴' },
   ],
   giant: [
     { weeks: 7, label: 'Puppy Vaccines (DHPP) 6-8 weeks', desc: 'First round of core vaccines', icon: '💉' },
     { weeks: 11, label: 'Puppy Vaccines (DHPP) 10-12 weeks', desc: 'Second round of core vaccines', icon: '💉' },
     { weeks: 15, label: 'Puppy Vaccines (DHPP) 14-16 weeks', desc: 'Third round + rabies vaccine', icon: '💉' },
     { weeks: 26, label: 'Spay/Neuter Recommended', desc: 'Best time for the procedure (6 months)', icon: '🏥' },
+    { weeks: 52, label: 'Joint Supplement Recommended', desc: 'Start joint care for giant breeds (1 year)', icon: '🦴' },
     { weeks: 104, label: 'First Dental Cleaning', desc: 'Annual dental check begins (2 years)', icon: '🦷' },
     { weeks: 312, label: 'Senior Bloodwork Begins', desc: 'Annual senior health screening (6 years)', icon: '🩸' },
     { weeks: 364, label: 'Annual Checkup Every 6 Months', desc: 'Bi-annual vet visits recommended (7 years)', icon: '📅' },
-    { weeks: 52, label: 'Joint Supplement Recommended', desc: 'Start joint care for giant breeds', icon: '🦴' },
   ],
 };
 
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function resetCalcBtn() {
     if (calcBtn && calcSpinner && calcBtnText) {
       calcBtn.disabled = false;
-      calcBtnText.textContent = 'Calculate Human Age';
+      calcBtnText.textContent = '🐾 Calculate Human Age';
       calcSpinner.classList.add('hidden');
     }
   }
@@ -330,6 +330,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const len = nameInput.value.length;
       nameCounter.textContent = `${len}/20`;
       if (len >= 20) nameInput.value = nameInput.value.slice(0, 20);
+    });
+  }
+
+  if (yearsInput) {
+    yearsInput.addEventListener('input', () => {
+      const v = parseInt(yearsInput.value, 10);
+      if (!isNaN(v) && v < 0) yearsInput.value = 0;
+      if (!isNaN(v) && v > 40) yearsInput.value = 40;
     });
   }
 
@@ -478,6 +486,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (root) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const resultEl = document.getElementById('result');
     if (resultEl) resultEl.classList.add('hidden');
+    // Clear photo preview state
+    const photoPreview = document.getElementById('dog-photo-preview');
+    if (photoPreview) { photoPreview.src = ''; photoPreview.classList.add('hidden'); }
+    const photoInput = document.getElementById('dog-photo');
+    if (photoInput) photoInput.value = '';
   });
 
   form.addEventListener('submit', (e) => {
@@ -495,6 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (mode === 'birthday') {
+      if (!selectedSize) { showToast('Please select a breed size first'); resetCalcBtn(); return; }
       const age = computeAgeFromBirthday();
       if (!age) { showToast('Please select your dog\'s date of birth'); resetCalcBtn(); return; }
       years = age.years; months = age.months; totalYears = age.total;
@@ -627,7 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
       deferredPrompt = e;
       document.getElementById('pwa-install')?.addEventListener('click', () => {
         banner.classList.add('hidden');

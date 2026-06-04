@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
 
 const breedSizes = [
   { value: 'small', label: 'Small', desc: 'under 20 lbs' },
@@ -94,6 +95,10 @@ const breedSizes = [
       <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>
+
+  <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
+  <RelatedCalculators />
+
 </BaseLayout>
 
 <script>

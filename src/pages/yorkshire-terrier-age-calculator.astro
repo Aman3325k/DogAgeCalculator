@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Yorkshire Terrier Age Calculator — Dog to Human Years"
+  description="Calculate your Yorkshire Terrier's age in human years. Yorkies are a small breed with impressive longevity. Use our breed-adjusted DNA methylation formula for accurate results. Free, instant."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-2xl mx-auto">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+        <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
+        <span class="text-[var(--text-faint)] mx-1.5">›</span>
+        <span class="text-[var(--text-secondary)]">Yorkshire Terrier Age Calculator</span>
+      </p>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Yorkshire Terrier Age Calculator — Dog to Human Years</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
+        Yorkshire Terriers (Yorkies) are a tiny but feisty small breed beloved for their silky coats and bold personalities. As a small breed, Yorkies age slowly and often live well into their teens. Use our Yorkshire Terrier age calculator to find your Yorkie's true human age.
+      </p>
+
+      <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
+        <form id="breed-calc-form" class="space-y-5">
+          <div>
+            <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+            <input type="text" id="breed-name" class="input-base" placeholder="e.g. Bella" maxlength="30" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="breed-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Years</label>
+              <input type="number" id="breed-years" class="input-base" placeholder="0" min="0" max="30" required />
+            </div>
+            <div>
+              <label for="breed-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Months</label>
+              <select id="breed-months" class="select-base">
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-3">🐾 Calculate Human Age</button>
+        </form>
+
+        <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
+          <p class="text-sm text-[var(--text-muted)] mb-1">Your Yorkshire Terrier is equivalent to</p>
+          <p class="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]" id="breed-human-age">—</p>
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
+          <p class="text-sm text-[var(--text-secondary)] mt-4" id="breed-stage"></p>
+          <p class="text-xs text-[var(--text-faint)] mt-2" id="breed-expectancy"></p>
+          <a href="/" class="inline-block mt-6 text-sm text-[var(--color-link)] hover:underline">Try the full calculator with health timeline →</a>
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-[var(--text-muted)] mb-12">
+        <a href="/" class="text-[var(--color-link)] hover:underline">← Back to main Dog Age Calculator</a>
+      </p>
+
+      <div class="space-y-6 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Yorkshire Terrier Age FAQ</h2>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">How old is my Yorkshire Terrier in human years?</h3>
+          <p>Enter your Yorkie's age above. We use the DNA methylation formula (16 × ln(age) + 31) with a small-breed multiplier, giving you a scientifically accurate human-equivalent age.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">What is the lifespan of a Yorkshire Terrier?</h3>
+          <p>Yorkshire Terriers typically live 13–16 years, making them one of the longest-lived dog breeds. With good dental care and regular vet visits, some Yorkies have lived past 20 years.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">When is a Yorkshire Terrier considered a senior?</h3>
+          <p>Yorkies are considered seniors around age 11–12. However, many Yorkies remain lively and energetic well into their senior years — true to their terrier spirit.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">What health issues do Yorkshire Terriers face as they age?</h3>
+          <p>Yorkies are prone to dental disease (most critical), patellar luxation (slipping kneecaps), tracheal collapse, and hypoglycemia. Dental disease is their #1 health risk — professional dental cleanings every 1–2 years are essential.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Yorkshire Terrier Aging Guide</h2>
+        <p>Yorkshire Terriers are a toy breed, typically weighing 4–7 lbs. Despite their tiny size, they have huge personalities and exceptional longevity — among the longest-lived of all dog breeds. They reach physical maturity around 12–18 months and social maturity around 2 years.</p>
+        <p>Dental disease is the most significant health threat to aging Yorkies. Their small mouths cause teeth to crowd together, accelerating tartar buildup and gum disease. Without proper dental care, dental disease can shorten a Yorkie's life by years. Brush their teeth daily and schedule professional cleanings every 1–2 years.</p>
+        <p>Tracheal collapse is a progressive condition that becomes more common in older Yorkies. Always use a harness — never a collar — to avoid putting pressure on the trachea. Begin senior care at age 10, with bi-annual vet checkups including dental assessment, patellar evaluation, and bloodwork.</p>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline">Labrador</a>
+          <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline">Golden Retriever</a>
+          <a href="/german-shepherd-age-calculator" class="tag-pill text-xs no-underline">German Shepherd</a>
+          <a href="/french-bulldog-age-calculator" class="tag-pill text-xs no-underline">French Bulldog</a>
+          <a href="/dachshund-age-calculator" class="tag-pill text-xs no-underline">Dachshund</a>
+          <a href="/chihuahua-age-calculator" class="tag-pill text-xs no-underline">Chihuahua</a>
+          <a href="/pomeranian-age-calculator" class="tag-pill text-xs no-underline">Pomeranian</a>
+          <a href="/pug-age-calculator" class="tag-pill text-xs no-underline">Pug</a>
+          <a href="/rottweiler-age-calculator" class="tag-pill text-xs no-underline">Rottweiler</a>
+          <a href="/corgi-age-calculator" class="tag-pill text-xs no-underline">Corgi</a>
+          <a href="/great-dane-age-calculator" class="tag-pill text-xs no-underline">Great Dane</a>
+          <a href="/husky-age-calculator" class="tag-pill text-xs no-underline">Husky</a>
+          <a href="/shih-tzu-age-calculator" class="tag-pill text-xs no-underline">Shih Tzu</a>
+          <a href="/border-collie-age-calculator" class="tag-pill text-xs no-underline">Border Collie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com" },
+    { "@type": "ListItem", "position": 2, "name": "Yorkshire Terrier Age Calculator", "item": "https://dogbreedage.com/yorkshire-terrier-age-calculator" }
+  ]
+})} />
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('breed-calc-form');
+  const result = document.getElementById('breed-result');
+  const haEl = document.getElementById('breed-human-age');
+  const stageEl = document.getElementById('breed-stage');
+  const expEl = document.getElementById('breed-expectancy');
+  const multiplier = 0.85;
+  const lifespan = [13, 16];
+  const sizeLabel = 'small';
+  const thresholds = [0.5,2,4,8,12,99];
+  const stages = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const years = parseInt(document.getElementById('breed-years').value);
+    const months = parseInt(document.getElementById('breed-months').value);
+    const name = document.getElementById('breed-name').value.trim() || 'Your Yorkshire Terrier';
+    if (isNaN(years) || years < 0) { alert('Please enter a valid age'); return; }
+    if (years === 0 && months === 0) { alert('Age must be greater than 0'); return; }
+    const total = years + months / 12;
+    const ha = Math.round((16 * Math.log(Math.max(total, 0.083)) + 31) * multiplier * 10) / 10;
+    let stage = 'Elder';
+    for (let i = 0; i < thresholds.length; i++) { if (total <= thresholds[i]) { stage = stages[i]; break; } }
+    document.querySelector('#breed-result p:first-child').textContent = `${name} is equivalent to`;
+    haEl.textContent = ha;
+    stageEl.textContent = `Life Stage: ${stage}`;
+    expEl.textContent = `Life expectancy: ${lifespan[0]}-${lifespan[1]} years`;
+    result.classList.remove('hidden');
+    result.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>

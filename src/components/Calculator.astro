@@ -187,6 +187,122 @@ const popularBreeds = [
   <a href="/compare" class="btn-secondary text-sm inline-flex items-center gap-2 no-underline" title="Compare Two Dogs Age"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Compare Two Dogs</a>
 </div>
 
+<div class="flex justify-center mt-8 mb-4 no-print" id="id-card-btn-container" style="display: none;">
+  <button type="button" class="btn-primary py-4 px-8 text-base shadow-lg hover:scale-105 transition-transform" id="download-id-card-btn" style="background: linear-gradient(135deg, #222 0%, #000 100%); border: 1px solid #333; color: white;">
+    <span class="mr-2">📸</span> Download Premium ID Card
+  </button>
+</div>
+
+<div id="dog-id-card" style="position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; background: #0a0a0a; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; box-sizing: border-box; padding: 120px; z-index: -100;">
+  <div style="flex-grow: 1; border: 4px solid #2a2a2a; border-radius: 60px; padding: 100px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; background: linear-gradient(160deg, #171717 0%, #050505 100%); box-shadow: inset 0 0 100px rgba(0,0,0,0.8);">
+    <div style="text-align: center; width: 100%;">
+      <div style="font-size: 140px; margin-bottom: 50px; opacity: 0.9;">🐾</div>
+      <div style="font-size: 36px; text-transform: uppercase; letter-spacing: 16px; color: #777777; margin-bottom: 20px; font-weight: 600;">Official Dog ID</div>
+      <div id="id-card-name" style="font-size: 130px; font-weight: 800; letter-spacing: -3px; margin-bottom: 50px; line-height: 1.1; color: #ffffff;">-</div>
+      <div style="background: rgba(255,255,255,0.05); border: 2px solid #333; border-radius: 50px; padding: 25px 70px; display: inline-block;">
+        <span style="font-size: 42px; color: #999999;">Breed:</span>
+        <span id="id-card-breed" style="font-size: 46px; font-weight: 700; margin-left: 20px; color: #f0f0f0;">-</span>
+      </div>
+    </div>
+    
+    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #333, transparent); margin: 70px 0;"></div>
+    
+    <div style="text-align: center; width: 100%;">
+      <div style="font-size: 36px; color: #777777; text-transform: uppercase; letter-spacing: 8px; margin-bottom: 30px;">Human Equivalent Age</div>
+      <div id="id-card-human-age" style="font-size: 240px; font-weight: 900; line-height: 1; margin-bottom: 20px; color: #ffffff;">-</div>
+      <div id="id-card-stage" style="font-size: 55px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 12px; margin-top: 20px;">-</div>
+    </div>
+    
+    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #333, transparent); margin: 70px 0;"></div>
+    
+    <div style="text-align: center; width: 100%;">
+      <div style="font-size: 32px; color: #666666; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 40px;">Time on Earth</div>
+      <div id="id-card-time" style="font-size: 50px; font-weight: 500; font-variant-numeric: tabular-nums; color: #e5e5e5;">-</div>
+    </div>
+    
+    <div style="margin-top: auto; padding-top: 80px; text-align: center; width: 100%;">
+      <div style="font-size: 40px; font-weight: 800; letter-spacing: 4px; color: #444444;">DogBreedAge.com</div>
+    </div>
+  </div>
+</div>
+
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const calcForm = document.getElementById('calc-form');
+    const downloadBtn = document.getElementById('download-id-card-btn');
+    const btnContainer = document.getElementById('id-card-btn-container');
+    
+    if (calcForm && btnContainer) {
+      calcForm.addEventListener('submit', () => {
+        setTimeout(() => { btnContainer.style.display = 'flex'; }, 800);
+      });
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', async () => {
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '📸 Generating...';
+        downloadBtn.disabled = true;
+
+        try {
+          const nameInput = document.getElementById('dog-name');
+          const breedPill = document.querySelector('.breed-pill.active');
+          const breedRadios = document.querySelectorAll('input[name="breed-size"]');
+          
+          let selectedBreed = 'Mixed Breed';
+          if (breedPill) {
+            selectedBreed = breedPill.innerText;
+          } else {
+            breedRadios.forEach(r => { if(r.checked) selectedBreed = r.value.charAt(0).toUpperCase() + r.value.slice(1) + ' Size'; });
+          }
+          
+          const humanAge = document.getElementById('human-age')?.innerText || '0';
+          const lifeStage = document.getElementById('life-stage')?.innerText || 'Adult';
+          
+          const mode = document.getElementById('input-mode')?.value;
+          let totalDays = 0;
+          if (mode === 'birthday') {
+            const bday = new Date(document.getElementById('dog-birthday').value);
+            if (!isNaN(bday.getTime())) totalDays = Math.floor((new Date() - bday) / (1000 * 60 * 60 * 24));
+          } else {
+            const y = parseInt(document.getElementById('dog-years')?.value || '0');
+            const m = parseInt(document.getElementById('dog-months')?.value || '0');
+            totalDays = Math.floor((y * 365.25) + (m * 30.44));
+          }
+          
+          const totalHours = totalDays * 24;
+          const totalMinutes = totalHours * 60;
+          
+          document.getElementById('id-card-name').innerText = nameInput?.value || 'My Good Pup';
+          document.getElementById('id-card-breed').innerText = selectedBreed;
+          document.getElementById('id-card-human-age').innerText = humanAge;
+          document.getElementById('id-card-stage').innerText = lifeStage;
+          document.getElementById('id-card-time').innerText = `${totalDays.toLocaleString()} Days • ${totalHours.toLocaleString()} Hrs • ${totalMinutes.toLocaleString()} Mins`;
+
+          const canvas = await html2canvas(document.getElementById('dog-id-card'), { 
+            scale: 1, 
+            backgroundColor: '#0a0a0a', 
+            logging: false 
+          });
+          
+          const link = document.createElement('a');
+          const fileNameBase = nameInput?.value ? nameInput.value.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '-' : '';
+          link.download = `${fileNameBase}dog-id-card.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        } catch (err) {
+          console.error(err);
+          alert('Failed to generate ID card.');
+        } finally {
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+        }
+      });
+    }
+  });
+</script>
+
 <script>
   import '../scripts/calculator-bundle.js';
 </script>

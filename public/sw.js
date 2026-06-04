@@ -1,5 +1,5 @@
-const CACHE = 'dogbreedage-v1';
-const urlsToCache = ['/', '/about', '/contact', '/dog-age-chart', '/compare', '/labrador-age-calculator', '/golden-retriever-age-calculator', '/german-shepherd-age-calculator', '/bulldog-age-calculator', '/poodle-age-calculator', '/beagle-age-calculator', '/chihuahua-age-calculator', '/pomeranian-age-calculator', '/great-dane-age-calculator', '/husky-age-calculator', '/shih-tzu-age-calculator', '/border-collie-age-calculator'];
+const CACHE = 'dogbreedage-v2';
+const urlsToCache = ['/', '/about', '/contact', '/dog-age-chart', '/compare', '/reverse-calculator', '/dog-birthday', '/labrador-age-calculator', '/golden-retriever-age-calculator', '/german-shepherd-age-calculator', '/bulldog-age-calculator', '/poodle-age-calculator', '/beagle-age-calculator', '/chihuahua-age-calculator', '/pomeranian-age-calculator', '/great-dane-age-calculator', '/husky-age-calculator', '/shih-tzu-age-calculator', '/border-collie-age-calculator'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

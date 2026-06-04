@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Dachshund Age Calculator — Dog to Human Years"
+  description="Calculate your Dachshund's age in human years. Dachshunds are a small breed known for longevity. Use our DNA methylation formula for accurate dog-to-human age conversion. Free, instant."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-2xl mx-auto">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+        <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
+        <span class="text-[var(--text-faint)] mx-1.5">›</span>
+        <span class="text-[var(--text-secondary)]">Dachshund Age Calculator</span>
+      </p>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dachshund Age Calculator — Dog to Human Years</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
+        Dachshunds (also called Wiener Dogs or Sausage Dogs) are a small breed famous for their long bodies and big personalities. Small breeds like Dachshunds age slower than larger dogs and are renowned for their longevity. Use our Dachshund age calculator to find your dog's true human age.
+      </p>
+
+      <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
+        <form id="breed-calc-form" class="space-y-5">
+          <div>
+            <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+            <input type="text" id="breed-name" class="input-base" placeholder="e.g. Pretzel" maxlength="30" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="breed-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Years</label>
+              <input type="number" id="breed-years" class="input-base" placeholder="0" min="0" max="30" required />
+            </div>
+            <div>
+              <label for="breed-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Months</label>
+              <select id="breed-months" class="select-base">
+                {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-3">🐾 Calculate Human Age</button>
+        </form>
+
+        <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
+          <p class="text-sm text-[var(--text-muted)] mb-1">Your Dachshund is equivalent to</p>
+          <p class="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]" id="breed-human-age">—</p>
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">human years old</p>
+          <p class="text-sm text-[var(--text-secondary)] mt-4" id="breed-stage"></p>
+          <p class="text-xs text-[var(--text-faint)] mt-2" id="breed-expectancy"></p>
+          <a href="/" class="inline-block mt-6 text-sm text-[var(--color-link)] hover:underline">Try the full calculator with health timeline →</a>
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-[var(--text-muted)] mb-12">
+        <a href="/" class="text-[var(--color-link)] hover:underline">← Back to main Dog Age Calculator</a>
+      </p>
+
+      <div class="space-y-6 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Dachshund Age FAQ</h2>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">How old is my Dachshund in human years?</h3>
+          <p>Use our calculator above. Enter your Dachshund's age in years and months. We apply the DNA methylation formula (16 × ln(age) + 31) with a small-breed multiplier to reflect your Dachshund's real age accurately.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">What is the lifespan of a Dachshund?</h3>
+          <p>Dachshunds typically live 12–16 years, making them one of the longest-lived dog breeds. With attentive care and spinal health management, many Dachshunds reach their mid-teens in good health.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">When is a Dachshund considered a senior?</h3>
+          <p>Dachshunds are generally considered seniors around age 12. However, spinal health monitoring should begin much earlier — around age 5–6 — as IVDD risk increases with age and weight.</p>
+        </div>
+        <div>
+          <h3 class="text-[var(--text-primary)] font-medium mb-1">What health issues do Dachshunds face as they age?</h3>
+          <p>Dachshunds are famously prone to intervertebral disc disease (IVDD) due to their long spines and short legs. Extra body weight dramatically increases spinal pressure and IVDD risk. They may also develop dental disease, obesity, and eye conditions with age.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Dachshund Aging Guide</h2>
+        <p>Dachshunds are a small breed originally bred in Germany for hunting badgers. Their elongated body and short legs are charming but create a significant vulnerability: their long spines are highly susceptible to intervertebral disc disease (IVDD). IVDD can cause anything from pain and weakness to full hind-leg paralysis, and it becomes more common as Dachshunds age.</p>
+        <p>Weight management is the single most important factor in a Dachshund's long-term health. Even a small amount of extra weight places enormous pressure on their spine. Use ramps and steps instead of allowing your Dachshund to jump on and off furniture or navigate stairs — this daily stress accumulates over time and accelerates disc degeneration.</p>
+        <p>Despite their spinal vulnerabilities, Dachshunds are celebrated for their longevity, routinely living 12–16 years. Begin senior-focused care around age 10, including increased vet monitoring for spinal health, weight, and dental disease. Regular low-impact exercise like swimming is excellent for maintaining muscle tone without spinal strain.</p>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
+          <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
+          <a href="/german-shepherd-age-calculator" class="tag-pill text-xs no-underline" title="German Shepherd Age Calculator">German Shepherd</a>
+          <a href="/bulldog-age-calculator" class="tag-pill text-xs no-underline" title="Bulldog Age Calculator">Bulldog</a>
+          <span class="tag-pill text-xs no-underline opacity-60 cursor-default">Dachshund</span>
+          <a href="/pug-age-calculator" class="tag-pill text-xs no-underline" title="Pug Age Calculator">Pug</a>
+          <a href="/yorkshire-terrier-age-calculator" class="tag-pill text-xs no-underline" title="Yorkshire Terrier Age Calculator">Yorkshire Terrier</a>
+          <a href="/rottweiler-age-calculator" class="tag-pill text-xs no-underline" title="Rottweiler Age Calculator">Rottweiler</a>
+          <a href="/corgi-age-calculator" class="tag-pill text-xs no-underline" title="Corgi Age Calculator">Corgi</a>
+          <a href="/chihuahua-age-calculator" class="tag-pill text-xs no-underline" title="Chihuahua Age Calculator">Chihuahua</a>
+          <a href="/pomeranian-age-calculator" class="tag-pill text-xs no-underline" title="Pomeranian Age Calculator">Pomeranian</a>
+          <a href="/husky-age-calculator" class="tag-pill text-xs no-underline" title="Husky Age Calculator">Husky</a>
+          <a href="/beagle-age-calculator" class="tag-pill text-xs no-underline" title="Beagle Age Calculator">Beagle</a>
+          <a href="/boxer-age-calculator" class="tag-pill text-xs no-underline" title="Boxer Age Calculator">Boxer</a>
+          <a href="/doberman-age-calculator" class="tag-pill text-xs no-underline" title="Doberman Age Calculator">Doberman</a>
+          <a href="/great-dane-age-calculator" class="tag-pill text-xs no-underline" title="Great Dane Age Calculator">Great Dane</a>
+          <a href="/shih-tzu-age-calculator" class="tag-pill text-xs no-underline" title="Shih Tzu Age Calculator">Shih Tzu</a>
+          <a href="/french-bulldog-age-calculator" class="tag-pill text-xs no-underline" title="French Bulldog Age Calculator">French Bulldog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com" },
+    { "@type": "ListItem", "position": 2, "name": "Dachshund Age Calculator", "item": "https://dogbreedage.com/dachshund-age-calculator" }
+  ]
+})} />
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('breed-calc-form');
+  const result = document.getElementById('breed-result');
+  const haEl = document.getElementById('breed-human-age');
+  const stageEl = document.getElementById('breed-stage');
+  const expEl = document.getElementById('breed-expectancy');
+  const multiplier = 0.85;
+  const lifespan = [12, 16];
+  const sizeLabel = 'small';
+  const thresholds = { small: [0.5, 2, 4, 8, 12, 99], medium: [0.5, 2, 4, 7, 11, 99], large: [0.5, 1.5, 3, 6, 9, 99] };
+  const stages = ['Puppy', 'Teenager', 'Young Adult', 'Adult', 'Senior', 'Elder'];
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const years = parseInt(document.getElementById('breed-years').value);
+    const months = parseInt(document.getElementById('breed-months').value);
+    const name = document.getElementById('breed-name').value.trim() || 'Your Dachshund';
+    if (isNaN(years) || years < 0) { alert('Please enter a valid age'); return; }
+    if (years === 0 && months === 0) { alert('Age must be greater than 0'); return; }
+    const total = years + months / 12;
+    const ha = Math.round((16 * Math.log(Math.max(total, 0.083)) + 31) * multiplier * 10) / 10;
+    const t = thresholds[sizeLabel];
+    let stage = 'Elder';
+    for (let i = 0; i < t.length; i++) { if (total <= t[i]) { stage = stages[i]; break; } }
+    document.querySelector('#breed-result p:first-child').textContent = `${name} is equivalent to`;
+    haEl.textContent = ha;
+    stageEl.textContent = `Life Stage: ${stage}`;
+    expEl.textContent = `Life expectancy: ${lifespan[0]}–${lifespan[1]} years`;
+    result.classList.remove('hidden');
+    result.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>

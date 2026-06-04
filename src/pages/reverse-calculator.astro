@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Reverse Dog Age Calculator — Human Age to Dog Years"
+  description="Enter a human age and find out how old a dog would be at that life stage. Our reverse dog age calculator shows the equivalent dog age for all breed sizes. Free and instant."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-2xl mx-auto">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+        <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
+        <span class="text-[var(--text-faint)] mx-1.5">›</span>
+        <span class="text-[var(--text-secondary)]">Reverse Dog Age Calculator</span>
+      </p>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Reverse Calculator</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Reverse Dog Age Calculator</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 leading-relaxed max-w-xl">
+        Enter a human age and find out how old a dog would be at an equivalent life stage — across all four breed sizes. Useful for understanding where your dog sits in their life journey compared to humans.
+      </p>
+
+      <div class="card card-glow p-5 sm:p-7 mb-8">
+        <form id="reverse-form" class="space-y-6">
+          <div>
+            <label for="human-age-input" class="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+              Human Age <span class="text-[var(--text-faint)]">(years)</span>
+            </label>
+            <div class="flex items-center gap-3">
+              <input
+                type="number"
+                id="human-age-input"
+                class="input-base flex-1"
+                placeholder="e.g. 35"
+                min="1"
+                max="120"
+                required
+              />
+              <button type="submit" class="btn-primary px-6 shrink-0">
+                <span class="btn-shimmer"></span>
+                Convert →
+              </button>
+            </div>
+            <p class="text-xs text-[var(--text-faint)] mt-1.5">Enter any age between 1 and 120</p>
+          </div>
+        </form>
+      </div>
+
+      <div id="reverse-result" class="hidden space-y-4 fade-in-up" aria-live="polite" aria-atomic="true">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-sm font-medium text-[var(--text-secondary)]">A human aged <strong id="display-human-age" class="text-[var(--text-primary)]">—</strong> is equivalent to a dog aged:</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="result-cards">
+          {['small','medium','large','giant'].map(size => (
+            <div class={`card p-4 sm:p-5 result-size-card`} data-size={size}>
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <span class="text-xs font-mono uppercase tracking-wider text-[var(--text-faint)]" id={`${size}-label`}>—</span>
+                  <p class="text-[0.7rem] text-[var(--text-muted)]" id={`${size}-weight`}>—</p>
+                </div>
+                <span class="text-2xl" id={`${size}-icon`}>—</span>
+              </div>
+              <p class="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-1" id={`${size}-dog-age`}>—</p>
+              <p class="text-xs text-[var(--text-muted)]">dog years old</p>
+              <div class="mt-3 pt-3 border-t border-[var(--border-default)]">
+                <span class="text-xs text-[var(--text-secondary)]">Life stage: <strong id={`${size}-stage`} class="text-[var(--text-primary)]">—</strong></span>
+              </div>
+              <div class="mt-2">
+                <div class="progress-bar">
+                  <div class="progress-bar-fill bg-[var(--text-primary)]" id={`${size}-progress`} style="width:0%"></div>
+                </div>
+                <p class="text-[0.65rem] text-[var(--text-faint)] mt-1" id={`${size}-lifespan`}>—</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="card p-4 mt-2">
+          <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2">How to read this</p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+            The reverse calculation uses the inverse of the DNA methylation formula: <code class="text-xs bg-[var(--bg-elevated)] px-1.5 py-0.5 rounded">dog_age = e^((human_age / multiplier − 31) / 16)</code>. Results show the dog age at which each breed size reaches the equivalent human life stage.
+          </p>
+        </div>
+
+        <div class="text-center pt-2">
+          <a href="/" class="btn-secondary text-sm no-underline inline-flex items-center gap-2">
+            🐾 Try the full Dog Age Calculator
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-[var(--border-default)] space-y-5 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">About Reverse Dog Age Calculation</h2>
+        <p>The standard dog age formula converts a dog's age into human equivalent years: <strong class="text-[var(--text-primary)]">Human Age = 16 × ln(Dog Age) + 31</strong> (adjusted by breed size). The reverse calculator flips this: given a human age, it solves for the dog age using the inverse of the natural logarithm.</p>
+        <p>This is useful for understanding life stage comparisons. For example: if you're 35 years old, what age is your dog at the same "life position"? The answer differs dramatically by breed — a small dog at 4.5 years is roughly equivalent to a 35-year-old human, while a giant breed reaches that same human life stage at just 3.2 years.</p>
+        <p>The reverse calculator is especially useful for new dog owners trying to understand their puppy's development pace, or senior owners trying to relate to their dog's aging trajectory.</p>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">Related Tools</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="/" class="tag-pill text-xs no-underline" title="Dog Age Calculator">🐾 Dog Age Calculator</a>
+          <a href="/compare" class="tag-pill text-xs no-underline" title="Compare Two Dogs">⚖️ Compare Dogs</a>
+          <a href="/dog-birthday" class="tag-pill text-xs no-underline" title="Dog Birthday Countdown">🎂 Birthday Countdown</a>
+          <a href="/dog-age-chart" class="tag-pill text-xs no-underline" title="Dog Age Chart">📊 Age Chart</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogbreedage.com" },
+    { "@type": "ListItem", "position": 2, "name": "Reverse Dog Age Calculator", "item": "https://dogbreedage.com/reverse-calculator" }
+  ]
+})} />
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const SIZES = {
+    small:  { label: 'Small Breed',  weight: 'under 20 lbs',  icon: '🐩', multiplier: 0.85, lifespan: [12, 16], thresholds: [0.5,2,4,8,12,99] },
+    medium: { label: 'Medium Breed', weight: '20–50 lbs',     icon: '🐕', multiplier: 1.0,  lifespan: [10, 14], thresholds: [0.5,2,4,7,11,99] },
+    large:  { label: 'Large Breed',  weight: '50–90 lbs',     icon: '🦮', multiplier: 1.15, lifespan: [8,  12], thresholds: [0.5,1.5,3,6,9,99] },
+    giant:  { label: 'Giant Breed',  weight: '90+ lbs',       icon: '🐘', multiplier: 1.3,  lifespan: [7,  10], thresholds: [0.5,1.5,3,5,8,99] },
+  };
+  const STAGES = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
+
+  function reverseDogAge(humanAge, multiplier) {
+    // Inverse of: humanAge = (16 * ln(dogAge) + 31) * multiplier
+    const adjusted = humanAge / multiplier;
+    const dogAge = Math.exp((adjusted - 31) / 16);
+    return Math.max(0.08, dogAge);
+  }
+
+  function getStage(dogAge, thresholds) {
+    for (let i = 0; i < thresholds.length; i++) {
+      if (dogAge <= thresholds[i]) return STAGES[i];
+    }
+    return 'Elder';
+  }
+
+  const form = document.getElementById('reverse-form');
+  const resultSection = document.getElementById('reverse-result');
+  const displayHumanAge = document.getElementById('display-human-age');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const humanAge = parseFloat(document.getElementById('human-age-input').value);
+    if (isNaN(humanAge) || humanAge < 1 || humanAge > 120) {
+      alert('Please enter a valid age between 1 and 120');
+      return;
+    }
+
+    displayHumanAge.textContent = Math.round(humanAge);
+
+    for (const [size, data] of Object.entries(SIZES)) {
+      const dogAge = reverseDogAge(humanAge, data.multiplier);
+      const dogAgeYears = Math.floor(dogAge);
+      const dogAgeMonths = Math.round((dogAge - dogAgeYears) * 12);
+      const stage = getStage(dogAge, data.thresholds);
+      const progress = Math.min(100, (dogAge / data.lifespan[1]) * 100);
+
+      document.getElementById(`${size}-label`).textContent = data.label;
+      document.getElementById(`${size}-weight`).textContent = data.weight;
+      document.getElementById(`${size}-icon`).textContent = data.icon;
+      document.getElementById(`${size}-dog-age`).textContent =
+        dogAgeMonths > 0 ? `${dogAgeYears}y ${dogAgeMonths}m` : `${dogAgeYears} yrs`;
+      document.getElementById(`${size}-stage`).textContent = stage;
+      document.getElementById(`${size}-progress`).style.width = `${progress}%`;
+      document.getElementById(`${size}-lifespan`).textContent =
+        `Typical lifespan: ${data.lifespan[0]}–${data.lifespan[1]} years`;
+    }
+
+    resultSection.classList.remove('hidden');
+    setTimeout(() => resultSection.classList.add('visible'), 10);
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
