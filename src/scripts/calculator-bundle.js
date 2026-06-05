@@ -1,4 +1,4 @@
-﻿const BREED_DATA = {
+const BREED_DATA = {
   small: { label: 'Small (under 20 lbs)', kgLabel: 'Small (under 9 kg)', examples: ['Chihuahua', 'Pomeranian', 'Shih Tzu', 'Yorkshire Terrier', 'Pug', 'Maltese'], lifespan: [12, 16], multiplier: 0.85, funFact: 'Small dogs age more slowly than larger breeds. A Chihuahua at 15 can still be energetic — equivalent to a healthy 70-year-old human!', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 2, label: 'Teenager' }, { max: 4, label: 'Young Adult' }, { max: 8, label: 'Adult' }, { max: 12, label: 'Senior' }, { max: 99, label: 'Elder' }] },
   medium: { label: 'Medium (20-50 lbs)', kgLabel: 'Medium (9-23 kg)', examples: ['Beagle', 'Bulldog', 'Border Collie', 'Cocker Spaniel', 'Australian Shepherd'], lifespan: [10, 14], multiplier: 1.0, funFact: 'Medium breeds reach adulthood at about 2 years old. Their aging rate closely mirrors the standard 16 × ln(dog age) + 31 formula.', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 2, label: 'Teenager' }, { max: 4, label: 'Young Adult' }, { max: 7, label: 'Adult' }, { max: 11, label: 'Senior' }, { max: 99, label: 'Elder' }] },
   large: { label: 'Large (50-90 lbs)', kgLabel: 'Large (23-41 kg)', examples: ['Labrador Retriever', 'Golden Retriever', 'Husky', 'German Shepherd', 'Boxer'], lifespan: [8, 12], multiplier: 1.15, funFact: 'Large breeds like Labs enter their senior years around age 7 — about 5 years earlier than small breeds.', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 1.5, label: 'Teenager' }, { max: 3, label: 'Young Adult' }, { max: 6, label: 'Adult' }, { max: 9, label: 'Senior' }, { max: 99, label: 'Elder' }] },
@@ -204,10 +204,16 @@ function renderResults(totalYears, breedSize, name, years, months) {
   const days = totalYears * 365.25;
   const grid = document.getElementById('fun-stats-grid');
   if (grid) {
-    document.getElementById('stat-days').textContent = formatNumber(Math.floor(days));
-    document.getElementById('stat-hours').textContent = formatNumber(Math.floor(days * 24));
-    document.getElementById('stat-minutes').textContent = formatNumber(Math.floor(days * 24 * 60));
-    document.getElementById('stat-seconds').textContent = formatNumber(Math.floor(days * 24 * 60 * 60));
+    const statDays = Math.floor(days);
+    const statHours = Math.floor(days * 24);
+    const statMinutes = Math.floor(days * 24 * 60);
+    const statSeconds = Math.floor(days * 24 * 60 * 60);
+    document.getElementById('stat-days').textContent = formatNumber(statDays);
+    document.getElementById('stat-hours').textContent = formatNumber(statHours);
+    document.getElementById('stat-minutes').textContent = formatNumber(statMinutes);
+    document.getElementById('stat-seconds').textContent = formatNumber(statSeconds);
+    // Store for copy-text button
+    grid.dataset.days = statDays;
     setTimeout(() => grid.classList.remove('opacity-0'), 150);
   }
 
@@ -215,7 +221,7 @@ function renderResults(totalYears, breedSize, name, years, months) {
   renderAgeChart(totalYears, breedSize);
   renderHealthTimeline(totalYears, breedSize, dogName);
 
-  currentShareData = { name: name || 'My dog', humanAge, breedSize, dogYears: years, months };
+  currentShareData = { name: name || 'My dog', humanAge, breedSize, dogYears: years, months, totalDays: Math.floor(days) };
   document.dispatchEvent(new CustomEvent('resultCalculated'));
 }
 
@@ -285,43 +291,94 @@ function startFactRotation() {
   }, 8000);
 }
 
+// CSS custom property names used across the design system
+const CSS_VARS_TO_RESOLVE = [
+  '--bg-primary', '--bg-secondary', '--bg-elevated',
+  '--text-primary', '--text-secondary', '--text-muted', '--text-faint',
+  '--border-default', '--border-strong',
+  '--color-link', '--hover-overlay', '--hover-overlay-strong',
+  '--btn-primary-bg', '--btn-primary-text',
+  '--card-shadow', '--card-shadow-hover',
+  '--stage-puppy', '--stage-teenager', '--stage-young-adult',
+  '--stage-adult', '--stage-senior', '--stage-elder',
+];
+
+function resolveCssVarsToInline(el) {
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  // Build a map of var name -> resolved value
+  const resolved = {};
+  CSS_VARS_TO_RESOLVE.forEach(v => {
+    resolved[v] = computed.getPropertyValue(v).trim();
+  });
+  // Walk every element and replace var() references in style with resolved values
+  const snapshot = [];
+  el.querySelectorAll('*').forEach(node => {
+    const cs = getComputedStyle(node);
+    const props = {
+      backgroundColor: cs.backgroundColor,
+      color: cs.color,
+      borderColor: cs.borderColor,
+      borderTopColor: cs.borderTopColor,
+      borderBottomColor: cs.borderBottomColor,
+      borderLeftColor: cs.borderLeftColor,
+      borderRightColor: cs.borderRightColor,
+      boxShadow: cs.boxShadow,
+    };
+    const prev = {};
+    Object.keys(props).forEach(p => { prev[p] = node.style[p]; node.style[p] = props[p]; });
+    snapshot.push({ node, prev });
+  });
+  // Also handle the root element itself
+  const rootCs = getComputedStyle(el);
+  const rootPrev = {
+    backgroundColor: el.style.backgroundColor,
+    color: el.style.color,
+  };
+  el.style.backgroundColor = rootCs.backgroundColor;
+  el.style.color = rootCs.color;
+  snapshot.push({ node: el, prev: rootPrev });
+  return snapshot;
+}
+
+function restoreCssVars(snapshot) {
+  snapshot.forEach(({ node, prev }) => {
+    Object.keys(prev).forEach(p => { node.style[p] = prev[p]; });
+  });
+}
+
+async function loadHtml2Canvas() {
+  if (typeof window.__h2c === 'function') return window.__h2c;
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload = () => { window.__h2c = window.html2canvas; resolve(window.__h2c); };
+    s.onerror = () => reject(new Error('Failed to load html2canvas'));
+    document.head.appendChild(s);
+  });
+}
+
 async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
   const el = document.getElementById(elementId);
   if (!el) return;
   const isLight = document.documentElement.classList.contains('light');
   const bgColor = isLight ? '#ffffff' : '#000000';
+  let snapshot = null;
   try {
-    // Wait for html2canvas to be available (module scripts load asynchronously)
-    let instance = window.__html2canvas;
-    if (typeof instance !== 'function') {
-      await new Promise((resolve, reject) => {
-        let attempts = 0;
-        const interval = setInterval(() => {
-          if (typeof window.__html2canvas === 'function') {
-            clearInterval(interval);
-            resolve();
-          } else if (++attempts > 30) {
-            clearInterval(interval);
-            reject(new Error('html2canvas not available'));
-          }
-        }, 100);
-      });
-      instance = window.__html2canvas;
-    }
-    if (typeof instance !== 'function') {
-      showToast('Could not save image. Try again or take a screenshot.');
-      return;
-    }
-    const canvas = await instance(el, {
+    const h2c = await loadHtml2Canvas();
+    // Resolve CSS custom properties to computed values before capture
+    snapshot = resolveCssVarsToInline(el);
+    const canvas = await h2c(el, {
       backgroundColor: bgColor,
       scale: 2,
       useCORS: true,
       allowTaint: true,
+      logging: false,
       onclone: (clonedDoc) => {
         const clonedEl = clonedDoc.getElementById(elementId);
         if (clonedEl) {
-          clonedEl.querySelectorAll('button, a, .no-print').forEach(btn => {
-            btn.style.setProperty('display', 'none', 'important');
+          clonedEl.querySelectorAll('.no-print, button, a[href]').forEach(n => {
+            n.style.setProperty('display', 'none', 'important');
           });
           if (cloneWidth) {
             clonedEl.style.setProperty('width', `${cloneWidth}px`, 'important');
@@ -329,18 +386,22 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
           }
           clonedEl.style.transform = 'none';
           clonedEl.style.margin = '0';
+          clonedEl.style.borderRadius = '0';
         }
       }
     });
     const name = (currentShareData && currentShareData.name) || 'dog';
+    const slug = (filenamePrefix || name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     const link = document.createElement('a');
-    link.download = `${(filenamePrefix || name).toLowerCase().replace(/\s+/g, '-')}.png`;
+    link.download = `${slug}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-    showToast('Image saved!');
+    showToast('✅ Image saved!');
   } catch (e) {
     console.error('saveAsImage failed:', e);
-    showToast('Could not save image. Try again or take a screenshot.');
+    showToast('❌ Could not save image. Try Print instead.');
+  } finally {
+    if (snapshot) restoreCssVars(snapshot);
   }
 }
 
@@ -672,6 +733,29 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('print-result-btn')?.addEventListener('click', () => {
     window.print();
   });
+
+  document.getElementById('copy-text-btn')?.addEventListener('click', async () => {
+    try {
+      const d = currentShareData;
+      if (!d) { showToast('Calculate first!'); return; }
+      const days = d.totalDays || 0;
+      const daysStr = days >= 1e6 ? (days / 1e6).toFixed(1) + 'M' : days.toLocaleString();
+      const text = `${d.name} is ${d.humanAge} in human years! 🐾 ${daysStr} days old — DogBreedAge.com`;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      showToast('📋 Copied! Share it anywhere.');
+    } catch (e) { /* ignore */ }
+  });
+
 
   const banner = document.getElementById('pwa-banner');
   let pwaPromptReady = false;
