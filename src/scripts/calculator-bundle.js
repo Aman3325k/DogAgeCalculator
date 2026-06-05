@@ -464,15 +464,17 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
 
   const backToTop = document.getElementById('back-to-top');
   if (backToTop) {
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('show', window.scrollY > 300);
-    }, { passive: true });
+    window.addEventListener('load', () => {
+      window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('show', window.scrollY > 300);
+      }, { passive: true });
+    });
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  startFactRotation();
+  setTimeout(() => startFactRotation(), 3000);
 
   function updateUnitLabels() {
     document.querySelectorAll('.size-option').forEach(el => {
@@ -648,7 +650,8 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
     } catch (e) { resetCalcBtn(); }
   });
 
-  document.getElementById('share-whatsapp')?.addEventListener('click', () => {
+  const registerDeferredListeners = () => {
+    document.getElementById('share-whatsapp')?.addEventListener('click', () => {
     try {
     const d = currentShareData; if (!d) return;
     window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(d.name, d.humanAge, d.breedSize, d.dogYears, d.months))}`, '_blank');
@@ -789,8 +792,17 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
       localStorage.setItem('dogbreedage_pwa_dismissed', 'true');
     });
   }
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(registerDeferredListeners);
+  } else {
+    setTimeout(registerDeferredListeners, 1);
+  }
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
   }
 })();
