@@ -1,4 +1,4 @@
-﻿---
+---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -21,6 +21,8 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
 <html lang="en">
   <head>
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow'} />
+    <meta name="googlebot" content={noindex ? 'noindex' : 'index, follow'} />
+    <link rel="sitemap" href="/sitemap.xml" />
     <script>
       (function() {
         var t = localStorage.getItem('dogbreedage_theme');
@@ -101,8 +103,8 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
       <slot />
     </main>
     <Footer />
-      <div id="pwa-banner" class="hidden fixed bottom-0 left-0 right-0 z-[55] bg-[var(--bg-secondary)] border-t border-[var(--border-default)] p-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3" role="dialog" aria-modal="true" aria-label="Install app prompt">
-      <div class="flex items-center gap-3">
+      <div id="pwa-banner" class="hidden fixed bottom-0 left-0 right-0 z-[55] bg-[var(--bg-secondary)] border-t border-[var(--border-default)] p-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4" role="dialog" aria-modal="true" aria-label="Install app prompt">
+      <div class="flex items-center gap-4">
         <span class="text-lg shrink-0">📱</span>
         <div>
           <span class="text-sm font-bold text-[var(--text-primary)] shrink-0 block">Add DogBreedAge to your phone</span>
@@ -114,8 +116,8 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
         <button id="pwa-dismiss" class="text-[var(--text-faint)] hover:text-[var(--text-primary)] text-lg leading-none p-2" aria-label="Dismiss install prompt">&times;</button>
       </div>
     </div>
-      <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)] border-t border-[var(--border-default)] p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="Cookie notice">
-      <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)] border-t border-[var(--border-default)] p-4 sm:p-4" role="dialog" aria-modal="true" aria-label="Cookie notice">
+      <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-xs sm:text-sm text-[var(--text-secondary)]">We use cookies to remember your preferences (dark mode, weight unit). No tracking or analytics cookies are used.</p>
         <div class="flex items-center gap-2 shrink-0">
           <button id="cookie-accept" class="btn-primary text-xs py-2 px-4">Got it</button>

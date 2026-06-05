@@ -5,16 +5,16 @@ import FAQ from '../components/FAQ.astro';
 
 <BaseLayout
   title="Husky Age Calculator — Dog to Human Years"
-  description="Calculate your Husky's age in human years using our breed-size based formula. Accurate Husky dog years to human years conversion for large dogs. Calculate free instantly — no login required."
+  description="Calculate your Husky's age in human years with our highly accurate, breed-size based scientific formula. Fast, free, and no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Husky Age Calculator</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Husky Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
         Siberian Huskies are energetic, athletic working dogs known for their endurance. As a large breed, they age at a moderate rate. Our Husky age calculator converts your Husky's years to human years accurately.
@@ -26,7 +26,7 @@ import FAQ from '../components/FAQ.astro';
             <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
             <input type="text" id="breed-name" class="input-base" placeholder="e.g. Buddy" maxlength="30" />
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-4">
             <div>
               <label for="breed-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Years</label>
               <input type="number" id="breed-years" class="input-base" placeholder="0" min="0" max="40" required />
@@ -38,7 +38,7 @@ import FAQ from '../components/FAQ.astro';
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3">Calculate Human Age</button>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4">Calculate Human Age</button>
         </form>
 
         <div id="breed-result" class="hidden mt-6 pt-6 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
@@ -54,7 +54,7 @@ import FAQ from '../components/FAQ.astro';
         <a href="/" class="text-[var(--color-link)] hover:underline">← Back to main Dog Age Calculator</a>
       </p>
 
-      <div class="mt-10 space-y-5 text-sm text-[var(--text-secondary)] leading-relaxed">
+      <div class="mt-10 space-y-6 text-sm text-[var(--text-secondary)] leading-relaxed">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Husky Age FAQ</h2>
         <div>
           <h3 class="text-[var(--text-primary)] font-medium mb-1">How old is my Husky in human years?</h3>
@@ -77,7 +77,7 @@ import FAQ from '../components/FAQ.astro';
 
       <div class="max-w-2xl mx-auto mt-12 pt-8 border-t border-[var(--border-default)]">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-4">Husky Health & Aging Guide</h2>
-        <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <div class="space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
           <p>Siberian Huskies are a large breed with a notably long lifespan of 12-14 years, longer than many other large breeds. As large-breed dogs, they enter senior years around 8-9 years. A 7-year-old Husky is approximately 53 in human years. Their hardy genetics, developed in harsh Siberian conditions, contribute to their robust health and longevity.</p>
           <p>Huskies are generally healthy but can be prone to hip dysplasia, cataracts, progressive retinal atrophy, and hypothyroidism. Their thick double coat means they are prone to overheating. Unlike many breeds, Huskies have a unique metabolism that allows them to thrive on less food than their size would suggest — making weight management relatively easy.</p>
           <p>To maximize your Husky's long life, provide plenty of aerobic exercise — they were bred to run and need it. Mental stimulation is equally important for this intelligent, independent breed. Senior Huskies still need regular exercise but may benefit from cooler times of day and softer surfaces. Annual eye exams and thyroid screening help detect age-related issues early.</p>
@@ -85,7 +85,7 @@ import FAQ from '../components/FAQ.astro';
       </div>
 
       <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Breed Calculators</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
@@ -107,8 +107,8 @@ import FAQ from '../components/FAQ.astro';
   </section>
 
   <section class="container-custom pb-20">
-    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
-      <p class="text-sm text-[var(--text-secondary)] mb-3">Ready to calculate your dog's real human age?</p>
+    <div class="max-w-2xl mx-auto card p-6 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-4">Ready to calculate your dog's real human age?</p>
       <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>
@@ -125,6 +125,7 @@ import FAQ from '../components/FAQ.astro';
 
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
+  "dateModified": new Date().toISOString().split('T')[0],
   "@type": "FAQPage",
   "mainEntity": [
     {

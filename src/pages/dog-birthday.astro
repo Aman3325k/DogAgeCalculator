@@ -4,23 +4,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Dog Birthday Countdown — When is My Dog's Next Birthday?"
-  description="Find out how many days until your dog's next birthday! Our dog birthday countdown shows your dog's upcoming birthday, their age milestone, and creates a shareable birthday card. Free tool."
+  description="Find out exactly how many days until your dog's next birthday or half-birthday. Count down the days to celebrate your dog's milestones accurately."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Dog Birthday Countdown</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Birthday Tool</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Birthday Tool</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">🎂 Dog Birthday Countdown</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-8 leading-relaxed">
         Enter your dog's birthday and find out exactly how many days until their next birthday — plus their upcoming human-equivalent age milestone. Share the countdown with friends and family!
       </p>
 
-      <div class="card card-glow card-accent-top p-5 sm:p-7 mb-6">
-        <form id="birthday-form" class="space-y-5">
+      <div class="card card-glow card-accent-top p-6 sm:p-8 mb-6">
+        <form id="birthday-form" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label for="dog-name-input" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">
@@ -46,7 +46,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <input type="date" id="birthday-input" class="input-base" />
             <p class="text-xs text-[var(--text-faint)] mt-1">We'll calculate the exact countdown to their next birthday</p>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3.5 btn-pulse" id="birthday-submit">
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4.5 btn-pulse" id="birthday-submit">
             <span class="btn-shimmer"></span>
             🎂 Show Birthday Countdown
           </button>
@@ -54,14 +54,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <!-- Result -->
-      <div id="birthday-result" class="hidden space-y-5 fade-in-up" aria-live="polite" aria-atomic="true">
+      <div id="birthday-result" class="hidden space-y-6 fade-in-up" aria-live="polite" aria-atomic="true">
         <!-- Countdown Card -->
         <div class="card overflow-hidden" id="birthday-card">
           <div class="bg-gradient-to-br from-[#7928ca] via-[#ff0080] to-[#f9cb28] p-px rounded-[15px]">
             <div class="bg-[var(--bg-primary)] rounded-[14px] p-6 sm:p-8 text-center">
-              <div class="text-4xl mb-3" id="birthday-emoji">🎂</div>
+              <div class="text-4xl mb-4" id="birthday-emoji">🎂</div>
               <p class="text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] mb-1">Next Birthday In</p>
-              <div class="flex items-end justify-center gap-3 sm:gap-5 my-4">
+              <div class="flex items-end justify-center gap-4 sm:gap-6 my-4">
                 <div class="text-center">
                   <p class="text-5xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-none" id="countdown-days">—</p>
                   <p class="text-xs text-[var(--text-muted)] mt-1">days</p>
@@ -88,27 +88,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div class="card p-3 text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="card p-4 text-center">
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Current Age</p>
             <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-current-age">—</p>
           </div>
-          <div class="card p-3 text-center">
+          <div class="card p-4 text-center">
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Turning</p>
             <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-turning">—</p>
           </div>
-          <div class="card p-3 text-center">
+          <div class="card p-4 text-center">
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Human Equiv.</p>
             <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-human-age">—</p>
           </div>
-          <div class="card p-3 text-center">
+          <div class="card p-4 text-center">
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Life Stage</p>
             <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-stage">—</p>
           </div>
         </div>
 
         <!-- Birthday date -->
-        <div class="card p-4 flex items-center gap-3">
+        <div class="card p-4 flex items-center gap-4">
           <span class="text-2xl shrink-0">📅</span>
           <div>
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider">Next Birthday</p>
@@ -117,7 +117,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- Fun fact -->
-        <div class="card p-4 flex items-center gap-3">
+        <div class="card p-4 flex items-center gap-4">
           <span class="text-2xl shrink-0">🧬</span>
           <div>
             <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-0.5">Fun Fact</p>
@@ -155,7 +155,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="mt-10 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Tools</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Tools</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/" class="tag-pill text-xs no-underline" title="Dog Age Calculator">🐾 Dog Age Calculator</a>
           <a href="/reverse-calculator" class="tag-pill text-xs no-underline" title="Reverse Dog Age Calculator">🔄 Reverse Calculator</a>

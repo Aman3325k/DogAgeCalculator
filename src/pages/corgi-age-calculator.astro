@@ -4,23 +4,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Corgi Age Calculator — Dog to Human Years"
-  description="Calculate your Corgi's age in human years. Pembroke and Cardigan Welsh Corgis are medium-small breeds with great longevity. Use our science-based formula. Free and instant."
+  description="Calculate your Corgi's age in human years with our highly accurate, breed-size based scientific formula. Fast, free, and no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Corgi Age Calculator</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Corgi Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
         Corgis (Pembroke Welsh Corgi and Cardigan Welsh Corgi) are medium-small herding breeds famous for their short legs and fox-like faces. Corgis are relatively long-lived for their size and beloved worldwide. Use our Corgi age calculator to find your dog's true human equivalent age.
       </p>
 
       <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
-        <form id="breed-calc-form" class="space-y-5">
+        <form id="breed-calc-form" class="space-y-6">
           <div>
             <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
             <input type="text" id="breed-name" class="input-base" placeholder="e.g. Nugget" maxlength="30" />
@@ -37,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3">🐾 Calculate Human Age</button>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4">🐾 Calculate Human Age</button>
         </form>
 
         <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
@@ -74,7 +74,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Corgi Aging Guide</h2>
         <p>Corgis are medium-small herding breeds with a typical lifespan of 12–15 years. Originally bred to herd cattle in Wales, they are energetic, intelligent, and loyal dogs. Their distinctive body structure — long spine, short legs — is the defining factor in their age-related health risks.</p>
         <p>Their long back and short legs make Corgis susceptible to Intervertebral Disc Disease (IVDD), the same spinal vulnerability shared with Dachshunds. Weight management is critical — every extra pound places disproportionate stress on the spine. Use ramps or steps instead of having your Corgi jump on and off furniture or in and out of cars.</p>
@@ -82,7 +82,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Breed Calculators</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline">Golden Retriever</a>

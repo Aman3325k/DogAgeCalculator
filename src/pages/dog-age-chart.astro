@@ -24,7 +24,7 @@ function getStage(age, size) {
 
 <BaseLayout
   title="Dog Age Chart — Years to Human Years by Breed Size"
-  description="Complete dog age chart: convert dog years to human years by breed size. Small, medium, large, and giant breed age conversion tables. Free and easy to use."
+  description="Complete dog age chart: accurately convert dog years to human years by breed size. Small, medium, large, and giant breed age conversion tables included."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-4xl mx-auto">
@@ -39,7 +39,7 @@ function getStage(age, size) {
         "datePublished": "2025-01-15",
         "dateModified": new Date().toISOString().split('T')[0]
       })} />
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Dog Age Chart</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Dog Age Chart</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Age Chart: Dog Years to Human Years by Breed Size</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-2xl leading-relaxed">
         Use our complete dog age chart to convert your dog's age to human years. Unlike the outdated "multiply by 7" rule, our chart accounts for breed size — because small, medium, large, and giant dogs age at different rates.
@@ -47,16 +47,16 @@ function getStage(age, size) {
 
       {breedSizes.map(bs => (
         <div class="mb-12">
-          <h2 class="text-lg sm:text-xl font-semibold tracking-tight text-[var(--text-primary)] mb-3">{bs.label} Dog Age to Human Years</h2>
+          <h2 class="text-lg sm:text-xl font-semibold tracking-tight text-[var(--text-primary)] mb-4">{bs.label} Dog Age to Human Years</h2>
           <p class="text-sm text-[var(--text-muted)] mb-4">{bs.desc} — accurate age conversion using DNA methylation science.</p>
           <div class="overflow-x-auto -mx-4 sm:-mx-0">
             <div class="card inline-block min-w-full px-4 sm:px-0">
               <table class="w-full text-sm">
                 <thead>
                   <tr class="border-b border-[var(--border-default)]">
-                    <th class="text-left py-3 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Dog Age (years)</th>
-                    <th class="text-left py-3 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Human Equivalent</th>
-                    <th class="text-left py-3 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Life Stage</th>
+                    <th class="text-left py-4 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Dog Age (years)</th>
+                    <th class="text-left py-4 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Human Equivalent</th>
+                    <th class="text-left py-4 px-4 text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] font-medium">Life Stage</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -83,8 +83,8 @@ function getStage(age, size) {
       ))}
 
       <div class="mt-10 card card-hover-lift p-6">
-        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-3">How to Use This Chart</h2>
-        <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-4">How to Use This Chart</h2>
+        <div class="space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
           <p>Find your dog's age in the left column, then look across to see their human equivalent age. The life stage column shows what phase of life your dog is in — from Puppy through to Elder.</p>
           <p>For the most accurate result, use our <a href="/" class="text-[var(--color-link)] hover:underline" title="Dog Age Calculator by Breed Size">Dog Age Calculator</a> which takes your dog's exact age (years and months) and breed size for a precise calculation.</p>
           <p><strong class="text-[var(--text-primary)]">Pro tip:</strong> Small breeds age slower — a 10-year-old Chihuahua is roughly 57 human years. A 10-year-old Great Dane is about 89 human years. Breed size dramatically affects aging rates.</p>
@@ -94,8 +94,8 @@ function getStage(age, size) {
   </section>
 
   <section class="container-custom pb-20">
-    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
-      <p class="text-sm text-[var(--text-secondary)] mb-3">Ready to calculate your dog's exact age?</p>
+    <div class="max-w-2xl mx-auto card p-6 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-4">Ready to calculate your dog's exact age?</p>
       <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>

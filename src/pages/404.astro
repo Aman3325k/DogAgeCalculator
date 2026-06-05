@@ -6,7 +6,7 @@ Astro.response.status = 404;
 
 <BaseLayout
   title="Page Not Found"
-  description="The page you're looking for doesn't exist on DOGBREEDAGE. Let's get you back home."
+  description="Page not found. Use our scientifically-accurate dog age calculator to convert your dog's age to human years based on their breed size."
   noindex={true}
 >
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -41,18 +41,18 @@ Astro.response.status = 404;
       </p>
 
       <!-- Link cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full mt-2">
-        <a href="/" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Go to homepage">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full mt-2">
+        <a href="/" class="card card-hover-lift p-4 sm:p-6 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Go to homepage">
           <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🏠</span>
           <span class="text-sm font-medium text-[var(--text-primary)]">Go Home</span>
           <span class="text-xs text-[var(--text-muted)]">Back to safety</span>
         </a>
-        <a href="/" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Try the dog age calculator">
+        <a href="/" class="card card-hover-lift p-4 sm:p-6 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Try the dog age calculator">
           <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🐕</span>
           <span class="text-sm font-medium text-[var(--text-primary)]">Calculator</span>
           <span class="text-xs text-[var(--text-muted)]">Age your dog</span>
         </a>
-        <a href="/compare" class="card card-hover-lift p-4 sm:p-5 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Compare two dogs ages">
+        <a href="/compare" class="card card-hover-lift p-4 sm:p-6 no-underline flex flex-col items-center gap-2 text-center min-h-[100px] justify-center group" aria-label="Compare two dogs ages">
           <span class="text-2xl sm:text-3xl opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true">🐾</span>
           <span class="text-sm font-medium text-[var(--text-primary)]">Compare</span>
           <span class="text-xs text-[var(--text-muted)]">Two dogs side-by-side</span>
@@ -60,9 +60,9 @@ Astro.response.status = 404;
       </div>
 
       <!-- Breed suggestion -->
-      <div class="w-full mt-4 sm:mt-6 card p-5 sm:p-6">
-        <p class="text-sm text-[var(--text-secondary)] mb-3 text-center">Looking for a breed calculator?</p>
-        <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+      <div class="w-full mt-4 sm:mt-6 card p-6 sm:p-6">
+        <p class="text-sm text-[var(--text-secondary)] mb-4 text-center">Looking for a breed calculator?</p>
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-4">
           <a href="/labrador-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="Labrador Retriever Age Calculator">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
           <a href="/german-shepherd-age-calculator" class="tag-pill text-xs sm:text-sm no-underline" title="German Shepherd Age Calculator">German Shepherd</a>

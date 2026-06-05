@@ -6,7 +6,7 @@ Astro.response.status = 500;
 
 <BaseLayout
   title="Server Error"
-  description="Something went wrong on DOGBREEDAGE. Please try again shortly."
+  description="Internal server error. Please return to the homepage to use our highly accurate dog age calculator based on breed size."
   noindex={true}
 >
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -60,7 +60,7 @@ Astro.response.status = 500;
       </p>
 
       <!-- Action buttons -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto mt-2">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-4 w-full sm:w-auto mt-2">
         <button type="button" class="btn-primary text-sm sm:text-base w-full sm:w-auto justify-center" onclick="window.location.reload()" aria-label="Try refreshing the page">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
           Try Again
@@ -72,8 +72,8 @@ Astro.response.status = 500;
       </div>
 
       <!-- Reassurance -->
-      <div class="card p-5 sm:p-6 w-full mt-4 sm:mt-6">
-        <div class="flex items-start gap-3">
+      <div class="card p-6 sm:p-6 w-full mt-4 sm:mt-6">
+        <div class="flex items-start gap-4">
           <span class="text-xl shrink-0 mt-0.5" aria-hidden="true">💤</span>
           <div class="text-left">
             <p class="text-sm font-medium text-[var(--text-primary)]">This is on us, not you.</p>

@@ -4,23 +4,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Yorkshire Terrier Age Calculator — Dog to Human Years"
-  description="Calculate your Yorkshire Terrier's age in human years. Yorkies are a small breed with impressive longevity. Use our breed-adjusted DNA methylation formula for accurate results. Free, instant."
+  description="Calculate your Yorkshire Terrier's age in human years with our highly accurate, breed-size based scientific formula. Fast, free, and no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Yorkshire Terrier Age Calculator</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Yorkshire Terrier Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
         Yorkshire Terriers (Yorkies) are a tiny but feisty small breed beloved for their silky coats and bold personalities. As a small breed, Yorkies age slowly and often live well into their teens. Use our Yorkshire Terrier age calculator to find your Yorkie's true human age.
       </p>
 
       <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
-        <form id="breed-calc-form" class="space-y-5">
+        <form id="breed-calc-form" class="space-y-6">
           <div>
             <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
             <input type="text" id="breed-name" class="input-base" placeholder="e.g. Bella" maxlength="30" />
@@ -37,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3">🐾 Calculate Human Age</button>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4">🐾 Calculate Human Age</button>
         </form>
 
         <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
@@ -74,7 +74,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Yorkshire Terrier Aging Guide</h2>
         <p>Yorkshire Terriers are a toy breed, typically weighing 4–7 lbs. Despite their tiny size, they have huge personalities and exceptional longevity — among the longest-lived of all dog breeds. They reach physical maturity around 12–18 months and social maturity around 2 years.</p>
         <p>Dental disease is the most significant health threat to aging Yorkies. Their small mouths cause teeth to crowd together, accelerating tartar buildup and gum disease. Without proper dental care, dental disease can shorten a Yorkie's life by years. Brush their teeth daily and schedule professional cleanings every 1–2 years.</p>
@@ -82,7 +82,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Breed Calculators</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline">Golden Retriever</a>

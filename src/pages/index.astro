@@ -32,13 +32,13 @@ const today = new Date().toISOString().split('T')[0];
 
 <BaseLayout
   title="Dog Age Calculator by Breed Size — Dog to Human Years"
-  description="The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size instantly — no login required. Try our free tool now."
+  description="The most accurate dog age calculator using breed-size scientific formulas. Convert your dog's age to human years instantly. Free and easy to use."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 text-center hero-pattern hero-min-h flex items-center justify-center">
     <div class="relative z-10 w-full">
       <span class="hero-paw-center" aria-hidden="true">🐾</span>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6 page-load-hero">Dog Age Calculator</span>
-      <h1 class="hero-h1 font-bold tracking-tight text-[var(--text-primary)] leading-tight mb-3 sm:mb-4 px-0 sm:px-2 page-load-hero">
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6 page-load-hero">Dog Age Calculator</span>
+      <h1 class="hero-h1 font-bold tracking-tight text-[var(--text-primary)] leading-tight mb-4 sm:mb-4 px-0 sm:px-2 page-load-hero">
         Dog Age Calculator<br />
         <span class="gradient-text">by Breed Size</span>
       </h1>
@@ -83,7 +83,7 @@ const today = new Date().toISOString().split('T')[0];
   <div class="section-divider max-w-2xl mb-10 sm:mb-16"></div>
 
   <section class="container-custom my-10 sm:my-16">
-    <div class="max-w-2xl mx-auto card card-hover-lift p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
+    <div class="max-w-2xl mx-auto card card-hover-lift p-4 sm:p-6 flex items-center gap-4 sm:gap-4">
       <span class="text-2xl shrink-0">💡</span>
       <div class="flex-1 min-w-0">
         <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Did You Know?</p>
@@ -96,7 +96,7 @@ const today = new Date().toISOString().split('T')[0];
 
   <section class="container-custom py-10 sm:py-16 md:py-24 text-center page-load-late">
     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)] mb-6">Popular Breed Calculators</h2>
-    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-3xl mx-auto">
+    <div class="flex flex-wrap justify-center gap-2 sm:gap-4 max-w-3xl mx-auto">
       {breedLinks.map(b => (
         <a href={b.href} class="tag-pill text-sm no-underline hover:text-[var(--text-primary)]" title={`${b.name} Age Calculator`}>{b.name}</a>
       ))}

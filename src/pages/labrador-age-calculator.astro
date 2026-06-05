@@ -5,23 +5,23 @@ import FAQ from '../components/FAQ.astro';
 
 <BaseLayout
   title="Labrador Age Calculator — Dog to Human Years"
-  description="Calculate your Labrador's age in human years using our breed-size based formula. Accurate Labrador dog years to human years conversion for large dogs. Calculate free instantly — no login required."
+  description="Calculate your Labrador's age in human years with our highly accurate, breed-size based scientific formula. Fast, free, and no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Labrador Age Calculator</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Labrador Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
         Labrador Retrievers are one of the most popular dog breeds worldwide. A medium-to-large breed, Labradors age moderately compared to smaller dogs. Use our Labrador age calculator to find your Lab's true human age.
       </p>
 
           <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
-        <form id="breed-calc-form" class="space-y-5">
+        <form id="breed-calc-form" class="space-y-6">
           <div>
             <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
             <input type="text" id="breed-name" class="input-base" placeholder="e.g. Buddy" maxlength="30" />
@@ -38,7 +38,7 @@ import FAQ from '../components/FAQ.astro';
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3">Calculate Human Age</button>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4">Calculate Human Age</button>
         </form>
 
         <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
@@ -77,7 +77,7 @@ import FAQ from '../components/FAQ.astro';
 
       <div class="max-w-2xl mx-auto mt-12 pt-8 border-t border-[var(--border-default)]">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-4">Labrador Health & Aging Guide</h2>
-        <div class="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+        <div class="space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
           <p>Labrador Retrievers are a large breed with a typical lifespan of 10-12 years, though some can live up to 14 years with excellent care. As a large breed, Labs enter seniorhood around age 7. A 7-year-old Labrador is approximately 53 in human years. They are America's most popular dog breed for good reason — their friendly, active nature brings joy to millions of families.</p>
           <p>Labs are prone to hip and elbow dysplasia, obesity, progressive retinal atrophy, and exercise-induced collapse (EIC). Obesity is the most significant health threat to Labradors, as their food motivation is exceptionally strong. Even moderate weight gain dramatically increases the risk of joint disease, diabetes, and shortened lifespan.</p>
           <p>Managing your Labrador's weight is the single most important factor for healthy aging. Measure food portions, limit treats, and ensure daily exercise. Begin joint supplements around age 5 and switch to a senior diet around age 7. Regular vet checkups including hip evaluations and eye exams help catch problems early. Swimming is an ideal exercise for senior Labs.</p>
@@ -85,7 +85,7 @@ import FAQ from '../components/FAQ.astro';
       </div>
 
       <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Breed Calculators</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
@@ -107,8 +107,8 @@ import FAQ from '../components/FAQ.astro';
   </section>
 
   <section class="container-custom pb-20">
-    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
-      <p class="text-sm text-[var(--text-secondary)] mb-3">Ready to calculate your dog's real human age?</p>
+    <div class="max-w-2xl mx-auto card p-6 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-4">Ready to calculate your dog's real human age?</p>
       <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>
@@ -125,6 +125,7 @@ import FAQ from '../components/FAQ.astro';
 
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
+  "dateModified": new Date().toISOString().split('T')[0],
   "@type": "FAQPage",
   "mainEntity": [
     {

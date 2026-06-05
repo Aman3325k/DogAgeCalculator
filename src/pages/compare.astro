@@ -12,7 +12,7 @@ const breedSizes = [
 
 <BaseLayout
   title="Compare Two Dogs — Dog Age Calculator"
-  description="Compare two dogs' ages side by side. See which dog is older in human years with our breed-size based comparison tool. Try it free — no signup needed."
+  description="Compare two dogs' ages in human years side-by-side using our breed-size accurate calculator. See how different breeds age biologically. Free to use."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-5xl mx-auto">
@@ -27,15 +27,15 @@ const breedSizes = [
         "datePublished": "2025-01-15",
         "dateModified": new Date().toISOString().split('T')[0]
       })} />
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Compare Dogs</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Compare Dogs</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Compare Two Dogs</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">Compare the human age of two dogs side by side. See which one is older, their life stages, and life expectancy differences.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="compare-root">
         {[1, 2].map(num => (
           <div class="card card-hover-lift p-4 sm:p-6 md:p-8" data-compare={num}>
-            <h2 class="text-sm font-semibold text-[var(--text-primary)] mb-5">Dog {num}</h2>
-              <div class="space-y-5">
+            <h2 class="text-sm font-semibold text-[var(--text-primary)] mb-6">Dog {num}</h2>
+              <div class="space-y-6">
               <div>
                 <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Name</label>
                 <input type="text" class="input-base text-sm py-2" id={`c${num}-name`} placeholder={`Dog ${num}`} maxlength="30" />
@@ -52,7 +52,7 @@ const breedSizes = [
                   ))}
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-3">
+              <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Years</label>
                   <input type="number" class="input-base text-sm py-2" id={`c${num}-years`} min="0" max="40" placeholder="0" />
@@ -70,17 +70,17 @@ const breedSizes = [
       </div>
 
       <div class="flex justify-center mt-6">
-        <button type="button" class="btn-primary text-base py-3 px-8" id="compare-btn">Compare Ages</button>
+        <button type="button" class="btn-primary text-base py-4 px-8" id="compare-btn">Compare Ages</button>
       </div>
 
         <div id="compare-result" class="hidden mt-10 space-y-6" aria-live="polite" aria-atomic="true">
         <div class="card p-6 card-hover-lift">
-          <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-5">Comparison Results</h2>
+          <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)] mb-6">Comparison Results</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div id="compare-card-1" class="card card-hover-lift p-4 border-[var(--border-strong)]"></div>
             <div id="compare-card-2" class="card card-hover-lift p-4 border-[var(--border-strong)]"></div>
           </div>
-          <div class="mt-6 pt-5 border-t border-[var(--border-default)] text-center">
+          <div class="mt-6 pt-6 border-t border-[var(--border-default)] text-center">
             <p class="text-lg font-semibold text-[var(--text-primary)]" id="compare-winner"></p>
             <p class="text-sm text-[var(--text-secondary)] mt-1" id="compare-fun-msg"></p>
           </div>
@@ -90,8 +90,8 @@ const breedSizes = [
   </section>
 
   <section class="container-custom pb-20">
-    <div class="max-w-2xl mx-auto card p-5 sm:p-6 text-center">
-      <p class="text-sm text-[var(--text-secondary)] mb-3">Want to calculate your own dog's age?</p>
+    <div class="max-w-2xl mx-auto card p-6 sm:p-6 text-center">
+      <p class="text-sm text-[var(--text-secondary)] mb-4">Want to calculate your own dog's age?</p>
       <a href="/" class="btn-primary text-sm no-underline inline-flex">Try the Calculator →</a>
     </div>
   </section>

@@ -181,7 +181,12 @@ function renderResults(totalYears, breedSize, name, years, months) {
   const result = document.getElementById('result');
   if (result) {
     result.classList.remove('hidden');
-    setTimeout(() => result.classList.add('visible'), 10);
+    setTimeout(() => {
+      result.classList.add('visible');
+      document.getElementById('fun-stats-grid')?.classList.add('visible');
+      document.getElementById('age-chart-section')?.classList.add('visible');
+      document.getElementById('health-timeline-section')?.classList.add('visible');
+    }, 10);
     const form = document.getElementById('calc-form');
     if (form) form.classList.add('no-print');
   }
@@ -214,7 +219,6 @@ function renderResults(totalYears, breedSize, name, years, months) {
     document.getElementById('stat-seconds').textContent = formatNumber(statSeconds);
     // Store for copy-text button
     grid.dataset.days = statDays;
-    setTimeout(() => grid.classList.remove('opacity-0'), 150);
   }
 
   triggerConfetti();

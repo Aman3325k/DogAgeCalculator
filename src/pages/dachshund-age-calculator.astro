@@ -4,23 +4,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Dachshund Age Calculator — Dog to Human Years"
-  description="Calculate your Dachshund's age in human years. Dachshunds are a small breed known for longevity. Use our DNA methylation formula for accurate dog-to-human age conversion. Free, instant."
+  description="Calculate your Dachshund's age in human years with our highly accurate, breed-size based scientific formula. Fast, free, and no login required."
 >
   <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
     <div class="max-w-2xl mx-auto">
-      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-3">
+      <p class="text-xs text-[var(--text-muted)] mb-2 sm:mb-4">
         <a href="/" class="text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors no-underline">Home</a>
         <span class="text-[var(--text-faint)] mx-1.5">›</span>
         <span class="text-[var(--text-secondary)]">Dachshund Age Calculator</span>
       </p>
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-3 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
+      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Breed Calculator</span>
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dachshund Age Calculator — Dog to Human Years</h1>
       <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
         Dachshunds (also called Wiener Dogs or Sausage Dogs) are a small breed famous for their long bodies and big personalities. Small breeds like Dachshunds age slower than larger dogs and are renowned for their longevity. Use our Dachshund age calculator to find your dog's true human age.
       </p>
 
       <div class="card card-hover-lift p-4 sm:p-6 md:p-8 mb-8" id="breed-calc-root">
-        <form id="breed-calc-form" class="space-y-5">
+        <form id="breed-calc-form" class="space-y-6">
           <div>
             <label for="breed-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1">Your Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
             <input type="text" id="breed-name" class="input-base" placeholder="e.g. Pretzel" maxlength="30" />
@@ -37,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary w-full justify-center text-base py-3">🐾 Calculate Human Age</button>
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4">🐾 Calculate Human Age</button>
         </form>
 
         <div id="breed-result" class="hidden mt-8 pt-8 border-t border-[var(--border-default)] text-center" aria-live="polite" aria-atomic="true">
@@ -74,7 +74,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+      <div class="mt-12 pt-8 border-t border-[var(--border-default)] space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
         <h2 class="text-lg font-semibold tracking-tight text-[var(--text-primary)]">Dachshund Aging Guide</h2>
         <p>Dachshunds are a small breed originally bred in Germany for hunting badgers. Their elongated body and short legs are charming but create a significant vulnerability: their long spines are highly susceptible to intervertebral disc disease (IVDD). IVDD can cause anything from pain and weakness to full hind-leg paralysis, and it becomes more common as Dachshunds age.</p>
         <p>Weight management is the single most important factor in a Dachshund's long-term health. Even a small amount of extra weight places enormous pressure on their spine. Use ramps and steps instead of allowing your Dachshund to jump on and off furniture or navigate stairs — this daily stress accumulates over time and accelerates disc degeneration.</p>
@@ -82,7 +82,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="mt-12 pt-8 border-t border-[var(--border-default)]">
-        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-3 text-center">More Breed Calculators</h2>
+        <h2 class="text-base font-semibold tracking-tight text-[var(--text-primary)] mb-4 text-center">More Breed Calculators</h2>
         <div class="flex flex-wrap justify-center gap-2">
           <a href="/labrador-age-calculator" class="tag-pill text-xs no-underline" title="Labrador Age Calculator">Labrador</a>
           <a href="/golden-retriever-age-calculator" class="tag-pill text-xs no-underline" title="Golden Retriever Age Calculator">Golden Retriever</a>
