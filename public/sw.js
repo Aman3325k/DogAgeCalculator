@@ -1,5 +1,5 @@
-const CACHE = 'dogbreedage-v2';
-const urlsToCache = ['/', '/about', '/contact', '/dog-age-chart', '/compare', '/reverse-calculator', '/dog-birthday', '/labrador-age-calculator', '/golden-retriever-age-calculator', '/german-shepherd-age-calculator', '/bulldog-age-calculator', '/poodle-age-calculator', '/beagle-age-calculator', '/chihuahua-age-calculator', '/pomeranian-age-calculator', '/great-dane-age-calculator', '/husky-age-calculator', '/shih-tzu-age-calculator', '/border-collie-age-calculator'];
+const CACHE = 'dogbreedage-v3';
+const urlsToCache = ['/', '/about', '/contact', '/dog-age-chart', '/compare', '/reverse-calculator', '/dog-birthday', '/labrador-age-calculator', '/golden-retriever-age-calculator', '/german-shepherd-age-calculator', '/bulldog-age-calculator', '/poodle-age-calculator', '/beagle-age-calculator', '/chihuahua-age-calculator', '/pomeranian-age-calculator', '/great-dane-age-calculator', '/husky-age-calculator', '/shih-tzu-age-calculator', '/border-collie-age-calculator', '/french-bulldog-age-calculator', '/pug-age-calculator', '/dachshund-age-calculator', '/rottweiler-age-calculator', '/corgi-age-calculator', '/yorkshire-terrier-age-calculator', '/privacy-policy', '/terms-of-service'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

@@ -1,6 +1,5 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import FAQ from '../components/FAQ.astro';
 ---
 
 <BaseLayout
@@ -164,15 +163,17 @@ import FAQ from '../components/FAQ.astro';
 })} />
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js';
+
+(() => {
   const form = document.getElementById('breed-calc-form');
   const result = document.getElementById('breed-result');
   const haEl = document.getElementById('breed-human-age');
   const stageEl = document.getElementById('breed-stage');
   const expEl = document.getElementById('breed-expectancy');
-  const multiplier = 1.15;
-  const lifespan = [10, 12];
   const sizeLabel = 'large';
+
+  if (!form) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -180,18 +181,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const months = parseInt(document.getElementById('breed-months').value);
     if (isNaN(years) || years < 0) { alert('Please enter a valid age'); return; }
     if (years === 0 && months === 0) { alert('Age must be greater than 0'); return; }
+    
+    const ha = calcDogAge(years, months, BREED_SIZES[sizeLabel].multiplier);
     const total = years + months / 12;
-    const ha = Math.round((16 * Math.log(Math.max(total, 0.083)) + 31) * multiplier * 10) / 10;
-    const thresholds = { small: [0.5,2,4,8,12,99], medium: [0.5,2,4,7,11,99], large: [0.5,1.5,3,6,9,99], giant: [0.5,1.5,3,5,8,99] };
-    const stages = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
-    const t = thresholds[sizeLabel];
-    let stage = 'Elder';
-    for (let i = 0; i < t.length; i++) { if (total <= t[i]) { stage = stages[i]; break; } }
+    const stage = getLifeStage(total, sizeLabel);
+    
     haEl.textContent = ha;
     stageEl.textContent = `Life Stage: ${stage}`;
-    expEl.textContent = `Life expectancy: ${lifespan[0]}-${lifespan[1]} years`;
+    expEl.textContent = `Life expectancy: ${BREED_SIZES[sizeLabel].lifespan[0]}-${BREED_SIZES[sizeLabel].lifespan[1]} years`;
     result.classList.remove('hidden');
     result.scrollIntoView({ behavior: 'smooth' });
   });
-});
+})();
 </script>

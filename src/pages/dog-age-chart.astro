@@ -1,7 +1,8 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Calculator from '../components/Calculator.astro';
 import FAQ from '../components/FAQ.astro';
+import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js';
 
 const breedSizes = [
   { value: 'small', label: 'Small', desc: 'under 20 lbs' },
@@ -9,17 +10,6 @@ const breedSizes = [
   { value: 'large', label: 'Large', desc: '50-90 lbs' },
   { value: 'giant', label: 'Giant', desc: '90+ lbs' },
 ];
-
-function getStage(age, size) {
-  if (age <= 0.5) return 'Puppy';
-  if (age <= 2) return 'Teenager';
-  if (age <= 4) return 'Young Adult';
-  const adultMax = size === 'giant' ? 5 : size === 'large' ? 6 : size === 'medium' ? 7 : 8;
-  if (age <= adultMax) return 'Adult';
-  const seniorMax = size === 'giant' ? 8 : size === 'large' ? 9 : size === 'medium' ? 11 : 12;
-  if (age <= seniorMax) return 'Senior';
-  return 'Elder';
-}
 ---
 
 <BaseLayout
@@ -62,11 +52,8 @@ function getStage(age, size) {
                 <tbody>
                   {Array.from({ length: 20 }, (_, i) => {
                     const age = i + 1;
-                    const humanAge = bs.value === 'small' ? Math.round((16 * Math.log(age) + 31) * 0.85 * 10) / 10 :
-                                     bs.value === 'medium' ? Math.round((16 * Math.log(age) + 31) * 10) / 10 :
-                                     bs.value === 'large' ? Math.round((16 * Math.log(age) + 31) * 1.15 * 10) / 10 :
-                                     Math.round((16 * Math.log(age) + 31) * 1.3 * 10) / 10;
-                     const stage = getStage(age, bs.value);
+                    const humanAge = calcDogAge(age, 0, BREED_SIZES[bs.value].multiplier);
+                    const stage = getLifeStage(age, bs.value);
                     return (
                       <tr class="border-b border-[var(--border-default)] last:border-0">
                         <td class="py-2.5 px-4 text-sm text-[var(--text-secondary)]">{age}</td>

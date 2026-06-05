@@ -9,19 +9,21 @@ export interface Props {
   noindex?: boolean;
   canonical?: string;
   ogImage?: string;
+  ogType?: string;
 }
 
-const { title, description, noindex, canonical, ogImage } = Astro.props;
+const { title, description, noindex, canonical, ogImage, ogType } = Astro.props;
 const site = 'https://dogbreedage.com';
 const ogImg = ogImage || `${site}/images/og-default.webp`;
 const canon = canonical || `${site}${Astro.url.pathname}`;
+const defaultOgType = Astro.url.pathname.includes('-age-calculator') ? 'article' : 'website';
+const resolvedOgType = ogType || defaultOgType;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow'} />
-    <meta name="googlebot" content={noindex ? 'noindex' : 'index, follow'} />
     <link rel="sitemap" href="/sitemap.xml" />
     <script>
       (function() {
@@ -42,7 +44,7 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
     <meta property="og:title" content={`${title} | DOGBREEDAGE`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canon} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={resolvedOgType} />
     <meta property="og:image" content={ogImg} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -65,33 +67,35 @@ const canon = canonical || `${site}${Astro.url.pathname}`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "DOGBREEDAGE - Dog Age Calculator by Breed Size",
-      "url": "https://dogbreedage.com",
-      "description": "The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size.",
-      "applicationCategory": "LifestyleApplication",
-      "operatingSystem": "All",
-      "browserRequirements": "Requires JavaScript",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "DOGBREEDAGE",
-        "url": "https://dogbreedage.com"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "DOGBREEDAGE",
-        "url": "https://dogbreedage.com"
-      },
-      "datePublished": "2025-01-15",
-      "dateModified": new Date().toISOString().split('T')[0]
-    })} />
+    {Astro.url.pathname === '/' && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "DOGBREEDAGE - Dog Age Calculator by Breed Size",
+        "url": "https://dogbreedage.com",
+        "description": "The most accurate dog age calculator using breed-size based scientific formula. Calculate your dog's human age by breed size.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "DOGBREEDAGE",
+          "url": "https://dogbreedage.com"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "DOGBREEDAGE",
+          "url": "https://dogbreedage.com"
+        },
+        "datePublished": "2025-01-15",
+        "dateModified": new Date().toISOString().split('T')[0]
+      })} />
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main-content" class="skip-to-main">Skip to main content</a>

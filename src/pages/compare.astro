@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedCalculators from '../components/RelatedCalculators.astro';
 
@@ -102,22 +102,9 @@ const breedSizes = [
 </BaseLayout>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const multipliers = { small: 0.85, medium: 1.0, large: 1.15, giant: 1.3 };
-  const labels = { small: 'Small', medium: 'Medium', large: 'Large', giant: 'Giant' };
-  const lifespans = { small: [12,16], medium: [10,14], large: [8,12], giant: [7,10] };
+import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js';
 
-  function calcHA(totalYears, mult) {
-    return Math.round((16 * Math.log(Math.max(totalYears, 0.083)) + 31) * mult * 10) / 10;
-  }
-
-  function getStage(y, sz) {
-    const thresholds = { small: [0.5,2,4,8,12,99], medium: [0.5,2,4,7,11,99], large: [0.5,1.5,3,6,9,99], giant: [0.5,1.5,3,5,8,99] };
-    const stages = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
-    const t = thresholds[sz];
-    for (let i = 0; i < t.length; i++) { if (y <= t[i]) return stages[i]; }
-    return 'Elder';
-  }
+(() => {
 
   document.getElementById('compare-btn').addEventListener('click', () => {
     const results = [];
@@ -137,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (years === 0 && months === 0) { alert(`Age must be greater than 0 for Dog ${n}`); return; }
       if (years === 0 && isNaN(months)) { alert(`Please select months for Dog ${n}`); return; }
       const total = years + months / 12;
-      const ha = calcHA(total, multipliers[size]);
-      results.push({ name, size, total, ha, stage: getStage(total, size), lifespan: lifespans[size] });
+      const ha = calcDogAge(years, months, BREED_SIZES[size].multiplier);
+      results.push({ name, size, total, ha, stage: getLifeStage(total, size), lifespan: BREED_SIZES[size].lifespan });
     }
 
     const c1 = document.getElementById('compare-card-1');
@@ -155,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.appendChild(nameP);
       const infoP = document.createElement('p');
       infoP.className = 'text-xs text-[var(--text-muted)] mb-1';
-      infoP.textContent = `${labels[r.size] || 'Unknown'} breed · ${r.total.toFixed(1)} dog years`;
+      infoP.textContent = `${BREED_SIZES[r.size]?.label || 'Unknown'} breed · ${r.total.toFixed(1)} dog years`;
       el.appendChild(infoP);
       const ageP = document.createElement('p');
       ageP.className = 'text-3xl font-bold text-[var(--text-primary)] my-2';
@@ -193,5 +180,5 @@ document.addEventListener('DOMContentLoaded', () => {
     resultEl.classList.remove('hidden');
     resultEl.scrollIntoView({ behavior: 'smooth' });
   });
-});
+})();
 </script>

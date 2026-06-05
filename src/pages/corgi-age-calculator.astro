@@ -114,35 +114,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 })} />
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js';
+
+(() => {
   const form = document.getElementById('breed-calc-form');
   const result = document.getElementById('breed-result');
   const haEl = document.getElementById('breed-human-age');
   const stageEl = document.getElementById('breed-stage');
   const expEl = document.getElementById('breed-expectancy');
-  const multiplier = 0.92;
-  const lifespan = [12, 15];
   const sizeLabel = 'medium';
-  const thresholds = [0.5,2,4,7,11,99];
-  const stages = ['Puppy','Teenager','Young Adult','Adult','Senior','Elder'];
+
+  if (!form) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const years = parseInt(document.getElementById('breed-years').value);
     const months = parseInt(document.getElementById('breed-months').value);
-    const name = document.getElementById('breed-name').value.trim() || 'Your Corgi';
     if (isNaN(years) || years < 0) { alert('Please enter a valid age'); return; }
     if (years === 0 && months === 0) { alert('Age must be greater than 0'); return; }
+    
+    const ha = calcDogAge(years, months, BREED_SIZES[sizeLabel].multiplier);
     const total = years + months / 12;
-    const ha = Math.round((16 * Math.log(Math.max(total, 0.083)) + 31) * multiplier * 10) / 10;
-    let stage = 'Elder';
-    for (let i = 0; i < thresholds.length; i++) { if (total <= thresholds[i]) { stage = stages[i]; break; } }
-    document.querySelector('#breed-result p:first-child').textContent = `${name} is equivalent to`;
+    const stage = getLifeStage(total, sizeLabel);
+    
     haEl.textContent = ha;
     stageEl.textContent = `Life Stage: ${stage}`;
-    expEl.textContent = `Life expectancy: ${lifespan[0]}-${lifespan[1]} years`;
+    expEl.textContent = `Life expectancy: ${BREED_SIZES[sizeLabel].lifespan[0]}-${BREED_SIZES[sizeLabel].lifespan[1]} years`;
     result.classList.remove('hidden');
     result.scrollIntoView({ behavior: 'smooth' });
   });
-});
+})();
 </script>

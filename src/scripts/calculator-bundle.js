@@ -1,8 +1,10 @@
+import { BREED_SIZES, calcDogAge, getLifeStage } from './breed-data.js';
+
 const BREED_DATA = {
-  small: { label: 'Small (under 20 lbs)', kgLabel: 'Small (under 9 kg)', examples: ['Chihuahua', 'Pomeranian', 'Shih Tzu', 'Yorkshire Terrier', 'Pug', 'Maltese'], lifespan: [12, 16], multiplier: 0.85, funFact: 'Small dogs age more slowly than larger breeds. A Chihuahua at 15 can still be energetic — equivalent to a healthy 70-year-old human!', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 2, label: 'Teenager' }, { max: 4, label: 'Young Adult' }, { max: 8, label: 'Adult' }, { max: 12, label: 'Senior' }, { max: 99, label: 'Elder' }] },
-  medium: { label: 'Medium (20-50 lbs)', kgLabel: 'Medium (9-23 kg)', examples: ['Beagle', 'Bulldog', 'Border Collie', 'Cocker Spaniel', 'Australian Shepherd'], lifespan: [10, 14], multiplier: 1.0, funFact: 'Medium breeds reach adulthood at about 2 years old. Their aging rate closely mirrors the standard 16 × ln(dog age) + 31 formula.', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 2, label: 'Teenager' }, { max: 4, label: 'Young Adult' }, { max: 7, label: 'Adult' }, { max: 11, label: 'Senior' }, { max: 99, label: 'Elder' }] },
-  large: { label: 'Large (50-90 lbs)', kgLabel: 'Large (23-41 kg)', examples: ['Labrador Retriever', 'Golden Retriever', 'Husky', 'German Shepherd', 'Boxer'], lifespan: [8, 12], multiplier: 1.15, funFact: 'Large breeds like Labs enter their senior years around age 7 — about 5 years earlier than small breeds.', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 1.5, label: 'Teenager' }, { max: 3, label: 'Young Adult' }, { max: 6, label: 'Adult' }, { max: 9, label: 'Senior' }, { max: 99, label: 'Elder' }] },
-  giant: { label: 'Giant (90+ lbs)', kgLabel: 'Giant (41+ kg)', examples: ['Great Dane', 'Saint Bernard', 'Mastiff', 'Irish Wolfhound', 'Tibetan Mastiff'], lifespan: [7, 10], multiplier: 1.3, funFact: 'Giant breeds age fastest. A 6-year-old Great Dane is already a senior, while a small dog of the same age is still in its prime!', stageThresholds: [{ max: 0.5, label: 'Puppy' }, { max: 1.5, label: 'Teenager' }, { max: 3, label: 'Young Adult' }, { max: 5, label: 'Adult' }, { max: 8, label: 'Senior' }, { max: 99, label: 'Elder' }] },
+  small: { ...BREED_SIZES.small, label: 'Small (under 20 lbs)', kgLabel: 'Small (under 9 kg)', examples: ['Chihuahua', 'Pomeranian', 'Shih Tzu', 'Yorkshire Terrier', 'Pug', 'Maltese'], funFact: 'Small dogs age more slowly than larger breeds. A Chihuahua at 15 can still be energetic — equivalent to a healthy 70-year-old human!' },
+  medium: { ...BREED_SIZES.medium, label: 'Medium (20-50 lbs)', kgLabel: 'Medium (9-23 kg)', examples: ['Beagle', 'Bulldog', 'Border Collie', 'Cocker Spaniel', 'Australian Shepherd'], funFact: 'Medium breeds reach adulthood at about 2 years old. Their aging rate closely mirrors the standard 16 × ln(dog age) + 31 formula.' },
+  large: { ...BREED_SIZES.large, label: 'Large (50-90 lbs)', kgLabel: 'Large (23-41 kg)', examples: ['Labrador Retriever', 'Golden Retriever', 'Husky', 'German Shepherd', 'Boxer'], funFact: 'Large breeds like Labs enter their senior years around age 7 — about 5 years earlier than small breeds.' },
+  giant: { ...BREED_SIZES.giant, label: 'Giant (90+ lbs)', kgLabel: 'Giant (41+ kg)', examples: ['Great Dane', 'Saint Bernard', 'Mastiff', 'Irish Wolfhound', 'Tibetan Mastiff'], funFact: 'Giant breeds age fastest. A 6-year-old Great Dane is already a senior, while a small dog of the same age is still in its prime!' },
 };
 
 const STAGE_EMOJIS = { Puppy: '🐶', Teenager: '🐕', 'Young Adult': '💪', Adult: '🦴', Senior: '🐾', Elder: '❤️' };
@@ -75,16 +77,9 @@ const DOG_FACTS = [
   'Puppies age the fastest: a 3-month-old puppy is already about 10 in human years.',
 ];
 
-function getLifeStage(totalYears, breedSize) {
-  const breed = BREED_DATA[breedSize];
-  if (!breed) return 'Elder';
-  for (const s of breed.stageThresholds) { if (totalYears <= s.max) return s.label; }
-  return 'Elder';
-}
-
 function calcHumanAge(totalYears, breedSize) {
-  const b = BREED_DATA[breedSize];
-  return Math.round((16 * Math.log(Math.max(totalYears, 0.083)) + 31) * (b ? b.multiplier : 1) * 10) / 10;
+  const b = BREED_SIZES[breedSize];
+  return calcDogAge(totalYears, 0, b ? b.multiplier : 1.0);
 }
 
 function getShareText(n, ha, sz, dy, mo) {
@@ -409,7 +404,7 @@ async function saveAsImage(elementId, cloneWidth, filenamePrefix) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
   const cfsheet = document.createElement('style');
   cfsheet.textContent = `@keyframes cf-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}`;
   document.head.appendChild(cfsheet);
@@ -798,4 +793,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
-});
+})();

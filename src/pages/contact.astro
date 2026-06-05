@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
@@ -28,7 +28,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div id="contact-form-status"></div>
 
       <form id="contact-form" class="card p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-6" method="POST">
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+        <!-- TODO: Replace YOUR_WEB3FORMS_KEY with your real Web3Forms access key from https://web3forms.com -->
+        <input type="hidden" name="access_key" value="d4f8fff4-d661-4374-b8ad-29c345143744">
         <input type="hidden" name="subject" value="New Contact from DOGBREEDAGE.COM">
         <input type="hidden" name="redirect" value="false">
         <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
@@ -65,7 +66,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
   const form = document.getElementById('contact-form');
   const statusEl = document.getElementById('contact-form-status');
   const submitBtn = document.getElementById('contact-submit');
@@ -153,5 +154,5 @@ document.addEventListener('DOMContentLoaded', () => {
       spinner.classList.add('hidden');
     }
   });
-});
+})();
 </script>
