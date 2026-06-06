@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@source "../components/**/*.astro";
+@source "../pages/**/*.astro";
+@source "../scripts/**/*.js";
+@source "../layouts/**/*.astro";
 
 @theme {
   --color-ink: #0a0a0a;
@@ -18,7 +22,7 @@
   --color-dark-hairline: #222222;
   --color-dark-hairline-strong: #333333;
   --color-dark-border: #2a2a2a;
-  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
 }
 
@@ -28,9 +32,9 @@
   --bg-elevated: #1a1a1a;
   --color-link: #ffffff;
   --text-primary: #ffffff;
-  --text-secondary: #888888;
-  --text-muted: #999999;
-  --text-faint: #888888;
+  --text-secondary: #9a9a9a;
+  --text-muted: #a3a3a3;
+  --text-faint: #9a9a9a;
   --border-default: #222222;
   --border-strong: #333333;
   --btn-primary-bg: #ffffff;
@@ -81,9 +85,9 @@ html.light {
   --bg-elevated: #ffffff;
   --color-link: #0070f3;
   --text-primary: #000000;
-  --text-secondary: #666666;
-  --text-muted: #555555;
-  --text-faint: #444444;
+  --text-secondary: #555555;
+  --text-muted: #444444;
+  --text-faint: #333333;
   --border-default: #e5e5e5;
   --border-strong: #d0d0d0;
   --btn-primary-bg: #000000;

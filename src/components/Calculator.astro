@@ -30,7 +30,7 @@ const popularBreeds = [
       <div class="text-xs text-[var(--text-faint)] text-right -mt-4" id="name-counter">0/20</div>
 
       <div>
-        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+        <label for="dog-photo" class="block text-sm font-medium text-[var(--text-secondary)] mb-2">
           Dog's Photo <span class="text-[var(--text-faint)]">(optional)</span>
         </label>
         <input type="file" id="dog-photo" accept="image/*" capture="environment" class="block w-full text-sm text-[var(--text-muted)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[var(--hover-overlay-strong)] file:text-[var(--text-primary)] hover:file:bg-[var(--hover-overlay)] cursor-pointer" />
@@ -130,14 +130,14 @@ const popularBreeds = [
       <div class="decorative-divider"></div>
 
       <div>
-        <h3 class="text-xs text-[var(--text-faint)] mb-2 font-mono uppercase tracking-wider">Life Progress</h3>
+        <h2 class="text-xs text-[var(--text-faint)] mb-2 font-mono uppercase tracking-wider">Life Progress</h2>
         <div class="progress-bar">
           <div class="progress-bar-fill bg-[var(--text-primary)]" id="progress-fill" style="width: 0%"></div>
         </div>
       </div>
 
       <div class="card card-hover-lift p-4 sm:p-4 md:p-6 space-y-4 sm:space-y-4" id="comparison-card">
-        <h3 class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider">Age Comparison</h3>
+        <h2 class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider">Age Comparison</h2>
         <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           <div>
             <p class="text-xs text-[var(--text-faint)] mb-1">Dog Age</p>
@@ -155,7 +155,7 @@ const popularBreeds = [
       </div>
 
       <div class="card card-hover-lift p-4 sm:p-4 md:p-6">
-        <h3 class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2">Did You Know?</h3>
+        <h2 class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-2">Did You Know?</h2>
         <p class="text-sm text-[var(--text-secondary)] leading-relaxed break-words" id="fun-fact"></p>
       </div>
 
