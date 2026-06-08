@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+---
+
+<BaseLayout
+  title="Free Dog Age Calculator Widget for Your Website"
+  description="Add our free, customizable dog age calculator widget to your website or blog. Easily customize colors, size, and layout to match your brand."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-5xl mx-auto">
+      <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">For Webmasters</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Age Calculator Widget</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-2xl leading-relaxed">
+        Boost your website's engagement by adding a cute, interactive, and science-based dog age calculator. It's 100% free, fully responsive, and takes less than a minute to set up!
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Customization Form -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="card p-6 border-2 border-[var(--border-default)] space-y-6">
+            <h2 class="text-base font-display font-extrabold text-[var(--text-primary)] mb-2 flex items-center gap-2">
+              <span>⚙️</span> Customize Widget
+            </h2>
+
+            <!-- Theme Choice -->
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-secondary)] mb-2">Widget Theme</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" id="theme-light" class="btn-ghost text-xs py-2 px-3 active" data-val="light">Light</button>
+                <button type="button" id="theme-dark" class="btn-ghost text-xs py-2 px-3" data-val="dark">Dark</button>
+                <button type="button" id="theme-auto" class="btn-ghost text-xs py-2 px-3" data-val="auto">Auto</button>
+              </div>
+            </div>
+
+            <!-- Primary Accent Color -->
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-secondary)] mb-2">Accent Color</label>
+              <div class="flex flex-wrap gap-2 items-center">
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #f97316;" data-color="f97316" aria-label="Orange"></button>
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #f59e0b;" data-color="f59e0b" aria-label="Amber"></button>
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #ef4444;" data-color="ef4444" aria-label="Red"></button>
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #10b981;" data-color="10b981" aria-label="Green"></button>
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #0ea5e9;" data-color="0ea5e9" aria-label="Blue"></button>
+                <button type="button" class="w-7 h-7 rounded-full border-2 border-[var(--border-strong)] color-pill cursor-pointer transition-transform active:scale-90" style="background-color: #8b5cf6;" data-color="8b5cf6" aria-label="Purple"></button>
+                <div class="relative w-8 h-8 rounded-full border-2 border-[var(--border-strong)] overflow-hidden shrink-0">
+                  <input type="color" id="custom-accent" class="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer scale-150" value="#f97316" aria-label="Custom Accent Color" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget Width -->
+            <div>
+              <label for="widget-width" class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5">Max Width</label>
+              <div class="flex gap-2">
+                <input type="number" id="widget-width" class="input-base text-sm py-2" value="380" min="280" max="600" />
+                <select id="width-unit" class="select-base text-sm py-2 w-20">
+                  <option value="px">px</option>
+                  <option value="%">%</option>
+                </select>
+              </div>
+              <p class="text-[10px] text-[var(--text-muted)] mt-1">Recommended width: 350px to 450px.</p>
+            </div>
+
+            <!-- Widget Height -->
+            <div>
+              <label for="widget-height" class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5">Height</label>
+              <input type="number" id="widget-height" class="input-base text-sm py-2" value="440" min="300" max="600" />
+              <p class="text-[10px] text-[var(--text-muted)] mt-1">Height needed to fit inputs and results cleanly.</p>
+            </div>
+          </div>
+
+          <!-- Get Code Card -->
+          <div class="card p-6 border-2 border-[var(--border-default)] bg-[var(--bg-elevated)] space-y-4">
+            <h3 class="text-sm font-display font-extrabold text-[var(--text-primary)]">📋 Copy Embed Code</h3>
+            <p class="text-xs text-[var(--text-secondary)]">Copy and paste this HTML code directly into your website's layout or post editor:</p>
+            <textarea id="embed-code" class="w-full h-24 p-3 font-mono text-xs bg-[var(--bg-primary)] border border-[var(--border-strong)] rounded-xl text-[var(--text-secondary)] select-all leading-normal" readonly></textarea>
+            <button type="button" id="copy-code-btn" class="btn-primary w-full justify-center text-xs py-2.5 px-4 font-bold btn-pulse">
+              Copy to Clipboard
+            </button>
+          </div>
+        </div>
+
+        <!-- Widget Preview -->
+        <div class="lg:col-span-7 flex flex-col items-center">
+          <div class="w-full text-center mb-4">
+            <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text-faint)]">Live Preview</h2>
+            <p class="text-xs text-[var(--text-muted)] mt-1">This is exactly how it will look on your page</p>
+          </div>
+          <!-- Real iframe load -->
+          <div class="w-full flex items-center justify-center p-4 sm:p-8 rounded-3xl border-4 border-dashed border-[var(--border-strong)] bg-[var(--bg-secondary)] relative overflow-auto min-h-[500px]">
+            <iframe id="preview-frame" class="shadow-2xl rounded-2xl transition-all duration-300" src="/widget?theme=light&accent=f97316" style="width: 380px; height: 440px; border: none;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-custom pb-24 border-t border-[var(--border-default)] pt-16">
+    <div class="max-w-4xl mx-auto space-y-12">
+      <div class="text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">Why Add Our Widget?</h2>
+        <p class="text-xs sm:text-sm text-[var(--text-muted)] mt-1">A simple addition that brings great value to your pet blog or veterinary website.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card p-6 text-center space-y-3">
+          <div class="text-2xl">⚡</div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)]">High Engagement</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">Pet owners love calculating their dog's age! A calculator increases time-on-site and interaction metrics significantly.</p>
+        </div>
+        <div class="card p-6 text-center space-y-3">
+          <div class="text-2xl">🎨</div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)]">Fully Custom</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">Match the colors and sizing perfectly to your website layout. Light and dark modes supported seamlessly.</p>
+        </div>
+        <div class="card p-6 text-center space-y-3">
+          <div class="text-2xl">🌱</div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)]">Clean & Lightweight</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">No tracking script slows down your pages. It runs independently inside a fast and lightweight iframe sandbox.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCalculators />
+</BaseLayout>
+
+<script>
+  (() => {
+    let currentTheme = 'light';
+    let currentAccent = 'f97316';
+    let currentWidth = 380;
+    let currentWidthUnit = 'px';
+    let currentHeight = 440;
+
+    const previewFrame = document.getElementById('preview-frame') as HTMLIFrameElement;
+    const embedTextarea = document.getElementById('embed-code') as HTMLTextAreaElement;
+    const customAccentInput = document.getElementById('custom-accent') as HTMLInputElement;
+    const widthInput = document.getElementById('widget-width') as HTMLInputElement;
+    const widthUnitSelect = document.getElementById('width-unit') as HTMLSelectElement;
+    const heightInput = document.getElementById('widget-height') as HTMLInputElement;
+    const copyBtn = document.getElementById('copy-code-btn') as HTMLButtonElement;
+
+    // Theme select listeners
+    ['light', 'dark', 'auto'].forEach(theme => {
+      const btn = document.getElementById(`theme-${theme}`);
+      btn?.addEventListener('click', () => {
+        ['light', 'dark', 'auto'].forEach(t => document.getElementById(`theme-${t}`)?.classList.remove('active'));
+        btn.classList.add('active');
+        currentTheme = theme;
+        updateWidget();
+      });
+    });
+
+    // Accent pills listeners
+    document.querySelectorAll('.color-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const color = pill.getAttribute('data-color');
+        if (color) {
+          currentAccent = color;
+          customAccentInput.value = '#' + color;
+          updateWidget();
+        }
+      });
+    });
+
+    // Custom accent color input listener
+    customAccentInput?.addEventListener('input', () => {
+      const color = customAccentInput.value.substring(1); // strip leading #
+      currentAccent = color;
+      updateWidget();
+    });
+
+    // Sizing change listeners
+    widthInput?.addEventListener('input', () => {
+      currentWidth = parseInt(widthInput.value) || 350;
+      updateWidget();
+    });
+    widthUnitSelect?.addEventListener('change', () => {
+      currentWidthUnit = widthUnitSelect.value;
+      updateWidget();
+    });
+    heightInput?.addEventListener('input', () => {
+      currentHeight = parseInt(heightInput.value) || 440;
+      updateWidget();
+    });
+
+    function updateWidget() {
+      // Build src URL
+      const site = window.location.origin;
+      const url = new URL(`${site}/widget`);
+      url.searchParams.set('theme', currentTheme);
+      url.searchParams.set('accent', currentAccent);
+
+      // Update Preview Frame Src
+      if (previewFrame) {
+        previewFrame.src = url.toString();
+        // Update dimensions
+        const widthVal = currentWidth + currentWidthUnit;
+        previewFrame.style.width = currentWidthUnit === 'px' ? `${currentWidth}px` : widthVal;
+        previewFrame.style.height = `${currentHeight}px`;
+      }
+
+      // Generate HTML code
+      const iframeCode = `<iframe src="${url.toString()}" style="width: 100%; max-width: ${currentWidth}${currentWidthUnit}; height: ${currentHeight}px; border: none; overflow: hidden; background: transparent;" scrolling="no" loading="lazy"></iframe>\n<p style="text-align: center; margin-top: 4px;"><a href="https://dogbreedage.com" style="font-family: inherit; font-size: 11px; text-decoration: none; color: #888;" target="_blank" rel="noopener">Dog Age Calculator Widget</a></p>`;
+      if (embedTextarea) {
+        embedTextarea.value = iframeCode;
+      }
+    }
+
+    // Copy to clipboard helper
+    copyBtn?.addEventListener('click', () => {
+      if (embedTextarea) {
+        navigator.clipboard.writeText(embedTextarea.value).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = '📋 Copied!';
+          copyBtn.classList.remove('btn-primary');
+          copyBtn.classList.add('btn-ghost', 'active');
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.classList.remove('btn-ghost', 'active');
+            copyBtn.classList.add('btn-primary');
+          }, 2000);
+        }).catch(err => {
+          alert('Could not copy automatically. Please copy the text manually.');
+        });
+      }
+    });
+
+    // Initial setup
+    updateWidget();
+  })();
+</script>

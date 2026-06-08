@@ -1,0 +1,310 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+
+const chocolateTypes = [
+  { value: 'white', label: 'White Chocolate', mgPerGram: 0.01, desc: 'Very low toxicity, mostly milk/sugar' },
+  { value: 'milk', label: 'Milk Chocolate', mgPerGram: 2.0, desc: 'Standard milk bars, chocolate chips' },
+  { value: 'dark', label: 'Dark / Semi-Sweet', mgPerGram: 5.0, desc: 'Dark bars, high-cocoa baking chips' },
+  { value: 'bakers', label: 'Baker\'s Chocolate', mgPerGram: 15.0, desc: 'Unsweetened baking blocks' },
+  { value: 'cocoa', label: 'Cocoa Powder', mgPerGram: 26.0, desc: 'Unsweetened dry cocoa powder' },
+];
+---
+
+<BaseLayout
+  title="Dog Chocolate Toxicity Emergency Calculator"
+  description="Emergency dog chocolate toxicity calculator. Calculate the risk of chocolate poisoning based on your dog's weight, chocolate type, and ounces eaten."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-3xl mx-auto">
+      
+      <!-- Emergency Warning Header -->
+      <div class="bg-red-500/10 border-2 border-red-500/30 rounded-3xl p-6 mb-8 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+        <span class="text-4xl shrink-0">⚠️</span>
+        <div class="flex-1 space-y-1">
+          <h2 class="text-base font-bold text-red-500">Emergency Chocolate Poisoning Warning</h2>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            If your dog is already showing severe symptoms like seizures, collapsing, or shaking, do not wait. Call your vet or the ASPCA Poison Control at <a href="tel:8884264435" class="font-bold underline text-red-500">(888) 426-4435</a> immediately.
+          </p>
+        </div>
+      </div>
+
+      <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Emergency Tool</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Chocolate Toxicity Calculator</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">
+        Did your dog eat chocolate? Enter their weight, the type of chocolate, and the quantity eaten to estimate the toxicity dosage and determine if they require immediate veterinary treatment.
+      </p>
+
+      <div class="card card-glow card-accent-top p-4 sm:p-6 md:p-8">
+        <form id="toxicity-form" class="space-y-6">
+          
+          <!-- Dog's Weight -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="tox-dog-weight" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Dog's Weight</label>
+              <input type="number" id="tox-dog-weight" class="input-base" placeholder="e.g. 30" step="0.1" min="0.1" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Weight Unit</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="weight-lbs" class="btn-ghost active py-2.5 text-xs font-mono" data-unit="lbs">Pounds (lbs)</button>
+                <button type="button" id="weight-kg" class="btn-ghost py-2.5 text-xs font-mono" data-unit="kg">Kilograms (kg)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chocolate Type selection -->
+          <div>
+            <label for="tox-chocolate-type" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Type of Chocolate Eaten</label>
+            <select id="tox-chocolate-type" class="select-base" required>
+              <option value="" disabled selected>Select chocolate type...</option>
+              {chocolateTypes.map(c => (
+                <option value={c.value} data-mg={c.mgPerGram}>{c.label} ({c.desc})</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Chocolate Amount -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="tox-amount" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Amount Consumed</label>
+              <input type="number" id="tox-amount" class="input-base" placeholder="e.g. 2" step="0.01" min="0.01" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Amount Unit</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="amount-oz" class="btn-ghost active py-2.5 text-xs font-mono" data-unit="oz">Ounces (oz)</button>
+                <button type="button" id="amount-g" class="btn-ghost py-2.5 text-xs font-mono" data-unit="g">Grams (g)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculate Button -->
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4 px-8 btn-pulse mt-2">
+            <span class="btn-shimmer"></span>
+            🧮 Calculate Toxicity Risk
+          </button>
+        </form>
+
+        <!-- Dynamic Results Card -->
+        <div id="tox-result" class="hidden mt-10 space-y-6 sm:space-y-8 fade-in-up border-t border-[var(--border-default)] pt-8" aria-live="polite">
+          <div class="text-center px-1 space-y-2">
+            <p class="text-sm text-[var(--text-muted)] font-bold">Calculated Toxicity Dose</p>
+            <p class="text-5xl sm:text-6xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-tight py-1" id="dose-value-display">— mg/kg</p>
+            <div class="inline-block px-4 py-1.5 rounded-full text-xs font-bold font-mono text-white mt-1 shadow-md" id="risk-badge">SAFE</div>
+          </div>
+
+          <!-- Danger message block -->
+          <div class="card p-5 border-2 border-[var(--border-strong)] space-y-3" id="risk-details-card">
+            <h3 class="text-sm font-bold text-[var(--text-primary)]" id="risk-title">Safe Level</h3>
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed" id="risk-description">No significant symptoms are expected at this dose. Keep fresh water available and monitor your dog for minor digestive upset.</p>
+          </div>
+
+          <!-- Emergency Contact Action Pills -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href="tel:8884264435" class="card p-4 text-center border-2 border-red-500/20 hover:border-red-500/50 hover:bg-red-500/5 transition-all text-xs font-bold text-red-500 flex items-center justify-center gap-2 no-underline">
+              📞 Call ASPCA Poison Control
+            </a>
+            <a href="tel:8557647661" class="card p-4 text-center border-2 border-red-500/20 hover:border-red-500/50 hover:bg-red-500/5 transition-all text-xs font-bold text-red-500 flex items-center justify-center gap-2 no-underline">
+              📞 Call Pet Poison Helpline
+            </a>
+          </div>
+
+          <div class="text-center no-print">
+            <button type="button" class="text-xs text-[var(--text-faint)] hover:text-[var(--text-secondary)] underline bg-transparent border-0 cursor-pointer" id="reset-tox-btn">← Calculate Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational & Guidance Section -->
+  <section class="container-custom pb-20">
+    <div class="max-w-3xl mx-auto space-y-10 card p-6 sm:p-8">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-3">Understanding Chocolate Toxicity</h2>
+        <p class="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+          Chocolate is toxic to dogs because it contains theobromine and caffeine. Dogs metabolize theobromine much more slowly than humans, leading to cardiovascular and nervous system stimulation that can become fatal.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[var(--border-default)]">
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Common Symptoms of Poisoning</h3>
+          <ul class="text-xs text-[var(--text-secondary)] space-y-2 list-disc list-inside">
+            <li><strong>Mild Dose (&lt;20 mg/kg):</strong> Vomiting, diarrhea, increased thirst, panting.</li>
+            <li><strong>Moderate Dose (20-40 mg/kg):</strong> Pacing, hyperactivity, racing heartbeat, mild tremors.</li>
+            <li><strong>Severe Dose (40-60 mg/kg):</strong> Severe muscle tremors, twitching, seizures, fever.</li>
+            <li><strong>Critical Dose (&gt;60 mg/kg):</strong> Cardiac arrhythmias, respiratory failure, coma, death.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Critical Next Steps</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            1. Find the wrapper to check the cocoa content.<br />
+            2. Estimate the time of ingestion.<br />
+            3. Do not attempt to induce vomiting at home (e.g., with hydrogen peroxide) unless explicitly instructed by a veterinarian, as this can cause esophageal damage or aspiration pneumonia.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCalculators />
+</BaseLayout>
+
+<script>
+  (() => {
+    let currentWeightUnit = 'lbs';
+    let currentAmountUnit = 'oz';
+
+    const form = document.getElementById('toxicity-form') as HTMLFormElement;
+    const weightInput = document.getElementById('tox-dog-weight') as HTMLInputElement;
+    const chocolateTypeSelect = document.getElementById('tox-chocolate-type') as HTMLSelectElement;
+    const amountInput = document.getElementById('tox-amount') as HTMLInputElement;
+
+    const btnLbs = document.getElementById('weight-lbs');
+    const btnKg = document.getElementById('weight-kg');
+    const btnOz = document.getElementById('amount-oz');
+    const btnG = document.getElementById('amount-g');
+
+    const resultDiv = document.getElementById('tox-result');
+    const doseDisplay = document.getElementById('dose-value-display');
+    const riskBadge = document.getElementById('risk-badge');
+    const riskTitle = document.getElementById('risk-title');
+    const riskDesc = document.getElementById('risk-description');
+    const riskCard = document.getElementById('risk-details-card');
+    const resetBtn = document.getElementById('reset-tox-btn');
+
+    // Unit toggle: Weight
+    btnLbs?.addEventListener('click', () => {
+      if (currentWeightUnit === 'kg') {
+        currentWeightUnit = 'lbs';
+        btnLbs.classList.add('active');
+        btnKg?.classList.remove('active');
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val * 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    btnKg?.addEventListener('click', () => {
+      if (currentWeightUnit === 'lbs') {
+        currentWeightUnit = 'kg';
+        btnKg.classList.add('active');
+        btnLbs?.classList.remove('active');
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val / 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    // Unit toggle: Amount
+    btnOz?.addEventListener('click', () => {
+      if (currentAmountUnit === 'g') {
+        currentAmountUnit = 'oz';
+        btnOz.classList.add('active');
+        btnG?.classList.remove('active');
+        if (amountInput.value) {
+          const val = parseFloat(amountInput.value);
+          amountInput.value = (val / 28.3495).toFixed(2);
+        }
+      }
+    });
+
+    btnG?.addEventListener('click', () => {
+      if (currentAmountUnit === 'oz') {
+        currentAmountUnit = 'g';
+        btnG.classList.add('active');
+        btnOz?.classList.remove('active');
+        if (amountInput.value) {
+          const val = parseFloat(amountInput.value);
+          amountInput.value = (val * 28.3495).toFixed(1);
+        }
+      }
+    });
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const weight = parseFloat(weightInput.value);
+      const amount = parseFloat(amountInput.value);
+      const selectedOption = chocolateTypeSelect.options[chocolateTypeSelect.selectedIndex];
+      
+      if (isNaN(weight) || weight <= 0) {
+        alert('Please enter a valid weight.');
+        return;
+      }
+      if (!selectedOption.value) {
+        alert('Please select a chocolate type.');
+        return;
+      }
+      if (isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid chocolate quantity.');
+        return;
+      }
+
+      const mgPerGram = parseFloat(selectedOption.getAttribute('data-mg') || '0');
+
+      // Convert weight to kg
+      const weightKg = currentWeightUnit === 'lbs' ? weight * 0.453592 : weight;
+      // Convert amount to grams
+      const amountGrams = currentAmountUnit === 'oz' ? amount * 28.3495 : amount;
+
+      // Calculate total dose
+      const theobromineMg = amountGrams * mgPerGram;
+      const doseMgPerKg = theobromineMg / weightKg;
+
+      if (doseDisplay) {
+        doseDisplay.textContent = `${doseMgPerKg.toFixed(1)} mg/kg`;
+      }
+
+      // Toxicity Zones
+      if (doseMgPerKg < 20) {
+        // Safe / Mild
+        updateBadge('bg-green-500', 'Mild Risk (Non-Toxic)', 'Safe / Monitoring Advised', 
+          'No significant poisoning symptoms are expected at this dose. Keep fresh water available and monitor your dog for minor digestive upset (diarrhea or vomiting). If symptoms worsen, contact your vet.');
+      } else if (doseMgPerKg >= 20 && doseMgPerKg < 40) {
+        // Moderate
+        updateBadge('bg-yellow-500', 'Moderate Toxicity', 'Call Veterinarian for Advice', 
+          'Your dog has consumed a moderate toxicity dose. Common symptoms include hyperactivity, pacing, rapid panting, and an elevated heart rate. We strongly recommend contacting your veterinarian or a pet poison helpline for guidance.');
+      } else if (doseMgPerKg >= 40 && doseMgPerKg < 60) {
+        // Severe
+        updateBadge('bg-orange-500', 'Severe Poisoning Risk', 'Urgent Veterinary Treatment Needed', 
+          'Warning: This is a severe poisoning dose. Your dog is highly likely to experience tremors, severe muscle twitching, seizures, and hyperthermia. You should transport your dog to a veterinary hospital immediately.');
+      } else {
+        // Critical / Fatal
+        updateBadge('bg-red-600 animate-pulse', 'Critical / Lethal Danger', 'EMERGENCY! Go to Vet Immediately', 
+          'Critical Emergency! This dosage exceeds lethal thresholds and can cause cardiac arrhythmias, respiratory failure, coma, or death. Drive your dog to the nearest 24/7 emergency veterinary hospital right now!');
+      }
+
+      form.classList.add('hidden');
+      resultDiv?.classList.remove('hidden');
+      resultDiv?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    function updateBadge(badgeClass, badgeText, titleText, descText) {
+      if (riskBadge && riskTitle && riskDesc && riskCard) {
+        riskBadge.className = `inline-block px-4 py-1.5 rounded-full text-xs font-bold font-mono text-white mt-1 shadow-md ${badgeClass}`;
+        riskBadge.textContent = badgeText;
+        riskTitle.textContent = titleText;
+        riskDesc.textContent = descText;
+        
+        // Update border color
+        riskCard.className = `card p-5 border-2 space-y-3 ${
+          badgeText.includes('Mild') ? 'border-green-500/30 bg-green-500/5' : 
+          badgeText.includes('Moderate') ? 'border-yellow-500/30 bg-yellow-500/5' :
+          badgeText.includes('Severe') ? 'border-orange-500/30 bg-orange-500/5' : 'border-red-600/30 bg-red-600/5'
+        }`;
+      }
+    }
+
+    resetBtn?.addEventListener('click', () => {
+      form.classList.remove('hidden');
+      resultDiv?.classList.add('hidden');
+      form.reset();
+    });
+
+  })();
+</script>

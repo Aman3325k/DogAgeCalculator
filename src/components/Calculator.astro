@@ -43,13 +43,13 @@ const popularBreeds = [
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="breed-size-options">
           {breedSizes.map(b => (
-            <label class="size-option flex flex-col items-center justify-center gap-1 p-2.5 sm:p-4 rounded-lg border border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all hover:border-[var(--border-strong)] hover:scale-105 has-[:checked]:border-[var(--color-link)] has-[:checked]:shadow-[0_0_12px_var(--accent-glow)] has-[:checked]:bg-[var(--hover-overlay)] min-h-[64px] sm:min-h-[72px] relative group" style="will-change: transform;">
+            <label class="size-option flex flex-col items-center justify-center gap-1.5 p-3 sm:p-5 rounded-2xl border-2 border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all duration-300 hover:border-[var(--border-strong)] hover:scale-105 has-[:checked]:border-[var(--btn-primary-bg)] has-[:checked]:shadow-[0_0_16px_var(--accent-glow)] has-[:checked]:bg-[var(--hover-overlay-strong)] min-h-[68px] sm:min-h-[80px] relative group" style="will-change: transform;">
               <input type="radio" name="breed-size" value={b.value} class="hidden" />
               <div class="size-card-checkmark">✓</div>
-              <span class="text-lg sm:text-xl">{b.icon}</span>
-              <span class="text-xs sm:text-sm font-medium text-[var(--text-primary)] leading-tight text-center">{b.label}</span>
+              <span class="text-xl sm:text-2xl transition-transform group-hover:scale-110 duration-200">{b.icon}</span>
+              <span class="text-xs sm:text-sm font-bold text-[var(--text-primary)] leading-tight text-center">{b.label}</span>
               <span class="text-[0.6875rem] sm:text-xs text-[var(--text-muted)] text-center leading-tight" data-desc>{b.desc}</span>
-              <div class="tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-default)] text-[var(--text-secondary)] opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 shadow-lg z-10" aria-hidden="true">{b.examples}</div>
+              <div class="tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 px-3 py-2 rounded-xl text-xs whitespace-nowrap bg-[var(--bg-elevated)] border-2 border-[var(--border-default)] text-[var(--text-secondary)] opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 shadow-xl z-10" aria-hidden="true">{b.examples}</div>
             </label>
           ))}
         </div>
@@ -106,14 +106,14 @@ const popularBreeds = [
       <div class="flex flex-col items-center gap-4">
         <img id="result-photo" class="photo-avatar hidden" src="" alt="Dog result photo" loading="lazy" />
         <div class="text-center px-1">
-          <p class="text-sm text-[var(--text-muted)] mb-1">Your dog is equivalent to</p>
-          <p class="text-7xl sm:text-8xl font-bold tracking-tight text-[var(--text-primary)] leading-tight py-2" id="human-age">—</p>
+          <p class="text-sm text-[var(--text-muted)] font-bold mb-1">Your dog is equivalent to</p>
+          <p class="text-7xl sm:text-8xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-tight py-2" id="human-age">—</p>
 
-          <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] font-bold mt-2">
             human years old
             <span class="relative inline-flex items-center group ml-1">
               <span class="cursor-help text-[var(--text-faint)] hover:text-[var(--text-secondary)] transition-colors text-sm" aria-label="Based on DNA methylation research by UC San Diego">ⓘ</span>
-              <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-4 py-2 rounded-lg text-xs whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-default)] text-[var(--text-secondary)] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 shadow-lg z-10 transition-opacity" role="tooltip">Based on DNA methylation research by UC San Diego</span>
+              <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-4 py-2 rounded-xl text-xs whitespace-nowrap bg-[var(--bg-elevated)] border-2 border-[var(--border-default)] text-[var(--text-secondary)] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 shadow-xl z-10 transition-opacity" role="tooltip">Based on DNA methylation research by UC San Diego</span>
             </span>
           </p>
         </div>
@@ -121,35 +121,35 @@ const popularBreeds = [
 
       <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-4">
         <span class="stage-pill" id="life-stage">—</span>
-        <span class="text-xs sm:text-sm text-[var(--text-muted)]" id="life-expectancy">—</span>
+        <span class="text-xs sm:text-sm font-bold text-[var(--text-muted)]" id="life-expectancy">—</span>
         <span class="text-lg" id="stage-emoji"></span>
       </div>
 
-      <p class="text-sm text-[var(--text-secondary)] text-center leading-relaxed break-words" id="personalized-message"></p>
+      <p class="text-sm text-[var(--text-secondary)] text-center leading-relaxed break-words font-medium" id="personalized-message"></p>
 
       <div class="decorative-divider"></div>
 
       <div>
-        <h2 class="text-xs text-[var(--text-faint)] mb-2 font-mono uppercase tracking-wider">Life Progress</h2>
+        <h2 class="text-xs text-[var(--text-faint)] mb-2 font-mono font-bold uppercase tracking-wider">Life Progress</h2>
         <div class="progress-bar">
-          <div class="progress-bar-fill bg-[var(--text-primary)]" id="progress-fill" style="width: 0%"></div>
+          <div class="progress-bar-fill bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]" id="progress-fill" style="width: 0%"></div>
         </div>
       </div>
 
       <div class="card card-hover-lift p-4 sm:p-4 md:p-6 space-y-4 sm:space-y-4" id="comparison-card">
-        <h2 class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider">Age Comparison</h2>
+        <h2 class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider">Age Comparison</h2>
         <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           <div>
-            <p class="text-xs text-[var(--text-faint)] mb-1">Dog Age</p>
-            <p class="text-lg sm:text-xl font-semibold text-[var(--text-primary)] break-words" id="comp-dog-age">—</p>
-            <p class="text-xs text-[var(--text-muted)]" id="comp-dog-stage">—</p>
-            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-60 bg-[var(--text-primary)]" id="comp-dog-bar" style="width:0%"></div></div>
+            <p class="text-xs text-[var(--text-faint)] font-bold mb-1">Dog Age</p>
+            <p class="text-lg sm:text-xl font-bold text-[var(--text-primary)] break-words" id="comp-dog-age">—</p>
+            <p class="text-xs text-[var(--text-muted)] font-medium" id="comp-dog-stage">—</p>
+            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-80 bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]" id="comp-dog-bar" style="width:0%"></div></div>
           </div>
           <div>
-            <p class="text-xs text-[var(--text-faint)] mb-1">Human Equivalent</p>
-            <p class="text-lg sm:text-xl font-semibold text-[var(--text-primary)] break-words" id="comp-human-age">—</p>
-            <p class="text-xs text-[var(--text-muted)]" id="comp-human-stage">—</p>
-            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-60 bg-[var(--text-primary)]" id="comp-human-bar" style="width:0%"></div></div>
+            <p class="text-xs text-[var(--text-faint)] font-bold mb-1">Human Equivalent</p>
+            <p class="text-lg sm:text-xl font-bold text-[var(--text-primary)] break-words" id="comp-human-age">—</p>
+            <p class="text-xs text-[var(--text-muted)] font-medium" id="comp-human-stage">—</p>
+            <div class="progress-bar mt-2"><div class="progress-bar-fill opacity-80 bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]" id="comp-human-bar" style="width:0%"></div></div>
           </div>
         </div>
       </div>

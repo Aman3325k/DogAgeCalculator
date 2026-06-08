@@ -57,32 +57,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div id="birthday-result" class="hidden space-y-6 fade-in-up" aria-live="polite" aria-atomic="true">
         <!-- Countdown Card -->
         <div class="card overflow-hidden" id="birthday-card">
-          <div class="bg-gradient-to-br from-[#7928ca] via-[#ff0080] to-[#f9cb28] p-px rounded-[15px]">
-            <div class="bg-[var(--bg-primary)] rounded-[14px] p-6 sm:p-8 text-center">
+          <div class="bg-gradient-to-br from-[#f59e0b] via-[#f97316] to-[#f43f5e] p-1 rounded-[25px] shadow-lg">
+            <div class="bg-[var(--bg-primary)] rounded-[22px] p-6 sm:p-8 text-center">
               <div class="text-4xl mb-4" id="birthday-emoji">🎂</div>
-              <p class="text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] mb-1">Next Birthday In</p>
+              <p class="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] mb-1">Next Birthday In</p>
               <div class="flex items-end justify-center gap-4 sm:gap-6 my-4">
                 <div class="text-center">
-                  <p class="text-5xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-none" id="countdown-days">—</p>
-                  <p class="text-xs text-[var(--text-muted)] mt-1">days</p>
+                  <p class="text-5xl sm:text-6xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-none" id="countdown-days">—</p>
+                  <p class="text-xs text-[var(--text-muted)] mt-1 font-bold">days</p>
                 </div>
                 <div class="text-center mb-2">
-                  <p class="text-3xl text-[var(--text-faint)]">:</p>
+                  <p class="text-3xl font-display font-extrabold text-[var(--text-faint)]">:</p>
                 </div>
                 <div class="text-center">
-                  <p class="text-5xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-none" id="countdown-hours">—</p>
-                  <p class="text-xs text-[var(--text-muted)] mt-1">hours</p>
+                  <p class="text-5xl sm:text-6xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-none" id="countdown-hours">—</p>
+                  <p class="text-xs text-[var(--text-muted)] mt-1 font-bold">hours</p>
                 </div>
                 <div class="text-center mb-2">
-                  <p class="text-3xl text-[var(--text-faint)]">:</p>
+                  <p class="text-3xl font-display font-extrabold text-[var(--text-faint)]">:</p>
                 </div>
                 <div class="text-center">
-                  <p class="text-5xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-none" id="countdown-mins">—</p>
-                  <p class="text-xs text-[var(--text-muted)] mt-1">mins</p>
+                  <p class="text-5xl sm:text-6xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-none" id="countdown-mins">—</p>
+                  <p class="text-xs text-[var(--text-muted)] mt-1 font-bold">mins</p>
                 </div>
               </div>
-              <p class="text-base sm:text-lg font-semibold text-[var(--text-primary)] mb-1" id="birthday-headline">—</p>
-              <p class="text-sm text-[var(--text-secondary)]" id="birthday-subline">—</p>
+              <p class="text-base sm:text-lg font-display font-bold text-[var(--text-primary)] mb-1" id="birthday-headline">—</p>
+              <p class="text-sm text-[var(--text-secondary)] font-medium" id="birthday-subline">—</p>
             </div>
           </div>
         </div>
@@ -90,20 +90,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <!-- Stats Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div class="card p-4 text-center">
-            <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Current Age</p>
-            <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-current-age">—</p>
+            <p class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider mb-1">Current Age</p>
+            <p class="text-lg font-display font-extrabold text-[var(--btn-primary-bg)]" id="stat-current-age">—</p>
           </div>
           <div class="card p-4 text-center">
-            <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Turning</p>
-            <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-turning">—</p>
+            <p class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider mb-1">Turning</p>
+            <p class="text-lg font-display font-extrabold text-[var(--btn-primary-bg)]" id="stat-turning">—</p>
           </div>
           <div class="card p-4 text-center">
-            <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Human Equiv.</p>
-            <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-human-age">—</p>
+            <p class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider mb-1">Human Equiv.</p>
+            <p class="text-lg font-display font-extrabold text-[var(--btn-primary-bg)]" id="stat-human-age">—</p>
           </div>
-          <div class="card p-4 text-center">
-            <p class="text-xs text-[var(--text-faint)] font-mono uppercase tracking-wider mb-1">Life Stage</p>
-            <p class="text-lg font-bold text-[var(--text-primary)]" id="stat-stage">—</p>
+          <div class="card p-4 text-center flex flex-col justify-between items-center">
+            <p class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider mb-1">Life Stage</p>
+            <div class="mt-1 flex justify-center"><span class="stage-pill text-[0.75rem] py-0.5 px-2.5" id="stat-stage">—</span></div>
           </div>
         </div>
 
@@ -287,7 +287,9 @@ import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js'
       age.months > 0 ? `${age.years}y ${age.months}m` : `${age.years} yrs`;
     document.getElementById('stat-turning').textContent = `${turningAge} years`;
     document.getElementById('stat-human-age').textContent = `${currentHumanAge} yrs`;
-    document.getElementById('stat-stage').textContent = currentStage;
+    const statStage = document.getElementById('stat-stage');
+    statStage.textContent = currentStage;
+    statStage.className = 'stage-pill text-[0.75rem] py-0.5 px-2.5 stage-' + currentStage.replace(' ', '-');
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('next-birthday-date').textContent = isToday

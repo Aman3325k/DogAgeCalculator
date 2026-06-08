@@ -1,0 +1,365 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+
+const breedSizes = [
+  { value: 'small', label: 'Small', desc: 'under 20 lbs adult', icon: '🐩' },
+  { value: 'medium', label: 'Medium', desc: '20-50 lbs adult', icon: '🐕' },
+  { value: 'large', label: 'Large', desc: '50-90 lbs adult', icon: '🦮' },
+  { value: 'giant', label: 'Giant', desc: '90+ lbs adult', icon: '🐘' },
+];
+---
+
+<BaseLayout
+  title="Puppy Weight Calculator & Growth Predictor"
+  description="Predict your puppy's adult weight based on their current weight, age in weeks, and breed size using our science-backed veterinary growth curves."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-3xl mx-auto">
+      <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Growth Predictor</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Puppy Weight Calculator</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">
+        Wondering how big your puppy will get? Enter their current age, weight, and size category to predict their final adult weight using size-specific veterinary growth curves.
+      </p>
+
+      <div class="card card-glow card-accent-top p-4 sm:p-6 md:p-8">
+        <form id="puppy-form" class="space-y-6">
+          <!-- Puppy's Name -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4">
+            <label for="puppy-name" class="block text-sm font-medium text-[var(--text-secondary)] sm:shrink-0">Puppy's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+            <input type="text" id="puppy-name" class="input-base flex-1" placeholder="e.g. Bella" maxlength="20" />
+          </div>
+
+          <!-- Breed Size Category -->
+          <div>
+            <label class="block text-sm font-medium text-[var(--text-secondary)] mb-3">Expected Adult Size Category</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {breedSizes.map(b => (
+                <label class="flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all duration-300 hover:border-[var(--border-strong)] hover:scale-[1.03] has-[:checked]:border-[var(--btn-primary-bg)] has-[:checked]:bg-[var(--hover-overlay-strong)] min-h-[76px] relative group select-none">
+                  <input type="radio" name="puppy-size" value={b.value} class="hidden" required />
+                  <span class="text-xl mb-1">{b.icon}</span>
+                  <span class="text-xs font-bold text-[var(--text-primary)] leading-tight text-center">{b.label}</span>
+                  <span class="text-[9px] text-[var(--text-muted)] text-center leading-tight mt-0.5">{b.desc}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Current Age in Weeks -->
+          <div>
+            <div class="flex justify-between items-center mb-1.5">
+              <label for="puppy-age" class="block text-sm font-medium text-[var(--text-secondary)]">Current Age</label>
+              <span id="age-display-val" class="text-xs font-mono font-bold text-[var(--btn-primary-bg)]">12 weeks (3 months)</span>
+            </div>
+            <input type="range" id="puppy-age" min="4" max="52" value="12" class="w-full accent-[var(--btn-primary-bg)] cursor-pointer" />
+            <div class="flex justify-between text-[10px] text-[var(--text-faint)] px-1 mt-1 font-mono">
+              <span>4 weeks</span>
+              <span>12 weeks</span>
+              <span>24 weeks</span>
+              <span>36 weeks</span>
+              <span>52 weeks (1 year)</span>
+            </div>
+          </div>
+
+          <!-- Weight Input & Unit -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="puppy-weight" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Current Weight</label>
+              <div class="relative">
+                <input type="number" id="puppy-weight" class="input-base pr-16" placeholder="e.g. 15" step="0.1" min="0.1" required />
+                <span class="absolute inset-y-0 right-3 flex items-center text-xs font-bold text-[var(--text-faint)]" id="weight-unit-label">lbs</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Weight Unit</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="unit-lbs" class="btn-ghost active py-2.5 text-xs font-mono" data-unit="lbs">Pounds (lbs)</button>
+                <button type="button" id="unit-kg" class="btn-ghost py-2.5 text-xs font-mono" data-unit="kg">Kilograms (kg)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4 px-8 btn-pulse mt-2">
+            <span class="btn-shimmer"></span>
+            🔮 Predict Adult Weight
+          </button>
+        </form>
+
+        <!-- Result Card -->
+        <div id="puppy-result" class="hidden mt-10 space-y-6 sm:space-y-8 fade-in-up border-t border-[var(--border-default)] pt-8" aria-live="polite">
+          <div class="text-center px-1 space-y-2">
+            <p class="text-sm text-[var(--text-muted)] font-bold">Predicted Adult Weight</p>
+            <p class="text-6xl sm:text-7xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-tight py-2" id="adult-weight-display">—</p>
+            <p class="text-xs text-[var(--text-secondary)] font-medium max-w-md mx-auto" id="puppy-summary-msg"></p>
+          </div>
+
+          <!-- Growth completed bar -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
+              <span>Growth Progress Completed</span>
+              <span id="progress-percent-display">50%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]" id="puppy-progress-fill" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Growth milestones -->
+          <div class="card p-5 space-y-4">
+            <h2 class="text-xs text-[var(--text-faint)] font-mono font-bold uppercase tracking-wider">Estimated Growth Milestones</h2>
+            <div class="grid grid-cols-3 gap-3 text-center">
+              <div class="space-y-1">
+                <span class="text-xs font-bold text-[var(--text-muted)] block">3 Months</span>
+                <span class="text-sm font-display font-extrabold text-[var(--text-primary)] block" id="milestone-3m">-</span>
+              </div>
+              <div class="space-y-1 border-x border-[var(--border-default)]">
+                <span class="text-xs font-bold text-[var(--text-muted)] block">6 Months</span>
+                <span class="text-sm font-display font-extrabold text-[var(--text-primary)] block" id="milestone-6m">-</span>
+              </div>
+              <div class="space-y-1">
+                <span class="text-xs font-bold text-[var(--text-muted)] block">Adult (Final)</span>
+                <span class="text-sm font-display font-extrabold text-[var(--text-primary)] block" id="milestone-adult">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 no-print pt-2">
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-wa">Share on WhatsApp</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-tw">Twitter</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-cp">Copy Link</button>
+          </div>
+
+          <div class="text-center no-print">
+            <button type="button" class="text-xs text-[var(--text-faint)] hover:text-[var(--text-secondary)] underline bg-transparent border-0 cursor-pointer" id="reset-puppy-btn">← Predict Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Section -->
+  <section class="container-custom pb-20">
+    <div class="max-w-3xl mx-auto space-y-10 card p-6 sm:p-8">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-3">How Puppy Growth Predictor Works</h2>
+        <p class="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+          Puppy growth is not linear. A dog's breed size category dictates how fast they mature. For instance, a Chihuahua achieves their full size by 9-10 months, whereas a Saint Bernard continues growing until they are 2 years old.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[var(--border-default)]">
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Growth Milestones by Size</h3>
+          <ul class="text-xs text-[var(--text-secondary)] space-y-2 list-disc list-inside">
+            <li><strong>Small breeds:</strong> Gain weight very quickly, reaching 50% of adult weight at ~3 months. They stop growing around 10 months.</li>
+            <li><strong>Medium breeds:</strong> Reach 50% of adult weight around 4 months, and stop growing at 12 months.</li>
+            <li><strong>Large breeds:</strong> Reaching 50% of adult weight at ~5 months, they continue growing until 15 months.</li>
+            <li><strong>Giant breeds:</strong> Reach 50% around 6 months, and continue filling out until 18 to 24 months.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Accuracy Tips</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            The best time to predict adult weight is between 12 and 24 weeks. Predictions made under 8 weeks of age have a larger margin of error as puppies undergo rapid growth spurts during early weaning stages.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCalculators />
+</BaseLayout>
+
+<script>
+  (() => {
+    let currentUnit = 'lbs';
+    const form = document.getElementById('puppy-form') as HTMLFormElement;
+    const nameInput = document.getElementById('puppy-name') as HTMLInputElement;
+    const ageInput = document.getElementById('puppy-age') as HTMLInputElement;
+    const ageDisplay = document.getElementById('age-display-val');
+    const weightInput = document.getElementById('puppy-weight') as HTMLInputElement;
+    const unitLabel = document.getElementById('weight-unit-label');
+    const btnLbs = document.getElementById('unit-lbs');
+    const btnKg = document.getElementById('unit-kg');
+
+    const resultDiv = document.getElementById('puppy-result');
+    const adultWeightDisplay = document.getElementById('adult-weight-display');
+    const summaryMsg = document.getElementById('puppy-summary-msg');
+    const progressPercent = document.getElementById('progress-percent-display');
+    const progressFill = document.getElementById('puppy-progress-fill');
+    const m3 = document.getElementById('milestone-3m');
+    const m6 = document.getElementById('milestone-6m');
+    const mAdult = document.getElementById('milestone-adult');
+    const resetBtn = document.getElementById('reset-puppy-btn');
+
+    // Share buttons
+    const shareWa = document.getElementById('share-wa');
+    const shareTw = document.getElementById('share-tw');
+    const shareCp = document.getElementById('share-cp');
+
+    let calculatedAdultWeightLbs = 0;
+
+    // Unit toggle
+    btnLbs?.addEventListener('click', () => {
+      if (currentUnit === 'kg') {
+        currentUnit = 'lbs';
+        btnLbs.classList.add('active');
+        btnKg?.classList.remove('active');
+        if (unitLabel) unitLabel.textContent = 'lbs';
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val * 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    btnKg?.addEventListener('click', () => {
+      if (currentUnit === 'lbs') {
+        currentUnit = 'kg';
+        btnKg.classList.add('active');
+        btnLbs?.classList.remove('active');
+        if (unitLabel) unitLabel.textContent = 'kg';
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val / 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    // Age slider label update
+    ageInput?.addEventListener('input', () => {
+      const weeks = parseInt(ageInput.value);
+      const months = (weeks / 4.34).toFixed(1);
+      if (ageDisplay) {
+        ageDisplay.textContent = `${weeks} weeks (${months} months)`;
+      }
+    });
+
+    // Predict adult weight based on growth curves
+    function getAdultWeightAndProgress(weightLbs, ageWeeks, size) {
+      let pct = 1.0;
+      let stopWeeks = 52;
+      if (size === 'small') {
+        stopWeeks = 40;
+        if (ageWeeks <= 6) pct = 0.15 + (ageWeeks - 4) * 0.05;
+        else if (ageWeeks <= 12) pct = 0.25 + (ageWeeks - 6) * (0.25 / 6);
+        else if (ageWeeks <= 20) pct = 0.50 + (ageWeeks - 12) * (0.25 / 8);
+        else if (ageWeeks <= 40) pct = 0.75 + (ageWeeks - 20) * (0.25 / 20);
+        else pct = 1.0;
+      } else if (size === 'medium') {
+        stopWeeks = 52;
+        if (ageWeeks <= 8) pct = 0.15 + (ageWeeks - 4) * 0.035;
+        else if (ageWeeks <= 16) pct = 0.29 + (ageWeeks - 8) * (0.21 / 8);
+        else if (ageWeeks <= 26) pct = 0.50 + (ageWeeks - 16) * (0.25 / 10);
+        else if (ageWeeks <= 52) pct = 0.75 + (ageWeeks - 26) * (0.25 / 26);
+        else pct = 1.0;
+      } else if (size === 'large') {
+        stopWeeks = 65;
+        if (ageWeeks <= 10) pct = 0.15 + (ageWeeks - 4) * 0.03;
+        else if (ageWeeks <= 20) pct = 0.33 + (ageWeeks - 10) * (0.17 / 10);
+        else if (ageWeeks <= 32) pct = 0.50 + (ageWeeks - 20) * (0.25 / 12);
+        else if (ageWeeks <= 65) pct = 0.75 + (ageWeeks - 32) * (0.25 / 33);
+        else pct = 1.0;
+      } else { // giant
+        stopWeeks = 80;
+        if (ageWeeks <= 12) pct = 0.12 + (ageWeeks - 4) * 0.025;
+        else if (ageWeeks <= 24) pct = 0.32 + (ageWeeks - 12) * (0.18 / 12);
+        else if (ageWeeks <= 40) pct = 0.50 + (ageWeeks - 24) * (0.25 / 16);
+        else if (ageWeeks <= 80) pct = 0.75 + (ageWeeks - 40) * (0.25 / 40);
+        else pct = 1.0;
+      }
+      return {
+        adultWeight: weightLbs / Math.min(1.0, Math.max(0.05, pct)),
+        progress: Math.min(100, Math.round(pct * 100)),
+        stopAgeMonths: Math.round(stopWeeks / 4.34)
+      };
+    }
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim() || 'Your puppy';
+      const sizeRadio = document.querySelector('input[name="puppy-size"]:checked') as HTMLInputElement;
+      if (!sizeRadio) {
+        alert('Please select expected adult size category.');
+        return;
+      }
+      const size = sizeRadio.value;
+      const ageWeeks = parseInt(ageInput.value);
+      const weight = parseFloat(weightInput.value);
+
+      if (isNaN(weight) || weight <= 0) {
+        alert('Please enter a valid weight.');
+        return;
+      }
+
+      // Convert to Lbs for internal calculation
+      const weightLbs = currentUnit === 'lbs' ? weight : weight * 2.20462;
+      const { adultWeight, progress, stopAgeMonths } = getAdultWeightAndProgress(weightLbs, ageWeeks, size);
+      calculatedAdultWeightLbs = adultWeight;
+
+      // Formatting outputs
+      const formatLbs = `${adultWeight.toFixed(1)} lbs`;
+      const formatKg = `${(adultWeight / 2.20462).toFixed(1)} kg`;
+      
+      if (adultWeightDisplay) {
+        adultWeightDisplay.textContent = currentUnit === 'lbs' ? formatLbs : formatKg;
+      }
+
+      if (progressPercent) progressPercent.textContent = `${progress}%`;
+      if (progressFill) progressFill.style.width = `${progress}%`;
+
+      // Milestones calculations
+      // 3m (13w), 6m (26w), Adult
+      let pct3m = size === 'small' ? 0.52 : size === 'medium' ? 0.42 : size === 'large' ? 0.36 : 0.30;
+      let pct6m = size === 'small' ? 0.82 : size === 'medium' ? 0.75 : size === 'large' ? 0.65 : 0.54;
+
+      const wt3m = adultWeight * pct3m;
+      const wt6m = adultWeight * pct6m;
+
+      if (m3) m3.textContent = currentUnit === 'lbs' ? `${wt3m.toFixed(1)} lbs` : `${(wt3m / 2.20462).toFixed(1)} kg`;
+      if (m6) m6.textContent = currentUnit === 'lbs' ? `${wt6m.toFixed(1)} lbs` : `${(wt6m / 2.20462).toFixed(1)} kg`;
+      if (mAdult) mAdult.textContent = currentUnit === 'lbs' ? formatLbs : formatKg;
+
+      if (summaryMsg) {
+        summaryMsg.textContent = `${name} is currently ${ageWeeks} weeks old and has completed approximately ${progress}% of their puppy growth curve. As a ${size} breed, ${name} will grow until about ${stopAgeMonths} months of age to reach a healthy weight of around ${currentUnit === 'lbs' ? formatLbs : formatKg}.`;
+      }
+
+      form.classList.add('hidden');
+      resultDiv?.classList.remove('hidden');
+      resultDiv?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      form.classList.remove('hidden');
+      resultDiv?.classList.add('hidden');
+      form.reset();
+      if (ageDisplay) ageDisplay.textContent = `12 weeks (3 months)`;
+    });
+
+    // Share listeners
+    shareWa?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My puppy';
+      const text = `I calculated my puppy's predicted adult weight! ${name} is predicted to weigh ${calculatedAdultWeightLbs.toFixed(1)} lbs. Check it out on DogBreedAge!`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
+    });
+
+    shareTw?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My puppy';
+      const text = `My puppy ${name} is predicted to grow to ${calculatedAdultWeightLbs.toFixed(1)} lbs! Check your puppy's growth curve on DogBreedAge:`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+    });
+
+    shareCp?.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const originalText = shareCp.textContent;
+        shareCp.textContent = 'Copied!';
+        setTimeout(() => {
+          shareCp.textContent = originalText;
+        }, 2000);
+      });
+    });
+
+  })();
+</script>

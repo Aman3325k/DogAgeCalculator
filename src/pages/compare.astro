@@ -26,39 +26,45 @@ const breedSizes = [
         "publisher": { "@type": "Organization", "name": "DOGBREEDAGE", "url": "https://dogbreedage.com" },
         "datePublished": "2025-01-15",
         "dateModified": new Date().toISOString().split('T')[0]
-      })} />
-      <span class="inline-block text-xs font-mono uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Compare Dogs</span>
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Compare Two Dogs</h1>
-      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">Compare the human age of two dogs side by side. See which one is older, their life stages, and life expectancy differences.</p>
+      })}       <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Compare</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Age Comparison</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">Compare dog ages side-by-side: either compare two dogs of different breeds, or compare your dog's biological age directly with a human's age!</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="compare-root">
+      <div class="flex justify-center gap-2 mb-8 bg-[var(--bg-secondary)] p-1.5 rounded-full border-2 border-[var(--border-default)] max-w-xs sm:max-w-md mx-auto no-print">
+        <button type="button" id="mode-dog-dog" class="btn-ghost active flex-grow text-xs sm:text-sm" aria-pressed="true">Dog vs Dog</button>
+        <button type="button" id="mode-dog-human" class="btn-ghost flex-grow text-xs sm:text-sm" aria-pressed="false">Dog vs Human</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6" id="compare-root">
         {[1, 2].map(num => (
           <div class="card card-hover-lift p-4 sm:p-6 md:p-8" data-compare={num}>
-            <h2 class="text-sm font-semibold text-[var(--text-primary)] mb-6">Dog {num}</h2>
-              <div class="space-y-6">
+            <h2 class="text-base font-display font-extrabold text-[var(--text-primary)] mb-6 flex items-center gap-2" id={`c${num}-title`}>
+              <span>{num === 1 ? '🐶' : '🐕'}</span> Dog {num}
+            </h2>
+            <div class="space-y-6">
               <div>
-                <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Name</label>
-                <input type="text" class="input-base text-sm py-2" id={`c${num}-name`} placeholder={`Dog ${num}`} maxlength="30" />
+                <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5" id={`c${num}-name-label`}>Dog's Name</label>
+                <input type="text" class="input-base text-sm py-2" id={`c${num}-name`} placeholder={`e.g. Buddy`} maxlength="30" />
               </div>
-              <div>
-                <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1.5">Breed Size</label>
+              <div id={`c${num}-size-wrapper`}>
+                <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5">Breed Size</label>
                 <div class="grid grid-cols-2 gap-1.5">
                   {breedSizes.map(bs => (
-                    <label class="flex flex-col items-center justify-center p-2 rounded-lg border border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all hover:border-[var(--border-strong)] has-[:checked]:border-[var(--text-primary)] has-[:checked]:bg-[var(--hover-overlay)] min-h-[52px]">
+                    <label class="flex flex-col items-center justify-center p-2.5 rounded-xl border-2 border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer transition-all duration-200 hover:border-[var(--border-strong)] has-[:checked]:border-[var(--btn-primary-bg)] has-[:checked]:bg-[var(--hover-overlay-strong)] min-h-[56px] select-none">
                       <input type="radio" name={`c${num}-size`} value={bs.value} class="hidden" />
-                      <span class="text-xs font-medium text-[var(--text-primary)] leading-tight text-center">{bs.label}</span>
+                      <span class="text-xs font-bold text-[var(--text-primary)] leading-tight text-center">{bs.label}</span>
                       <span class="text-[0.625rem] text-[var(--text-muted)] text-center leading-tight">{bs.desc}</span>
                     </label>
                   ))}
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Years</label>
-                  <input type="number" class="input-base text-sm py-2" id={`c${num}-years`} min="0" max="40" placeholder="0" />
+              <div class="grid grid-cols-2 gap-4" id={`c${num}-age-grid`}>
+                <div id={`c${num}-years-wrapper`}>
+                  <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5" id={`c${num}-years-label`}>Dog's Age (years)</label>
+                  <input type="number" class="input-base text-sm py-2" id={`c${num}-years`} min="0" max="40" placeholder="e.g. 5" />
                 </div>
-                <div>
-                  <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Months</label>
+                <div id={`c${num}-months-wrapper`}>
+                  <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1.5">Months</label>
                   <select class="select-base text-sm py-2" id={`c${num}-months`}>
                     {Array.from({ length: 12 }, (_, i) => <option value={i}>{i === 0 ? '0 months' : i === 1 ? '1 month' : `${i} months`}</option>)}
                   </select>
@@ -69,9 +75,12 @@ const breedSizes = [
         ))}
       </div>
 
-      <div class="flex justify-center mt-6">
-        <button type="button" class="btn-primary text-base py-4 px-8" id="compare-btn">Compare Ages</button>
-      </div>
+      <div class="flex justify-center mt-8">
+        <button type="button" class="btn-primary text-base py-4 px-10 btn-pulse no-print" id="compare-btn">
+          <span class="btn-shimmer"></span>
+          ⚖️ Compare Ages
+        </button>
+      </div>div>
 
         <div id="compare-result" class="hidden mt-10 space-y-6" aria-live="polite" aria-atomic="true">
         <div class="card p-6 card-hover-lift">
@@ -105,57 +114,178 @@ const breedSizes = [
 import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js';
 
 (() => {
+  let currentMode = 'dog-dog';
+
+  const btnDogDog = document.getElementById('mode-dog-dog');
+  const btnDogHuman = document.getElementById('mode-dog-human');
+
+  const c2Title = document.getElementById('c2-title');
+  const c2NameLabel = document.getElementById('c2-name-label');
+  const c2Name = document.getElementById('c2-name');
+  const c2SizeWrapper = document.getElementById('c2-size-wrapper');
+  const c2MonthsWrapper = document.getElementById('c2-months-wrapper');
+  const c2YearsLabel = document.getElementById('c2-years-label');
+  const c2Years = document.getElementById('c2-years');
+  const c2YearsWrapper = document.getElementById('c2-years-wrapper');
+
+  btnDogDog.addEventListener('click', () => {
+    currentMode = 'dog-dog';
+    btnDogDog.classList.add('active');
+    btnDogDog.setAttribute('aria-pressed', 'true');
+    btnDogHuman.classList.remove('active');
+    btnDogHuman.setAttribute('aria-pressed', 'false');
+
+    if (c2Title) c2Title.innerHTML = '<span>🐕</span> Dog 2';
+    if (c2NameLabel) c2NameLabel.textContent = "Dog's Name";
+    if (c2Name) c2Name.placeholder = 'e.g. Buddy';
+    if (c2SizeWrapper) c2SizeWrapper.classList.remove('hidden');
+    if (c2MonthsWrapper) c2MonthsWrapper.classList.remove('hidden');
+    if (c2YearsLabel) c2YearsLabel.textContent = "Dog's Age (years)";
+    if (c2Years) {
+      c2Years.placeholder = 'e.g. 5';
+      c2Years.max = '40';
+    }
+    if (c2YearsWrapper) c2YearsWrapper.classList.remove('col-span-2');
+  });
+
+  btnDogHuman.addEventListener('click', () => {
+    currentMode = 'dog-human';
+    btnDogHuman.classList.add('active');
+    btnDogHuman.setAttribute('aria-pressed', 'true');
+    btnDogDog.classList.remove('active');
+    btnDogDog.setAttribute('aria-pressed', 'false');
+
+    if (c2Title) c2Title.innerHTML = '<span>👤</span> Human';
+    if (c2NameLabel) c2NameLabel.textContent = "Human's Name";
+    if (c2Name) c2Name.placeholder = 'e.g. Timmy';
+    if (c2SizeWrapper) c2SizeWrapper.classList.add('hidden');
+    if (c2MonthsWrapper) c2MonthsWrapper.classList.add('hidden');
+    if (c2YearsLabel) c2YearsLabel.textContent = "Human Age (years)";
+    if (c2Years) {
+      c2Years.placeholder = 'e.g. 25';
+      c2Years.max = '120';
+    }
+    if (c2YearsWrapper) c2YearsWrapper.classList.add('col-span-2');
+  });
 
   document.getElementById('compare-btn').addEventListener('click', () => {
     const results = [];
-    for (let n = 1; n <= 2; n++) {
-      const nameEl = document.getElementById(`c${n}-name`);
-      const yearsEl = document.getElementById(`c${n}-years`);
-      const monthsEl = document.getElementById(`c${n}-months`);
-      const sizeRadio = document.querySelector(`input[name="c${n}-size"]:checked`);
-      if (!nameEl || !yearsEl || !monthsEl) return;
-      const name = nameEl.value.trim() || `Dog ${n}`;
-      if (!sizeRadio) { alert(`Please select a breed size for Dog ${n}`); return; }
-      const size = sizeRadio.value;
-      const years = parseInt(yearsEl.value);
-      const months = parseInt(monthsEl.value);
-      if (yearsEl.value === '' || isNaN(years) || years < 0) { alert(`Please enter a valid age for Dog ${n}`); return; }
-      if (years > 40) { alert(`Age must be 40 years or less for Dog ${n}`); return; }
-      if (years === 0 && months === 0) { alert(`Age must be greater than 0 for Dog ${n}`); return; }
-      if (years === 0 && isNaN(months)) { alert(`Please select months for Dog ${n}`); return; }
-      const total = years + months / 12;
-      const ha = calcDogAge(years, months, BREED_SIZES[size].multiplier);
-      results.push({ name, size, total, ha, stage: getLifeStage(total, size), lifespan: BREED_SIZES[size].lifespan });
+    
+    // Validate Dog 1
+    const d1NameEl = document.getElementById('c1-name');
+    const d1YearsEl = document.getElementById('c1-years');
+    const d1MonthsEl = document.getElementById('c1-months');
+    const d1SizeRadio = document.querySelector('input[name="c1-size"]:checked');
+    if (!d1NameEl || !d1YearsEl || !d1MonthsEl) return;
+    
+    const d1Name = d1NameEl.value.trim() || 'Dog 1';
+    if (!d1SizeRadio) { alert('Please select a breed size for Dog 1'); return; }
+    const d1Size = d1SizeRadio.value;
+    const d1Years = parseInt(d1YearsEl.value);
+    const d1Months = parseInt(d1MonthsEl.value);
+    if (d1YearsEl.value === '' || isNaN(d1Years) || d1Years < 0) { alert('Please enter a valid age for Dog 1'); return; }
+    if (d1Years > 40) { alert('Age must be 40 years or less for Dog 1'); return; }
+    if (d1Years === 0 && d1Months === 0) { alert('Age must be greater than 0 for Dog 1'); return; }
+    
+    const d1Total = d1Years + d1Months / 12;
+    const d1Ha = calcDogAge(d1Years, d1Months, BREED_SIZES[d1Size].multiplier);
+    results.push({ name: d1Name, size: d1Size, total: d1Total, ha: d1Ha, stage: getLifeStage(d1Total, d1Size), lifespan: BREED_SIZES[d1Size].lifespan });
+
+    if (currentMode === 'dog-dog') {
+      // Validate Dog 2
+      const d2NameEl = document.getElementById('c2-name');
+      const d2YearsEl = document.getElementById('c2-years');
+      const d2MonthsEl = document.getElementById('c2-months');
+      const d2SizeRadio = document.querySelector('input[name="c2-size"]:checked');
+      if (!d2NameEl || !d2YearsEl || !d2MonthsEl) return;
+      
+      const d2Name = d2NameEl.value.trim() || 'Dog 2';
+      if (!d2SizeRadio) { alert('Please select a breed size for Dog 2'); return; }
+      const d2Size = d2SizeRadio.value;
+      const d2Years = parseInt(d2YearsEl.value);
+      const d2Months = parseInt(d2MonthsEl.value);
+      if (d2YearsEl.value === '' || isNaN(d2Years) || d2Years < 0) { alert('Please enter a valid age for Dog 2'); return; }
+      if (d2Years > 40) { alert('Age must be 40 years or less for Dog 2'); return; }
+      if (d2Years === 0 && d2Months === 0) { alert('Age must be greater than 0 for Dog 2'); return; }
+      
+      const d2Total = d2Years + d2Months / 12;
+      const d2Ha = calcDogAge(d2Years, d2Months, BREED_SIZES[d2Size].multiplier);
+      results.push({ name: d2Name, size: d2Size, total: d2Total, ha: d2Ha, stage: getLifeStage(d2Total, d2Size), lifespan: BREED_SIZES[d2Size].lifespan });
+    } else {
+      // Validate Human
+      const hNameEl = document.getElementById('c2-name');
+      const hYearsEl = document.getElementById('c2-years');
+      if (!hNameEl || !hYearsEl) return;
+      
+      const hName = hNameEl.value.trim() || 'Human';
+      const hYears = parseInt(hYearsEl.value);
+      if (hYearsEl.value === '' || isNaN(hYears) || hYears < 1 || hYears > 120) { alert('Please enter a valid human age between 1 and 120'); return; }
+      
+      results.push({ name: hName, size: null, total: hYears, ha: hYears, stage: 'Human', lifespan: [70, 85] });
     }
 
     const c1 = document.getElementById('compare-card-1');
     const c2 = document.getElementById('compare-card-2');
     if (!c1 || !c2) return;
 
-    [0,1].forEach(i => {
+    [0, 1].forEach(i => {
       const r = results[i];
       const el = i === 0 ? c1 : c2;
       el.innerHTML = '';
-      const nameP = document.createElement('p');
-      nameP.className = 'text-base font-semibold text-[var(--text-primary)] mb-2';
-      nameP.textContent = r.name;
-      el.appendChild(nameP);
-      const infoP = document.createElement('p');
-      infoP.className = 'text-xs text-[var(--text-muted)] mb-1';
-      infoP.textContent = `${BREED_SIZES[r.size]?.label || 'Unknown'} breed · ${r.total.toFixed(1)} dog years`;
-      el.appendChild(infoP);
-      const ageP = document.createElement('p');
-      ageP.className = 'text-3xl font-bold text-[var(--text-primary)] my-2';
-      ageP.innerHTML = `${r.ha} <span class="text-sm font-normal text-[var(--text-secondary)]">human years</span>`;
-      el.appendChild(ageP);
-      const stageP = document.createElement('p');
-      stageP.className = 'text-xs px-2 py-0.5 rounded-full inline-block bg-[var(--hover-overlay-strong)] text-[var(--text-primary)]';
-      stageP.textContent = r.stage;
-      el.appendChild(stageP);
-      const lifeP = document.createElement('p');
-      lifeP.className = 'text-xs text-[var(--text-faint)] mt-2';
-      lifeP.textContent = `Life expectancy: ${r.lifespan[0]}-${r.lifespan[1]} years`;
-      el.appendChild(lifeP);
+      
+      if (r.size === null) {
+        // Render Human card
+        const nameP = document.createElement('p');
+        nameP.className = 'text-base font-bold text-[var(--text-primary)] mb-2';
+        nameP.textContent = r.name;
+        el.appendChild(nameP);
+        
+        const infoP = document.createElement('p');
+        infoP.className = 'text-xs text-[var(--text-muted)] mb-1';
+        infoP.textContent = 'Human · Owner';
+        el.appendChild(infoP);
+        
+        const ageP = document.createElement('p');
+        ageP.className = 'text-3.5xl font-display font-extrabold text-[var(--btn-primary-bg)] my-2';
+        ageP.innerHTML = `${r.ha} <span class="text-sm font-sans font-bold text-[var(--text-secondary)]">years old</span>`;
+        el.appendChild(ageP);
+        
+        const stageP = document.createElement('p');
+        stageP.className = 'stage-pill stage-Teenager text-[0.75rem] py-1 px-2.5';
+        stageP.textContent = 'Companion';
+        el.appendChild(stageP);
+        
+        const lifeP = document.createElement('p');
+        lifeP.className = 'text-xs text-[var(--text-faint)] mt-2';
+        lifeP.textContent = 'Life expectancy: 75–85 years';
+        el.appendChild(lifeP);
+      } else {
+        // Render Dog card
+        const nameP = document.createElement('p');
+        nameP.className = 'text-base font-bold text-[var(--text-primary)] mb-2';
+        nameP.textContent = r.name;
+        el.appendChild(nameP);
+        
+        const infoP = document.createElement('p');
+        infoP.className = 'text-xs text-[var(--text-muted)] mb-1';
+        infoP.textContent = `${BREED_SIZES[r.size]?.label || 'Unknown'} breed · ${r.total.toFixed(1)} dog years`;
+        el.appendChild(infoP);
+        
+        const ageP = document.createElement('p');
+        ageP.className = 'text-3.5xl font-display font-extrabold text-[var(--btn-primary-bg)] my-2';
+        ageP.innerHTML = `${r.ha} <span class="text-sm font-sans font-bold text-[var(--text-secondary)]">human years</span>`;
+        el.appendChild(ageP);
+        
+        const stageP = document.createElement('p');
+        stageP.className = 'stage-pill stage-' + r.stage.replace(' ', '-');
+        stageP.textContent = r.stage;
+        el.appendChild(stageP);
+        
+        const lifeP = document.createElement('p');
+        lifeP.className = 'text-xs text-[var(--text-faint)] mt-2';
+        lifeP.textContent = `Life expectancy: ${r.lifespan[0]}-${r.lifespan[1]} years`;
+        el.appendChild(lifeP);
+      }
     });
 
     const winnerEl = document.getElementById('compare-winner');
@@ -164,15 +294,33 @@ import { BREED_SIZES, calcDogAge, getLifeStage } from '../scripts/breed-data.js'
     if (!winnerEl || !funMsgEl || !resultEl) return;
 
     let winner, msg;
-    if (results[0].ha > results[1].ha) {
-      winner = `${results[0].name} is older in human years (${results[0].ha} vs ${results[1].ha})`;
-      msg = `${results[0].name} has lived ${(results[0].ha - results[1].ha).toFixed(1)} more human years than ${results[1].name}.`;
-    } else if (results[1].ha > results[0].ha) {
-      winner = `${results[1].name} is older in human years (${results[1].ha} vs ${results[0].ha})`;
-      msg = `${results[1].name} has lived ${(results[1].ha - results[0].ha).toFixed(1)} more human years than ${results[0].name}.`;
+    if (currentMode === 'dog-dog') {
+      if (results[0].ha > results[1].ha) {
+        winner = `${results[0].name} is older in human years (${results[0].ha} vs ${results[1].ha})`;
+        msg = `${results[0].name} has lived ${(results[0].ha - results[1].ha).toFixed(1)} more human years than ${results[1].name}.`;
+      } else if (results[1].ha > results[0].ha) {
+        winner = `${results[1].name} is older in human years (${results[1].ha} vs ${results[0].ha})`;
+        msg = `${results[1].name} has lived ${(results[1].ha - results[0].ha).toFixed(1)} more human years than ${results[0].name}.`;
+      } else {
+        winner = `Both dogs are the same human age!`;
+        msg = `What a coincidence — ${results[0].name} and ${results[1].name} are the same age in human years!`;
+      }
     } else {
-      winner = `Both dogs are the same human age!`;
-      msg = `What a coincidence — ${results[0].name} and ${results[1].name} are the same age in human years!`;
+      const dogHa = results[0].ha;
+      const humanAge = results[1].ha;
+      const dogName = results[0].name;
+      const humanName = results[1].name;
+      
+      if (dogHa > humanAge) {
+        winner = `🐕 ${dogName} is older than ${humanName} biologically!`;
+        msg = `At equivalent human years, ${dogName} (${dogHa} human yrs) is biologically older than ${humanName} (${humanAge} yrs) by ${(dogHa - humanAge).toFixed(1)} years. ${dogName} is the mature elder in this duo!`;
+      } else if (humanAge > dogHa) {
+        winner = `👤 ${humanName} is older than ${dogName} biologically!`;
+        msg = `At equivalent human years, ${humanName} (${humanAge} yrs) is biologically older than ${dogName} (${dogHa} human yrs) by ${(humanAge - dogHa).toFixed(1)} years. ${humanName} is the senior partner here!`;
+      } else {
+        winner = `🎉 Both are the exact same biological age!`;
+        msg = `Wow! Both ${dogName} and ${humanName} are biologically equivalent to ${humanAge} years old! They are twin peers.`;
+      }
     }
 
     winnerEl.textContent = winner;

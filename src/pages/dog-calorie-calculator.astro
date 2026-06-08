@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+
+const activityLevels = [
+  { value: 'inactive', label: 'Neutered / Inactive Adult', multiplier: 1.2, desc: 'Indoor house pets with light activity' },
+  { value: 'active', label: 'Active Adult', multiplier: 1.6, desc: 'Regular walks, running, or working dogs' },
+  { value: 'senior', label: 'Senior Dog', multiplier: 1.0, desc: 'Older dogs with slower metabolisms' },
+  { value: 'puppy', label: 'Growing Puppy', multiplier: 2.0, desc: 'Rapid growth phase under 12 months' },
+  { value: 'weightLoss', label: 'Weight Loss Program', multiplier: 1.0, desc: 'Controlled deficit to reduce body weight' },
+];
+---
+
+<BaseLayout
+  title="Dog Calorie Calculator & Daily Food Portions"
+  description="Calculate your dog's daily calorie requirements (RER/MER) and exact commercial food portions in cups based on weight, age, and activity level."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-3xl mx-auto">
+      <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Nutrition Tool</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Calorie Calculator</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">
+        Maintaining a healthy weight starts with portions. Enter your dog's weight, activity level, and kibble caloric density to calculate their exact daily calorie needs and portion recommendations.
+      </p>
+
+      <div class="card card-glow card-accent-top p-4 sm:p-6 md:p-8">
+        <form id="calorie-form" class="space-y-6">
+          
+          <!-- Dog's Name -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4">
+            <label for="cal-dog-name" class="block text-sm font-medium text-[var(--text-secondary)] sm:shrink-0">Dog's Name <span class="text-[var(--text-faint)]">(optional)</span></label>
+            <input type="text" id="cal-dog-name" class="input-base flex-1" placeholder="e.g. Rocky" maxlength="20" />
+          </div>
+
+          <!-- Weight Input & Unit -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="cal-weight" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Current Weight</label>
+              <input type="number" id="cal-weight" class="input-base" placeholder="e.g. 50" step="0.1" min="0.1" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Weight Unit</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="cal-lbs" class="btn-ghost active py-2.5 text-xs font-mono" data-unit="lbs">Pounds (lbs)</button>
+                <button type="button" id="cal-kg" class="btn-ghost py-2.5 text-xs font-mono" data-unit="kg">Kilograms (kg)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity / Life Stage -->
+          <div>
+            <label for="cal-activity" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Activity & Life Stage</label>
+            <select id="cal-activity" class="select-base" required>
+              <option value="" disabled selected>Select activity level...</option>
+              {activityLevels.map(a => (
+                <option value={a.value} data-mult={a.multiplier}>{a.label} ({a.desc})</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Kibble Calorie Density -->
+          <div>
+            <div class="flex justify-between items-center mb-1.5">
+              <label for="cal-kibble" class="block text-sm font-medium text-[var(--text-secondary)]">Kibble Calorie Density <span class="text-xs font-normal text-[var(--text-faint)]">(see dog food bag label)</span></label>
+              <span id="kibble-display-val" class="text-xs font-mono font-bold text-[var(--btn-primary-bg)]">350 kcal/cup</span>
+            </div>
+            <input type="range" id="cal-kibble" min="250" max="500" value="350" step="5" class="w-full accent-[var(--btn-primary-bg)] cursor-pointer" />
+            <div class="flex justify-between text-[10px] text-[var(--text-faint)] px-1 mt-1 font-mono">
+              <span>250 kcal/cup</span>
+              <span>350 kcal/cup (Typical)</span>
+              <span>500 kcal/cup</span>
+            </div>
+          </div>
+
+          <!-- Calculate Button -->
+          <button type="submit" class="btn-primary w-full justify-center text-base py-4 px-8 btn-pulse mt-2">
+            <span class="btn-shimmer"></span>
+            🥗 Calculate Calorie Needs
+          </button>
+        </form>
+
+        <!-- Result Card -->
+        <div id="cal-result" class="hidden mt-10 space-y-6 sm:space-y-8 fade-in-up border-t border-[var(--border-default)] pt-8" aria-live="polite">
+          <div class="text-center px-1 space-y-2">
+            <p class="text-sm text-[var(--text-muted)] font-bold">Daily Recommended Calories (MER)</p>
+            <p class="text-5xl sm:text-6xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] leading-tight py-1" id="mer-val">— kcal/day</p>
+            <p class="text-xs text-[var(--text-secondary)] font-medium max-w-md mx-auto" id="cal-summary-msg"></p>
+          </div>
+
+          <!-- Portion breakdown cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="card p-5 text-center space-y-2 border border-[var(--border-default)]">
+              <span class="text-2xl block">🥣</span>
+              <span class="text-xs font-bold text-[var(--text-muted)] block uppercase tracking-wider">Daily Food Portion</span>
+              <span class="text-2xl font-display font-extrabold text-[var(--text-primary)] block" id="portion-daily">- cups</span>
+              <span class="text-[10px] text-[var(--text-faint)] block" id="portion-daily-g">- grams per day</span>
+            </div>
+            <div class="card p-5 text-center space-y-2 border border-[var(--border-default)]">
+              <span class="text-2xl block">⏰</span>
+              <span class="text-xs font-bold text-[var(--text-muted)] block uppercase tracking-wider">Per Meal (2x Daily)</span>
+              <span class="text-2xl font-display font-extrabold text-[var(--text-primary)] block" id="portion-meal">- cups</span>
+              <span class="text-[10px] text-[var(--text-faint)] block">Feed morning and evening</span>
+            </div>
+          </div>
+
+          <!-- RER box -->
+          <div class="card p-4 bg-[var(--bg-elevated)] space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="font-bold text-[var(--text-secondary)]">Resting Energy Requirement (RER):</span>
+              <span class="font-mono font-bold text-[var(--text-primary)]" id="rer-val">- kcal</span>
+            </div>
+            <p class="text-[10px] text-[var(--text-muted)] leading-relaxed">
+              RER is the energy needed to perform essential body functions (breathing, digestion) while at rest. RER is calculated as: 70 * (Weight in kg)<sup>0.75</sup>.
+            </p>
+          </div>
+
+          <!-- Share buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 no-print pt-2">
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-cal-wa">Share on WhatsApp</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-cal-tw">Twitter</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-cal-cp">Copy Link</button>
+          </div>
+
+          <div class="text-center no-print">
+            <button type="button" class="text-xs text-[var(--text-faint)] hover:text-[var(--text-secondary)] underline bg-transparent border-0 cursor-pointer" id="reset-cal-btn">← Calculate Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Info -->
+  <section class="container-custom pb-20">
+    <div class="max-w-3xl mx-auto space-y-10 card p-6 sm:p-8">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-3">Understanding Your Dog's Calorie Needs</h2>
+        <p class="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+          Every dog has unique metabolic requirements. The energy calculation is based on the World Small Animal Veterinary Association (WSAVA) and National Research Council (NRC) guidelines.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[var(--border-default)]">
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Key Calculation Terms</h3>
+          <ul class="text-xs text-[var(--text-secondary)] space-y-2 list-disc list-inside">
+            <li><strong>RER (Resting Energy Requirement):</strong> Base energy requirements. Similar to Basal Metabolic Rate (BMR) in humans.</li>
+            <li><strong>MER (Maintenance Energy Requirement):</strong> Adjusts RER for energy spent during physical activity, temperature regulation, growth, and digestive processing.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-primary)] mb-2">Important Feeding Tips</h3>
+          <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            Treats should make up no more than 10% of your dog's daily calorie allowance. Adjust food portions downwards if your dog gets high-calorie rewards during training or playtime.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCalculators />
+</BaseLayout>
+
+<script>
+  (() => {
+    let currentWeightUnit = 'lbs';
+
+    const form = document.getElementById('calorie-form') as HTMLFormElement;
+    const nameInput = document.getElementById('cal-dog-name') as HTMLInputElement;
+    const weightInput = document.getElementById('cal-weight') as HTMLInputElement;
+    const activitySelect = document.getElementById('cal-activity') as HTMLSelectElement;
+    const kibbleInput = document.getElementById('cal-kibble') as HTMLInputElement;
+    const kibbleDisplay = document.getElementById('kibble-display-val');
+
+    const btnLbs = document.getElementById('cal-lbs');
+    const btnKg = document.getElementById('cal-kg');
+
+    const resultDiv = document.getElementById('cal-result');
+    const rerVal = document.getElementById('rer-val');
+    const merVal = document.getElementById('mer-val');
+    const portionDaily = document.getElementById('portion-daily');
+    const portionDailyG = document.getElementById('portion-daily-g');
+    const portionMeal = document.getElementById('portion-meal');
+    const summaryMsg = document.getElementById('cal-summary-msg');
+    const resetBtn = document.getElementById('reset-cal-btn');
+
+    // Share buttons
+    const shareWa = document.getElementById('share-cal-wa');
+    const shareTw = document.getElementById('share-cal-tw');
+    const shareCp = document.getElementById('share-cal-cp');
+
+    let calculatedMer = 0;
+
+    // Weight unit toggle
+    btnLbs?.addEventListener('click', () => {
+      if (currentWeightUnit === 'kg') {
+        currentWeightUnit = 'lbs';
+        btnLbs.classList.add('active');
+        btnKg?.classList.remove('active');
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val * 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    btnKg?.addEventListener('click', () => {
+      if (currentWeightUnit === 'lbs') {
+        currentWeightUnit = 'kg';
+        btnKg.classList.add('active');
+        btnLbs?.classList.remove('active');
+        if (weightInput.value) {
+          const val = parseFloat(weightInput.value);
+          weightInput.value = (val / 2.20462).toFixed(1);
+        }
+      }
+    });
+
+    // Kibble range display update
+    kibbleInput?.addEventListener('input', () => {
+      if (kibbleDisplay) {
+        kibbleDisplay.textContent = `${kibbleInput.value} kcal/cup`;
+      }
+    });
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim() || 'Your dog';
+      const weight = parseFloat(weightInput.value);
+      const selectedOption = activitySelect.options[activitySelect.selectedIndex];
+      const kibbleCal = parseInt(kibbleInput.value);
+
+      if (isNaN(weight) || weight <= 0) {
+        alert('Please enter a valid weight.');
+        return;
+      }
+      if (!selectedOption.value) {
+        alert('Please select activity and life stage.');
+        return;
+      }
+
+      const multiplier = parseFloat(selectedOption.getAttribute('data-mult') || '1.0');
+
+      // Convert weight to kg
+      const weightKg = currentWeightUnit === 'lbs' ? weight * 0.453592 : weight;
+
+      // Formula: RER = 70 * (Weight in kg)^0.75
+      const rer = Math.round(70 * Math.pow(weightKg, 0.75));
+      const mer = Math.round(rer * multiplier);
+      calculatedMer = mer;
+
+      // Portion calculations
+      // Standard commercial cup: ~350 kcal, typical mass per cup of food: ~100 grams
+      const dailyCups = mer / kibbleCal;
+      const mealCups = dailyCups / 2;
+      
+      // Grams equivalent based on standard kibble density (~100g per 350 kcal ratio)
+      const dailyGrams = Math.round(mer / (kibbleCal / 100));
+
+      if (rerVal) rerVal.textContent = `${rer} kcal/day`;
+      if (merVal) merVal.textContent = `${mer} kcal/day`;
+      if (portionDaily) portionDaily.textContent = `${dailyCups.toFixed(2)} cups`;
+      if (portionDailyG) portionDailyG.textContent = `Equivalent to approximately ${dailyGrams} grams per day`;
+      if (portionMeal) portionMeal.textContent = `${mealCups.toFixed(2)} cups`;
+
+      if (summaryMsg) {
+        summaryMsg.textContent = `${name} weighs ${weight.toFixed(1)} ${currentWeightUnit} (${weightKg.toFixed(1)} kg) and has a Resting Energy Requirement (RER) of ${rer} calories. Factoring in their activity level, their target daily Maintenance Energy Requirement (MER) is ${mer} calories. Using food containing ${kibbleCal} kcal/cup, they should eat ${dailyCups.toFixed(2)} cups of kibble per day.`;
+      }
+
+      form.classList.add('hidden');
+      resultDiv?.classList.remove('hidden');
+      resultDiv?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      form.classList.remove('hidden');
+      resultDiv?.classList.add('hidden');
+      form.reset();
+      if (kibbleDisplay) kibbleDisplay.textContent = '350 kcal/cup';
+    });
+
+    // Share listeners
+    shareWa?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My dog';
+      const text = `I calculated my dog's daily calorie requirement! ${name} needs ${calculatedMer} kcal per day. Check it out on DogBreedAge:`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
+    });
+
+    shareTw?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My dog';
+      const text = `My dog ${name} needs ${calculatedMer} kcal/day to maintain weight. Calculate your dog's portions on DogBreedAge:`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+    });
+
+    shareCp?.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const originalText = shareCp.textContent;
+        shareCp.textContent = 'Copied!';
+        setTimeout(() => {
+          shareCp.textContent = originalText;
+        }, 2000);
+      });
+    });
+
+  })();
+</script>

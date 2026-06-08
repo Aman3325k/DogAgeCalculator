@@ -9,13 +9,13 @@ urls = []
 
 for root, _, files in os.walk(pages_dir):
     for file in files:
-        if file.endswith('.astro') and file not in ['404.astro', '500.astro']:
+        if file.endswith('.astro') and file not in ['404.astro', '500.astro', 'widget.astro']:
             name = file[:-6] # remove .astro
             
             if name == 'index':
                 path = ''
                 priority = '1.0'
-            elif name in ['compare', 'reverse-calculator', 'dog-birthday', 'dog-age-chart']:
+            elif name in ['compare', 'reverse-calculator', 'dog-birthday', 'dog-age-chart', 'puppy-weight-calculator', 'dog-chocolate-toxicity-calculator', 'dog-calorie-calculator', 'biological-age-quiz', 'embed-widget']:
                 path = f'/{name}'
                 priority = '0.9'
             elif name in ['about', 'contact', 'privacy-policy', 'terms-of-service']:

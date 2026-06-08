@@ -41,7 +41,7 @@ const faqs = [
     {faqs.map((faq, i) => (
       <div class="faq-item card p-4.5 sm:p-4 md:p-6 cursor-pointer" data-index={i}>
         <button class="flex items-center justify-between gap-4 w-full text-left cursor-pointer bg-transparent border-0 p-0" aria-expanded="false" aria-controls={`faq-answer-${i}`} id={`faq-btn-${i}`}>
-          <span class="text-sm sm:text-[0.9375rem] font-medium text-[var(--text-primary)] leading-relaxed pr-2">{faq.q}</span>
+          <span class="text-sm sm:text-[0.9375rem] font-bold text-[var(--text-primary)] leading-relaxed pr-2">{faq.q}</span>
           <svg class="w-4 h-4 text-[var(--text-faint)] shrink-0 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer overflow-hidden transition-all duration-300" style="max-height: 0; opacity: 0;" role="region" aria-labelledby={`faq-btn-${i}`} id={`faq-answer-${i}`}>

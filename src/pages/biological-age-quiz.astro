@@ -1,0 +1,467 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+
+const breedSizes = [
+  { value: 'small', label: 'Small', desc: 'under 20 lbs' },
+  { value: 'medium', label: 'Medium', desc: '20-50 lbs' },
+  { value: 'large', label: 'Large', desc: '50-90 lbs' },
+  { value: 'giant', label: 'Giant', desc: '90+ lbs' },
+];
+---
+
+<BaseLayout
+  title="Dog Biological Age Health Quiz"
+  description="Take our interactive biological age health quiz for dogs. Calculate how your dog's lifestyle, diet, weight, and veterinary care affect their biological lifespan."
+>
+  <section class="container-custom py-10 sm:py-16 md:py-24 pb-20">
+    <div class="max-w-3xl mx-auto">
+      <span class="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)] px-4 py-1.5 rounded-full border border-[var(--border-default)] mb-4 sm:mb-6">Health Quiz</span>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-4">Dog Biological Age Quiz</h1>
+      <p class="text-sm text-[var(--text-secondary)] mb-8 max-w-xl leading-relaxed">
+        Chronological age is just a number. Lifestyle factors like activity levels, diet, weight management, and dental care significantly impact a dog's biological age. Take the quiz to get your dog's longevity report card.
+      </p>
+
+      <div class="card card-glow card-accent-top p-4 sm:p-6 md:p-8 relative min-h-[400px] flex flex-col justify-between" id="quiz-container">
+        
+        <!-- Step 1: Basic Info -->
+        <div id="step-1" class="quiz-step space-y-6">
+          <h2 class="text-base font-display font-extrabold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+            <span>🐾</span> Step 1: General Details
+          </h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="quiz-name" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Dog's Name</label>
+              <input type="text" id="quiz-name" class="input-base text-sm py-2" placeholder="e.g. Buddy" required />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Breed Size</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {breedSizes.map(bs => (
+                  <label class="flex flex-col items-center justify-center p-2 rounded-xl border-2 border-[var(--border-default)] bg-[var(--bg-secondary)] cursor-pointer hover:border-[var(--border-strong)] transition-all select-none">
+                    <input type="radio" name="quiz-size" value={bs.value} class="hidden" required />
+                    <span class="text-xs font-bold text-[var(--text-primary)]">{bs.label}</span>
+                    <span class="text-[9px] text-[var(--text-muted)]">{bs.desc}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="quiz-years" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Age (Years)</label>
+                <input type="number" id="quiz-years" class="input-base text-sm py-2" min="0" max="30" placeholder="e.g. 4" required />
+              </div>
+              <div>
+                <label for="quiz-months" class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Months</label>
+                <select id="quiz-months" class="select-base text-sm py-2">
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option value={i}>{i} months</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Weight & Diet -->
+        <div id="step-2" class="quiz-step hidden space-y-6">
+          <h2 class="text-base font-display font-extrabold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+            <span>🥩</span> Step 2: Diet & Body Condition
+          </h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Body Condition</label>
+              <select id="quiz-condition" class="select-base text-sm py-2" required>
+                <option value="" disabled selected>Select body condition...</option>
+                <option value="ideal">Ideal weight (ribs easy to feel but not visible)</option>
+                <option value="underweight">Underweight (ribs visible, thin waist)</option>
+                <option value="overweight">Slightly Overweight (ribs harder to feel)</option>
+                <option value="obese">Obese (thick fat layer, rounded stomach)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Diet Quality</label>
+              <select id="quiz-diet" class="select-base text-sm py-2" required>
+                <option value="" disabled selected>Select diet type...</option>
+                <option value="premium">Premium kibble or raw/veterinary recommended diet</option>
+                <option value="standard">Standard commercial kibble</option>
+                <option value="home">Balanced home-cooked diet</option>
+                <option value="poor">Table scraps and low-cost dog food</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Lifestyle & Care -->
+        <div id="step-3" class="quiz-step hidden space-y-6">
+          <h2 class="text-base font-display font-extrabold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+            <span>🏥</span> Step 3: Exercise & Health Habits
+          </h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Daily Exercise & Active Play</label>
+              <select id="quiz-exercise" class="select-base text-sm py-2" required>
+                <option value="" disabled selected>Select activity level...</option>
+                <option value="active">Very Active (>60 mins running or hard play daily)</option>
+                <option value="moderate">Moderate (30-60 mins walk/play daily)</option>
+                <option value="light">Light (<30 mins slow walking daily)</option>
+                <option value="none">Sedentary (No regular walk or active play)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Dental Care</label>
+              <select id="quiz-dental" class="select-base text-sm py-2" required>
+                <option value="" disabled selected>Select dental habits...</option>
+                <option value="daily">Brushed daily or professional veterinary cleaning</option>
+                <option value="treats">Dental chews and toys (never brush)</option>
+                <option value="none">No dental care of any kind</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Veterinary Screenings</label>
+              <select id="quiz-vet" class="select-base text-sm py-2" required>
+                <option value="" disabled selected>Select vet frequency...</option>
+                <option value="annual">Regular annual wellness checks and blood work</option>
+                <option value="emergency">Only visit when sick or in emergencies</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Results & Certificate -->
+        <div id="step-4" class="quiz-step hidden space-y-6">
+          <div class="text-center space-y-3">
+            <span class="text-4xl block">🏆</span>
+            <h2 class="text-lg font-display font-extrabold text-[var(--text-primary)]">Longevity Report Card</h2>
+            <p class="text-xs text-[var(--text-muted)]">Calculated biological health metrics compared to average chronological age.</p>
+          </div>
+
+          <!-- Certificate Box -->
+          <div class="card p-6 border-2 border-[var(--btn-primary-bg)] bg-[var(--bg-elevated)] relative overflow-hidden text-center space-y-4 shadow-xl" id="certificate-card">
+            <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]"></div>
+            
+            <div>
+              <h3 class="text-lg font-display font-extrabold text-[var(--text-primary)]" id="cert-title">Buddy's Longevity Certificate</h3>
+              <p class="text-[10px] uppercase font-mono tracking-widest text-[var(--text-faint)] mt-0.5">Biological Age Report</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 py-2 border-y border-[var(--border-default)]">
+              <div>
+                <span class="text-[10px] text-[var(--text-muted)] font-bold block">Chronological Age</span>
+                <span class="text-2xl font-display font-extrabold text-[var(--text-secondary)]" id="cert-chronological">-</span>
+              </div>
+              <div class="border-l border-[var(--border-default)]">
+                <span class="text-[10px] text-[var(--text-muted)] font-bold block">Biological Age</span>
+                <span class="text-2xl font-display font-extrabold text-[var(--btn-primary-bg)]" id="cert-biological">-</span>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-xs text-[var(--text-muted)] font-bold">Health Score Grade</span>
+              <span class="text-3xl font-display font-extrabold text-[var(--color-link)] block" id="cert-grade">A+</span>
+            </div>
+
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed italic" id="cert-summary-text"></p>
+          </div>
+
+          <!-- Health Action Plan -->
+          <div class="card p-5 space-y-3">
+            <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-faint)]">Veterinary Health Tips</h3>
+            <ul class="text-xs text-[var(--text-secondary)] space-y-2 list-inside space-y-1.5" id="health-tips-list">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+
+          <!-- Social Buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 no-print pt-2">
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-quiz-wa">Share on WhatsApp</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-quiz-tw">Twitter</button>
+            <button type="button" class="btn-secondary text-xs py-2.5 px-4" id="share-quiz-cp">Copy Link</button>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center mt-8 pt-4 border-t border-[var(--border-default)] no-print" id="quiz-nav">
+          <button type="button" id="prev-btn" class="btn-ghost text-xs py-2 px-4 hidden">← Back</button>
+          <span class="text-xs text-[var(--text-faint)] font-bold" id="step-indicator">Step 1 of 3</span>
+          <button type="button" id="next-btn" class="btn-primary text-xs py-2 px-5 font-bold">Next Step →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container-custom pb-20">
+    <div class="max-w-2xl mx-auto card p-6 sm:p-8 space-y-6">
+      <h2 class="text-lg font-bold text-[var(--text-primary)] mb-2">Biological Age FAQ</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-secondary)] mb-1">What is the difference between chronological and biological age?</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">Chronological age measures the actual time since your dog was born. Biological age reflects their physiological health and cell aging. Diet, dental hygiene, exercise, and genetics decide biological age.</p>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-[var(--text-secondary)] mb-1">How do the offsets in this quiz work?</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">The offsets in this quiz correspond to peer-reviewed veterinary studies. For instance, dogs kept at ideal body weight have been shown to live up to 2.5 years longer than obese dogs of the same breed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCalculators />
+</BaseLayout>
+
+<script>
+  import { BREED_SIZES, calcDogAge } from '../scripts/breed-data.js';
+
+  (() => {
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const step3 = document.getElementById('step-3');
+    const step4 = document.getElementById('step-4');
+
+    const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+    const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+    const stepIndicator = document.getElementById('step-indicator');
+    const quizNav = document.getElementById('quiz-nav');
+
+    // Inputs
+    const nameInput = document.getElementById('quiz-name') as HTMLInputElement;
+    const yearsInput = document.getElementById('quiz-years') as HTMLInputElement;
+    const monthsSelect = document.getElementById('quiz-months') as HTMLSelectElement;
+    
+    // Outputs
+    const certTitle = document.getElementById('cert-title');
+    const certChronological = document.getElementById('cert-chronological');
+    const certBiological = document.getElementById('cert-biological');
+    const certGrade = document.getElementById('cert-grade');
+    const certSummaryText = document.getElementById('cert-summary-text');
+    const tipsList = document.getElementById('health-tips-list');
+
+    // Share buttons
+    const shareWa = document.getElementById('share-quiz-wa');
+    const shareTw = document.getElementById('share-quiz-tw');
+    const shareCp = document.getElementById('share-quiz-cp');
+
+    let chronologicalAge = 0;
+    let biologicalAge = 0;
+
+    nextBtn?.addEventListener('click', () => {
+      if (currentStep === 1) {
+        // Validation
+        const sizeRadio = document.querySelector('input[name="quiz-size"]:checked') as HTMLInputElement;
+        const name = nameInput.value.trim();
+        const years = parseInt(yearsInput.value);
+
+        if (!name) { alert('Please enter your dog\'s name.'); return; }
+        if (!sizeRadio) { alert('Please select a breed size.'); return; }
+        if (isNaN(years) || years < 0) { alert('Please enter a valid age.'); return; }
+
+        currentStep = 2;
+        step1?.classList.add('hidden');
+        step2?.classList.remove('hidden');
+        prevBtn?.classList.remove('hidden');
+        if (stepIndicator) stepIndicator.textContent = `Step 2 of 3`;
+      } else if (currentStep === 2) {
+        // Validation
+        const cond = (document.getElementById('quiz-condition') as HTMLSelectElement).value;
+        const diet = (document.getElementById('quiz-diet') as HTMLSelectElement).value;
+
+        if (!cond) { alert('Please select your dog\'s body condition.'); return; }
+        if (!diet) { alert('Please select your dog\'s diet type.'); return; }
+
+        currentStep = 3;
+        step2?.classList.add('hidden');
+        step3?.classList.remove('hidden');
+        if (nextBtn) nextBtn.textContent = 'Finish Quiz 🎓';
+        if (stepIndicator) stepIndicator.textContent = `Step 3 of 3`;
+      } else if (currentStep === 3) {
+        // Validation
+        const exercise = (document.getElementById('quiz-exercise') as HTMLSelectElement).value;
+        const dental = (document.getElementById('quiz-dental') as HTMLSelectElement).value;
+        const vet = (document.getElementById('quiz-vet') as HTMLSelectElement).value;
+
+        if (!exercise) { alert('Please select exercise levels.'); return; }
+        if (!dental) { alert('Please select dental care.'); return; }
+        if (!vet) { alert('Please select veterinary screening habits.'); return; }
+
+        calculateQuizResults();
+      }
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      if (currentStep === 2) {
+        currentStep = 1;
+        step2?.classList.add('hidden');
+        step1?.classList.remove('hidden');
+        prevBtn?.classList.add('hidden');
+        if (stepIndicator) stepIndicator.textContent = `Step 1 of 3`;
+      } else if (currentStep === 3) {
+        currentStep = 2;
+        step3?.classList.add('hidden');
+        step2?.classList.remove('hidden');
+        if (nextBtn) nextBtn.textContent = 'Next Step →';
+        if (stepIndicator) stepIndicator.textContent = `Step 2 of 3`;
+      }
+    });
+
+    function calculateQuizResults() {
+      const name = nameInput.value.trim() || 'Buddy';
+      const sizeRadio = document.querySelector('input[name="quiz-size"]:checked') as HTMLInputElement;
+      const size = sizeRadio.value;
+      const years = parseInt(yearsInput.value) || 0;
+      const months = parseInt(monthsSelect.value) || 0;
+
+      const cond = (document.getElementById('quiz-condition') as HTMLSelectElement).value;
+      const diet = (document.getElementById('quiz-diet') as HTMLSelectElement).value;
+      const exercise = (document.getElementById('quiz-exercise') as HTMLSelectElement).value;
+      const dental = (document.getElementById('quiz-dental') as HTMLSelectElement).value;
+      const vet = (document.getElementById('quiz-vet') as HTMLSelectElement).value;
+
+      // Chronological age in human years
+      const multiplier = BREED_SIZES[size].multiplier;
+      chronologicalAge = calcDogAge(years, months, multiplier);
+
+      // Biological age adjustments
+      let offset = 0;
+      const tips = [];
+
+      // Obesity
+      if (cond === 'ideal') {
+        offset -= 1.5;
+      } else if (cond === 'overweight') {
+        offset += 1.0;
+        tips.push(`Keep ${name} at a healthy weight to decrease biological age by up to 2.5 human years.`);
+      } else if (cond === 'obese') {
+        offset += 2.5;
+        tips.push(`🐾 Consult your vet on a weight loss program. Obesity shortens canine life expectancy by up to 2 years.`);
+      } else if (cond === 'underweight') {
+        offset += 0.5;
+      }
+
+      // Exercise
+      if (exercise === 'active') {
+        offset -= 1.5;
+      } else if (exercise === 'moderate') {
+        offset -= 0.5;
+      } else if (exercise === 'light') {
+        offset += 0.5;
+        tips.push(`Increase daily play sessions by 15 mins to lower biological cell aging.`);
+      } else if (exercise === 'none') {
+        offset += 1.5;
+        tips.push(`🐾 Incorporate daily active walks. Inactive lifestyles accelerate joint and cardiovascular aging.`);
+      }
+
+      // Dental
+      if (dental === 'daily') {
+        offset -= 1.0;
+      } else if (dental === 'treats') {
+        offset += 0.0;
+        tips.push(`Introduce routine teeth brushing to drop biological age. Plaque causes heart & kidney inflammation.`);
+      } else if (dental === 'none') {
+        offset += 1.5;
+        tips.push(`🐾 Start brushing ${name}'s teeth. Periodontal disease is highly correlated with cardiovascular issues.`);
+      }
+
+      // Vet
+      if (vet === 'annual') {
+        offset -= 1.0;
+      } else if (vet === 'emergency') {
+        offset += 1.0;
+        tips.push(`Schedule annual senior blood work & exams to catch diseases early.`);
+      }
+
+      // Diet
+      if (diet === 'premium') {
+        offset -= 0.5;
+      } else if (diet === 'home') {
+        offset -= 0.5;
+      } else if (diet === 'poor') {
+        offset += 1.0;
+        tips.push(`Provide highly nutritional formula containing Omega-3 fatty acids.`);
+      }
+
+      biologicalAge = Math.round(Math.max(1, chronologicalAge + offset) * 10) / 10;
+
+      // Grade letters
+      let grade = 'A';
+      if (offset <= -4) grade = 'A+';
+      else if (offset <= -2) grade = 'A';
+      else if (offset <= 0) grade = 'B';
+      else if (offset <= 2) grade = 'C';
+      else grade = 'D';
+
+      // Output values
+      if (certTitle) certTitle.textContent = `${name}'s Longevity Report`;
+      if (certChronological) certChronological.textContent = `${chronologicalAge} human yrs`;
+      if (certBiological) certBiological.textContent = `${biologicalAge} human yrs`;
+      if (certGrade) certGrade.textContent = grade;
+
+      let summary = '';
+      if (biologicalAge < chronologicalAge) {
+        summary = `Excellent care! Due to a healthy weight, outstanding diet, active play, and dental routine, ${name}'s cells are biologically ${Math.round(chronologicalAge - biologicalAge)} years younger than the average breed standard. Keep up the amazing work!`;
+      } else if (biologicalAge > chronologicalAge) {
+        summary = `${name}'s biological age is older than average by ${Math.round(biologicalAge - chronologicalAge)} years. Making small health modifications in their lifestyle (diet, exercise, and dental care) can add years back to their life!`;
+      } else {
+        summary = `${name}'s cells are aging right on track with standard breed guidelines. There are still great ways to improve their daily routines and keep them happy and healthy!`;
+      }
+      if (certSummaryText) certSummaryText.textContent = summary;
+
+      // Tips listing
+      if (tipsList) {
+        tipsList.innerHTML = '';
+        if (tips.length === 0) {
+          const li = document.createElement('li');
+          li.innerHTML = `🌟 <strong>Perfect Score!</strong> ${name} is getting top-tier health routines. Maintain this excellent standard of care.`;
+          tipsList.appendChild(li);
+        } else {
+          tips.forEach(tip => {
+            const li = document.createElement('li');
+            li.innerHTML = tip;
+            tipsList.appendChild(li);
+          });
+        }
+      }
+
+      // Hide menu/nav
+      step3?.classList.add('hidden');
+      step4?.classList.remove('hidden');
+      if (quizNav) quizNav.classList.add('hidden');
+    }
+
+    // Share listeners
+    shareWa?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My dog';
+      const text = `I calculated my dog's biological age! ${name} got a Grade ${certGrade?.textContent} on their Longevity Report Card. Check your dog's age:`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
+    });
+
+    shareTw?.addEventListener('click', () => {
+      const name = nameInput.value.trim() || 'My dog';
+      const text = `My dog ${name} is biologically equivalent to ${biologicalAge} human years (chronological ${chronologicalAge}). Check your dog's longevity on DogBreedAge:`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+    });
+
+    shareCp?.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const originalText = shareCp.textContent;
+        shareCp.textContent = 'Copied!';
+        setTimeout(() => {
+          shareCp.textContent = originalText;
+        }, 2000);
+      });
+    });
+
+  })();
+</script>

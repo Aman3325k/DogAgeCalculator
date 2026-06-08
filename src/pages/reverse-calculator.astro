@@ -60,14 +60,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 </div>
                 <span class="text-2xl" id={`${size}-icon`}>—</span>
               </div>
-              <p class="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-1" id={`${size}-dog-age`}>—</p>
-              <p class="text-xs text-[var(--text-muted)]">dog years old</p>
-              <div class="mt-4 pt-4 border-t border-[var(--border-default)]">
-                <span class="text-xs text-[var(--text-secondary)]">Life stage: <strong id={`${size}-stage`} class="text-[var(--text-primary)]">—</strong></span>
+              <p class="text-3xl font-display font-extrabold tracking-tight text-[var(--btn-primary-bg)] mb-1" id={`${size}-dog-age`}>—</p>
+              <p class="text-xs text-[var(--text-muted)] font-bold">dog years old</p>
+              <div class="flex items-center gap-1.5 mt-4 pt-4 border-t border-[var(--border-default)]">
+                <span class="text-xs text-[var(--text-secondary)] font-bold">Life stage:</span>
+                <span id={`${size}-stage`} class="stage-pill text-[0.75rem] py-1 px-2.5">—</span>
               </div>
-              <div class="mt-2">
+              <div class="mt-3">
                 <div class="progress-bar">
-                  <div class="progress-bar-fill bg-[var(--text-primary)]" id={`${size}-progress`} style="width:0%"></div>
+                  <div class="progress-bar-fill bg-gradient-to-r from-[var(--gradient-from)] to-[var(--gradient-to)]" id={`${size}-progress`} style="width:0%"></div>
                 </div>
                 <p class="text-[0.65rem] text-[var(--text-faint)] mt-1" id={`${size}-lifespan`}>—</p>
               </div>
@@ -163,7 +164,9 @@ import { BREED_SIZES, getLifeStage } from '../scripts/breed-data.js';
       document.getElementById(`${size}-icon`).textContent = uiData.icon;
       document.getElementById(`${size}-dog-age`).textContent =
         dogAgeMonths > 0 ? `${dogAgeYears}y ${dogAgeMonths}m` : `${dogAgeYears} yrs`;
-      document.getElementById(`${size}-stage`).textContent = stage;
+      const stageEl = document.getElementById(`${size}-stage`);
+      stageEl.textContent = stage;
+      stageEl.className = 'stage-pill text-[0.75rem] py-1 px-2.5 stage-' + stage.replace(' ', '-');
       document.getElementById(`${size}-progress`).style.width = `${progress}%`;
       document.getElementById(`${size}-lifespan`).textContent =
         `Typical lifespan: ${data.lifespan[0]}–${data.lifespan[1]} years`;
